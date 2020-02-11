@@ -1,0 +1,13 @@
+@media only screen
+and (max-width : 786px) {
+    .topbar .top-navbar .navbar-header{line-height: 55px !important;}
+    .topbar .navbar-collapse{min-height: 55px!important;}
+    .profilepage .proCont { margin: 0; }
+     .profilepage .cont-prof { margin: 0 0 33px; }
+
+}
+
+@media only screen
+and (max-width : 400px) {
+   .profilepage .frmprofilebtn-con button { width: 100%; margin: 10px auto 0; max-width: 182px; display: block; }
+}
