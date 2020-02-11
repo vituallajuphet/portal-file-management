@@ -123,10 +123,16 @@ table.dataTable thead>tr>th {
 }
 
 
-.main_con select.form-control.custom-select {
+.main_con #myTable_wrapper select.form-control.custom-select {
     background: #c5a36f;
     border-color: #c5a36f;
     color: white;
+}
+
+.main_con select.form-control.custom-select {
+    /* background: #c5a36f; */
+    border-color: #c5a36f;
+
 }
 
 #cbmc_body .custom_bg_color {

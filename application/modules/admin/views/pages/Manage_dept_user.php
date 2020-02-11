@@ -16,7 +16,7 @@
                             </ol>
                         </div>
                         <div class="col-md-7 align-self-center text-right d-none d-md-block">
-                            <button type="button" class="btn btn-theme " data-toggle="modal" data-target="#responsive-modal" ><i class='fas fa-user' ></i> Add User</button>
+                            <button @click="show_add_modal()" type="button" class="btn btn-theme " data-toggle="modal" data-target="#responsive-modal" ><i class='fas fa-user' ></i> Add User</button>
                         </div>
                     </div>
                     <!-- ============================================================== -->
@@ -47,7 +47,7 @@
                                        <td>{{user.email_address}}</td>
                                         <td class="td-manage-user">
                                             <a href="javascript:;" title="View Details"><i class="fas fa-eye"></i></a>
-                                          <a href="javascript:;" title="Edit"><i class="fas fa-edit"></i></a>
+                                          <a href="javascript:;" @click="show_edit_modal(1)" title="Edit"><i class="fas fa-edit"></i></a>
                                           <a href="javascript:;" title="Delete"><i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
@@ -60,6 +60,11 @@
                     <!-- ============================================================== -->
                     <!-- End PAge Content -->
                     <!-- ============================================================== -->
+                    <?php 
+                        if(!empty($has_mod)){
+                            $this->load->view($has_mod);
+                        }
+                    ?>
                 </div>
         </div>
     </div>

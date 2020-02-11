@@ -17,7 +17,18 @@
     data(){
       return {
         base_url:BASE_URL,
-        users:[]
+        users:[],
+        department: <?= json_encode(get_departments());?>,
+        frmdata:{
+          first_name:"",
+          last_name:"",
+          email_address:"",
+          username:"",
+          contact_number:"",
+          password:"cbmc1234",
+          departments:[],
+        },
+        selected_dept:""
       }
     },
     methods:{
@@ -28,6 +39,19 @@
             resolve(200)
           })
         }) 
+      },
+      show_add_modal(){
+        $("#dept_user_modal").modal();
+      },
+      show_edit_modal(user_id){
+        $("#dept_edit_modal").modal();
+      },
+      remove_dept(dep_id){
+         let arr = this.frmdata.departments.filter(dept => dept.dept_id != dep_id);
+        this.frmdata.departments = arr;
+      },
+      submit_add_form(){
+        
       }
     },
     computed:{
@@ -39,7 +63,21 @@
         $('#myTable').DataTable();
       }) 
       //  $("#verticalcenter").modal()
+    },
+    watch:{
+      selected_dept(dep_id){
+        if(dep_id !=""){
+          let is_exists =  this.frmdata.departments.find(dept => dept.dept_id == dep_id);
+          if(!is_exists){
+            let dept_data = this.department.find(dept => dept.dept_id == dep_id);
+            this.frmdata.departments.push({dept_id:dep_id,  dept_name:dept_data.dept_name});
+          }else{
+            Swal.fire({ icon: 'error', text: 'This department is already added.', })
+          }
+        }
+      }
     }
+
 
   })
 

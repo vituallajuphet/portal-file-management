@@ -46,7 +46,8 @@
                                    <option :value="comp.company_id" v-for="comp in companies">{{comp.company_name}}</option>
                                 </select>
                                 <div class="comp-cont">
-                                    <span class="" v-for="comp in frmdata.companies">{{comp.company_name}} <a href="javascript:;" @click="remove_comp(comp.company_id)">x</small></a>
+                                    <span class="" v-for="comp in frmdata.companies">{{comp.company_name}} <a href="javascript:;" @click="remove_comp(comp.company_id)">x</a>
+                                    </span>
                                 </div>
                             </div>
                         </div>

@@ -38,6 +38,7 @@ class Admin extends MY_Controller {
             $data["title"] ="Admin - department users";
             $data["page_name"] ="department_users";
             $data['has_header']="header_index.php";
+            $data["has_mod"] ="modal/dept_user_modal";
             $data['has_footer']="includes/manage_dept_user_footer";
             $this->load_admin_page('pages/Manage_dept_user',$data);
       }
