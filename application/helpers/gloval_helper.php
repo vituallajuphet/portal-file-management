@@ -118,7 +118,6 @@
         exit;
     }
 
-
     function my_profile($key="user_id"){
         $ci = & get_instance();
        $res=  $ci->session->userdata($key);
@@ -132,6 +131,28 @@
         $ci = & get_instance();
         $res=  $ci->MY_Model->getRows($tbl, $par, $r);
         return $res;
+    }
+
+    function insertData($tbl ="", $data = array()){
+        $ci = & get_instance();
+        $res=  $ci->MY_Model->insert($tbl, $data);
+        return $res;
+    }
+
+    function batchInsertData($tbl ="", $set = array()){
+        $ci = & get_instance();
+        $res=  $ci->MY_Model->batch_insert($tbl, $set);
+        return $res;
+    }
+
+    function has_empty($posts){
+        $res = false;
+		foreach ($posts as $key => $value) {
+			if($value == ""){
+				$res = true;
+			}
+		}
+		return $res;
     }
 
     function get_companies(){

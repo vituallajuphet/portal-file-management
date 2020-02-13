@@ -11,31 +11,31 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">First Name</label>
-                                <input required type="text" name="first_name" class="form-control" placeholder="Enter first name here">
+                                <input required type="text" v-model="frmdata.first_name" name="frmdata.first_name" class="form-control" placeholder="Enter first name here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Last Name</label>
-                                <input required type="text" name="last_name" class="form-control" placeholder="Enter last name here">
+                                <input required type="text" v-model="frmdata.last_name" name="last_name" class="form-control" placeholder="Enter last name here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Email Address</label>
-                                <input required type="email" name="email" class="form-control" placeholder="Enter email here">
+                                <input required type="email" v-model="frmdata.email_address" name="email" class="form-control" placeholder="Enter email here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Username</label>
-                                <input required type="text" name="username" class="form-control" placeholder="Enter username here">
+                                <input required type="text" v-model="frmdata.username" name="username" class="form-control" placeholder="Enter username here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Contact Number</label>
-                                <input required type="text" name="contact_number" class="form-control" placeholder="Enter number here">
+                                <input required type="text" v-model="frmdata.contact_number" name="contact_number" class="form-control" placeholder="Enter number here">
                             </div>
                         </div>
                         <div class="col-md-6">

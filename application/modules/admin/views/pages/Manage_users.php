@@ -1,7 +1,6 @@
 <!-- ============================================================== -->
 <!-- Page wrapper  -->
 <!-- ============================================================== -->
-
 <div id="myApp">
     <div class="page-wrapper">
         <div class="main_con">
@@ -42,7 +41,9 @@
                                         <td>{{user.user_id}}</td>
                                         <td>{{user.firstname}}</td>
                                         <td>{{user.lastname}}</td>
-                                        <td>{{user.company_name}}</td>
+                                        <td>
+                                           <span v-for="(comp, index) in user.companies">{{comp.company_name}}{{user.companies.length - 1 != index ? ', ':''}}</span>
+                                        </td>
                                         <td>{{user.email_address}}</td>
                                         <td class="td-manage-user">
                                             <a href="javascript:;" @click="view_user(user.user_id)" title="View Details"><i class="fas fa-eye"></i></a>
