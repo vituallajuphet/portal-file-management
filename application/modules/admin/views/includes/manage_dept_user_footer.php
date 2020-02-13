@@ -13,7 +13,6 @@
 
   var myapp = new Vue({
     el:"#myApp",
-    
     data(){
       return {
         base_url:BASE_URL,
@@ -43,16 +42,67 @@
       show_add_modal(){
         $("#dept_user_modal").modal();
       },
+      show_delete_user(user_id){
+          Swal.fire({
+            icon: "warning",
+            text: "Are you sure to delete?",
+            showCancelButton: true,
+            confirmButtonColor: '#000616',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+          }).then((result) => {
+            if (result.value) {
+                Swal.fire({ icon:"success", text:"Successfully Deleted" })
+            }
+          })
+      },
       show_edit_modal(user_id){
         $("#dept_edit_modal").modal();
+      },
+      show_details_modal(user_id){
+          $("#dept_details_modal").modal();
       },
       remove_dept(dep_id){
          let arr = this.frmdata.departments.filter(dept => dept.dept_id != dep_id);
         this.frmdata.departments = arr;
       },
       submit_add_form(){
-        
+        let self = this;
+        this.confirm_alert("Are you sure to save this user?").then(res=>{
+          let formdata = new FormData();
+          formdata.append("frmdata", JSON.stringify(self.frmdata))
+          axios.post(`${self.base_url}admin/api_save_dept_user`, formdata).then(res => {
+            if(res.data.code == 200){
+              self.s_alert("Saved Sucessfully!", "success");
+            }
+          })
+        })
+      },
+      success_alert(msg){
+           Swal.fire({ icon:"success", text:msg })
+      },
+
+      // sweet alert fuctions
+      confirm_alert(msg){
+        return new Promise((resolve, reject) =>{
+            Swal.fire({
+              icon: "warning",
+              text: msg,
+              showCancelButton: true,
+              confirmButtonColor: '#000616',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes'
+            }).then((result) => {
+              if (result.value) {
+                resolve(200)
+              }
+            })
+        }) 
+      },
+      s_alert(msg, icon){
+        Swal.fire({ icon:"success", text:msg })
       }
+
     },
     computed:{
 

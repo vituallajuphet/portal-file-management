@@ -1,4 +1,4 @@
-<div id="dept_user_modal" class="modal show" tabindex="-1" role="dialog" aria-labelledby="vcenter"  aria-modal="true">
+<div id="dept_user_modal" class="modal show dept_modal" tabindex="-1" role="dialog" aria-labelledby="vcenter"  aria-modal="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form action="#" @submit.prevent="submit_add_form()">
@@ -73,7 +73,7 @@
 
 <!-- edit modal -->
 
-<div id="dept_edit_modal" class="modal show" tabindex="-1" role="dialog" aria-labelledby="vcenter"  aria-modal="true">
+<div id="dept_edit_modal" class="modal show dept_modal" tabindex="-1" role="dialog" aria-labelledby="vcenter"  aria-modal="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form action="#" @submit.prevent="submit_form()">
@@ -146,3 +146,74 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+
+<!-- start details modal -->
+    
+<div id="dept_details_modal" class="modal show dept_modal" tabindex="-1" role="dialog" aria-labelledby="vcenter"  aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form action="#" @submit.prevent="submit_form()">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="vcenter"><i class="icon-User"></i> Department User Details</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">First Name</label>
+                                <input required type="text" readonly name="first_name" class="form-control" placeholder="Enter first name here">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Last Name</label>
+                                <input required type="text" readonly name="last_name" class="form-control" placeholder="Enter last name here">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Email Address</label>
+                                <input required type="email" readonly name="email" class="form-control" placeholder="Enter email here">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Username</label>
+                                <input required type="text" readonly name="username" class="form-control" placeholder="Enter username here">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Password</label>
+                                <input required type="password" readonly name="password" class="form-control" placeholder="Enter password here">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Contact Number</label>
+                                <input required type="text" readonly name="contact_number" class="form-control" placeholder="Enter number here">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group has-success">
+                                <label class="control-label">Departments</label>
+                                 <div class="comp-cont user-details">
+                                    <span class="">Finance </span>
+                                    <span class="">Human Resources </span>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- end details modal -->

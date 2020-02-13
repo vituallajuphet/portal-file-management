@@ -35,7 +35,7 @@
         }) 
       },
       show_modal_edit(userid){
-        // alert(1)
+        $("#manage_user_edit_mod").modal();
       },
       view_user(userid){
 

@@ -178,6 +178,15 @@ class Admin extends MY_Controller {
             echo json_encode($response);
       }
 
+      public function api_save_dept_user (){
+            $post = json_decode($this->input->post());
+            if(!empty($post)){
+               echo '<pre>';
+               print_r($post);
+               echo '</pre>';
+            }
+      }
+
       public function api_dept_user($usertype){
             $response = array("code"=>204, "data"=> []);
             if(!empty($usertype)){
