@@ -46,7 +46,7 @@
                                         <td> <span v-for="(dept, index) in user.departments">{{dept.departments}} {{ (user.departments.length > index+1) ? ", ":"" }} </span> </td>
                                        <td>{{user.email_address}}</td>
                                         <td class="td-manage-user">
-                                            <a href="javascript:;" @click="show_details_modal(user_id)" title="View Details"><i class="fas fa-eye"></i></a>
+                                            <a href="javascript:;" @click="show_details_modal(user.user_id)" title="View Details"><i class="fas fa-eye"></i></a>
                                           <a href="javascript:;" @click="show_edit_modal(1)" title="Edit"><i class="fas fa-edit"></i></a>
                                           <a href="javascript:;" @click="show_delete_user(user.user_id)" title="Delete"><i class="fas fa-trash"></i></a>
                                         </td>

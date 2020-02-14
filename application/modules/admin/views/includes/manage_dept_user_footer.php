@@ -27,7 +27,8 @@ var myapp = new Vue({
 				password:"cbmc1234",
 				departments:[],
 			},
-			selected_dept:""
+			selected_dept:"",
+			selected_user:[]
 		}
 	},
 	methods:{
@@ -61,7 +62,10 @@ var myapp = new Vue({
 			$("#dept_edit_modal").modal();
 		},
 		show_details_modal(user_id){
+			let self = this;
 			$("#dept_details_modal").modal();
+			let users = self.users.find(user => user.user_id == user_id);
+            self.selected_user = users;
 		},
 		remove_dept(dep_id){
 			let arr = this.frmdata.departments.filter(dept => dept.dept_id != dep_id);

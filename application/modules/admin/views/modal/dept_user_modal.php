@@ -162,45 +162,38 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">First Name</label>
-                                <input required type="text" readonly name="first_name" class="form-control" placeholder="Enter first name here">
+                                <input required type="text" v-model="selected_user.firstname" readonly name="first_name" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Last Name</label>
-                                <input required type="text" readonly name="last_name" class="form-control" placeholder="Enter last name here">
+                                <input required type="text" v-model="selected_user.lastname" readonly name="last_name" class="form-control" >
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Email Address</label>
-                                <input required type="email" readonly name="email" class="form-control" placeholder="Enter email here">
+                                <input required type="email" v-model="selected_user.email_address" readonly name="email" class="form-control" >
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Username</label>
-                                <input required type="text" readonly name="username" class="form-control" placeholder="Enter username here">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label">Password</label>
-                                <input required type="password" readonly name="password" class="form-control" placeholder="Enter password here">
+                                <input required type="text" v-model="selected_user.username" readonly name="username" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Contact Number</label>
-                                <input required type="text" readonly name="contact_number" class="form-control" placeholder="Enter number here">
+                                <input required type="text"  v-model="selected_user.contact_number" readonly name="contact_number" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group has-success">
                                 <label class="control-label">Departments</label>
                                  <div class="comp-cont user-details">
-                                    <span class="">Finance </span>
-                                    <span class="">Human Resources </span>
+                                    <span v-for="dept in selected_user.departments" class="">{{dept.departments}} </span>
                                 </div>
                             </div>
                            

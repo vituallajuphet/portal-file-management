@@ -20,6 +20,7 @@ var myapp = new Vue({
             users:[],
             selected_comp:"",
             companies: <?=json_encode(get_companies())?>,
+            selected_user:[],
             frmdata:{
                 first_name:"",
                 last_name:"",
@@ -44,7 +45,10 @@ var myapp = new Vue({
             $("#manage_user_edit_mod").modal();
         },
         view_user(userid){
-            
+            $("#view_user_details_modal").modal();
+            let self = this;
+            let users = self.users.find(user => user.user_id == userid);
+            self.selected_user = users;
         },
         show_delete_user(userid){
             
