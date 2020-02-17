@@ -7,7 +7,7 @@
     <!-- ============================================================== -->
     <script src="<?php echo base_url(); ?>assets/js/vue.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script src="<?php echo base_url(); ?>assets/js/module/sweetalert.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/module/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="<?php echo base_url(); ?>assets/js/module/popper.min.js"></script>

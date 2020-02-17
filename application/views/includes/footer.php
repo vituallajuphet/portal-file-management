@@ -24,7 +24,7 @@
     <!-- Style switcher -->
     <!-- ============================================================== -->
     <script src="<?php echo base_url(); ?>assets/js/module/switcher.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script src="<?php echo base_url(); ?>assets/js/module/sweetalert.js"></script>
 
     <script>
        $(function () {

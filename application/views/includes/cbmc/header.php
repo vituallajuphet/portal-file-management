@@ -21,10 +21,9 @@
     <link href="<?php echo base_url(); ?>assets/css/my_media.css" id="theme" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/css/croppie.css" id="theme" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/css/admin_style.css" id="theme" rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/module/bootstrap2.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/module/datatable-bootstrap.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/module/datatable-responsive.css">
 
 <style>
 	thead {
