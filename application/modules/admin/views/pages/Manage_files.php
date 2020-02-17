@@ -28,16 +28,27 @@
                             <table id="myTable" class="table dt-responsive nowrap admin-table" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>User ID</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Company</th>
-                                        <th>Email Address</th>
+                                        <th>File ID</th>
+                                        <th>File Title</th>
+                                        <th>Department</th>
+                                        <th>Added By</th>
+                                        <th>Date Added</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   
+                                    <tr>
+                                        <td>1</td>
+                                        <td>asd</td>
+                                        <td>asdsasd</td>
+                                        <td>Rechard</td>
+                                        <td>02-17-2020</td>
+                                        <td class="td-manage-user">
+                                            <a href="javascript:;" ><i class="fas fa-eye"></i></a>
+                                            <a href="javascript:;" ><i class="fas fa-edit"></i></a>
+                                            <a href="javascript:;" ><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -50,9 +61,9 @@
                 </div>
                 <!-- modal -->
                 <?php 
-                    if(!empty($has_mod)){
-                        $this->load->view($has_mod);
-                    }
+                    // if(!empty($has_mod)){
+                    //     $this->load->view($has_mod);
+                    // }
                 ?>
             <!-- end modal -->
         </div>

@@ -63,9 +63,10 @@ class Admin extends MY_Controller {
 	}
 	
 	public function manage_files(){
-		$data["title"] ="Admin - manage files";
+		$data["title"] ="Admin - Manage files";
 		$data["page_name"] ="manage_files";
 		$data['has_header']="header_index.php";
+		$data['has_footer']="includes/manage_file_footer";
 		$this->load_admin_page('pages/Manage_files',$data);
 		// $data['has_footer']="includes/manage_dept_user_footer";
 		// $this->load_admin_page('pages/manage_dept_user',$data);
