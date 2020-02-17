@@ -41,26 +41,53 @@ var myapp = new Vue({
 			}) 
 		},
 		show_add_modal(){
+			let self = this;
 			$("#dept_user_modal").modal();
+			self.frmdata.first_name=""
+			self.frmdata.last_name=""
+			self.frmdata.email_address=""
+			self.frmdata.username = ""
+			self.frmdata.contact_number=""
+			self.frmdata.departments = []
+			
 		},
 		show_delete_user(user_id){
 			let self = this;
-			Swal.fire({
-				icon: "warning",
-				text: "Are you sure to delete?",
-				showCancelButton: true,
-				confirmButtonColor: '#000616',
-				cancelButtonColor: '#d33',
-				confirmButtonText: 'Yes'
-			}).then((result) => {
-				if (result.value) {
-					self.s_alert("Deleted Successfully", "success");
-				}
+			this.confirm_alert("Are you sure to delete?").then(res=>{
+				let formdata = new FormData();
+				formdata.append("user_id", user_id)
+				axios.post(`${self.base_url}admin/api_delete_user`, formdata).then(res => {
+					let resp = res.data;
+					if(resp.code == 200){
+						self.s_alert(resp.message, "success");
+						setTimeout(() => { location.reload(); }, 1500);
+					}
+					else{
+						self.s_alert(resp.message, "warning");
+					}
+				})
 			})
 		},
 		show_edit_modal(user_id){
+			let self = this;
 			$("#dept_edit_modal").modal();
+			let users = self.users.find(user => user.user_id == user_id);
+			self.frmdata.user_id= user_id
+			self.frmdata.first_name= users.firstname
+			self.frmdata.last_name=users.lastname
+			self.frmdata.email_address=users.email_address
+			self.frmdata.username = users.username
+			self.frmdata.contact_number=users.contact_number
+			self.frmdata.departments = [];
+			users.departments.map(dept => {
+				let dept_arr = {
+					dept_id : dept.user_dept_id,
+					dept_name : dept.departments,
+				}
+				self.frmdata.departments.push(dept_arr);
+			})
 		},
+		
 		show_details_modal(user_id){
 			let self = this;
 			$("#dept_details_modal").modal();
@@ -73,10 +100,35 @@ var myapp = new Vue({
 		},
 		submit_add_form(){
 			let self = this;
+			if(self.frmdata.departments.length == 0) {
+                 self.s_alert("Please add at least one department", "warning");
+                 return;
+            }
 			this.confirm_alert("Are you sure to save this user?").then(res=>{
 				let formdata = new FormData();
 				formdata.append("frmdata", JSON.stringify(self.frmdata))
 				axios.post(`${self.base_url}admin/api_save_dept_user`, formdata).then(res => {
+					let resp = res.data;
+					if(resp.code == 200){
+						self.s_alert(resp.message, "success");
+						setTimeout(() => { location.reload(); }, 1500);
+					}
+					else{
+						self.s_alert(resp.message, "warning");
+					}
+				})
+			})
+		},
+		submit_edit_form(){
+			let self = this;
+			if(self.frmdata.departments.length == 0) {
+                 self.s_alert("Please add at least one department", "warning");
+                 return;
+            }
+			this.confirm_alert("Are you sure to update this user?").then(res=>{
+				let formdata = new FormData();
+				formdata.append("frmdata", JSON.stringify(self.frmdata))
+				axios.post(`${self.base_url}admin/api_update_dept_user`, formdata).then(res => {
 					let resp = res.data;
 					if(resp.code == 200){
 						self.s_alert(resp.message, "success");
@@ -102,13 +154,15 @@ var myapp = new Vue({
 		//  $("#verticalcenter").modal()
 	},
 	watch:{
-		selected_dept(dep_id){
-			if(dep_id !=""){
-				let is_exists =  this.frmdata.departments.find(dept => dept.dept_id == dep_id);
+		// trigerr if  selected dropdown is changed
+		selected_dept(dept_name){
+			if(dept_name !=""){
+				let is_exists =  this.frmdata.departments.find(dept => dept.dept_name == dept_name);
 				if(!is_exists){
-					let dept_data = this.department.find(dept => dept.dept_id == dep_id);
-					this.frmdata.departments.push({dept_id:dep_id,  dept_name:dept_data.dept_name});
-				}else{
+					let dept_data = this.department.find(dept => dept.dept_name == dept_name);
+					this.frmdata.departments.push({dept_id:1,  dept_name:dept_data.dept_name});
+				}
+				else{
 					this.s_alert("This department is already added.", "error");
 				}
 			}

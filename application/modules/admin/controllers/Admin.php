@@ -66,7 +66,7 @@ class Admin extends MY_Controller {
 		$data["title"] ="Admin - manage files";
 		$data["page_name"] ="manage_files";
 		$data['has_header']="header_index.php";
-		$this->load_admin_page('includes/development',$data);
+		$this->load_admin_page('pages/Manage_files',$data);
 		// $data['has_footer']="includes/manage_dept_user_footer";
 		// $this->load_admin_page('pages/manage_dept_user',$data);
 	}
@@ -248,6 +248,91 @@ class Admin extends MY_Controller {
 		echo json_encode($response);
 	}
 
+	public function api_update_dept_user(){
+		$response = array( "code"=>204, "data"=>[], "message"=>"Please Fill-up the required fields!" );
+		$post = json_decode($this->input->post("frmdata"));
+		if(!empty($post)){
+			if(!has_empty($post)){
+				$checkUser = array( "email_address"=>$post->email_address, "username"=>$post->username);
+				if($this->user_exist($checkUser, $post->user_id)){
+					$response = array( "code"=>204, "data"=>[], "message"=>"Username or Email address is already used!" );
+				}
+				else{
+					$set = array( "username"=>$post->username );
+					$where ="user_id =  $post->user_id";
+					$updated = updateData("tbl_users", $set, $where);
+					if($updated){
+						$set = array(
+							"firstname"=>ucfirst($post->first_name),
+							"lastname"=>ucfirst($post->last_name),
+							"email_address"=>$post->email_address,
+							"contact_number"=>$post->contact_number,
+							'updated_date' => date("Y-m-d H:i:s"),
+						);
+						updateData("tbl_user_details", $set, $where);
+						$deleted = deleteData("tbl_user_dept_details", $where);
+						if($deleted){
+							$depts = $post->departments;
+							for ($i=0; $i < count($depts); $i++) { 
+								$set= array(
+									"user_id"=>$post->user_id,
+									"departments"=>$depts[$i]->dept_name,
+									"status"=>1,
+								);
+								insertData("tbl_user_dept_details", $set);
+							}
+						}
+						$response = array( "code"=>200, "data"=>[], "message"=>"Updated Successfully" );
+					}
+				}
+			}
+		}
+		echo json_encode($response);
+	}
+
+	public function api_update_comp_user(){
+		$response = array( "code"=>204, "data"=>[], "message"=>"Please Fill-up the required fields!" );
+		$post = json_decode($this->input->post("frmdata"));
+		if(!empty($post)){
+			if(!has_empty($post)){
+				$checkUser = array( "email_address"=>$post->email_address, "username"=>$post->username);
+				if($this->user_exist($checkUser, $post->user_id)){
+					$response = array( "code"=>204, "data"=>[], "message"=>"Username or Email address is already used!" );
+				}
+				else{
+					$set = array( "username"=>$post->username );
+					$where ="user_id =  $post->user_id";
+					$updated = updateData("tbl_users", $set, $where);
+					if($updated){
+						$set = array(
+							"firstname"=>ucfirst($post->first_name),
+							"lastname"=>ucfirst($post->last_name),
+							"email_address"=>$post->email_address,
+							"contact_number"=>$post->contact_number,
+							'updated_date' => date("Y-m-d H:i:s"),
+						);
+						updateData("tbl_user_details", $set, $where);
+						$deleted = deleteData("tbl_user_company", $where);
+						if($deleted){
+							$comps = $post->companies;
+							for ($i=0; $i < count($comps); $i++) { 
+								$set= array(
+									"user_id"=>$post->user_id,
+									"company_id"=>$comps[$i]->company_id,
+									"status"=>"joined",
+								);
+								insertData("tbl_user_company", $set);
+							}
+							$response = array( "code"=>200, "data"=>[], "message"=>"Updated Successfully" );
+						}
+						
+					}
+				}
+			}
+		}
+		echo json_encode($response);
+	}
+
 	public function api_add_comp_user(){
 		$response = array( "code"=>204, "data"=>[], "message"=>"Please Fill-up the required fields!" );
 		$post = json_decode($this->input->post("frmdata"));
@@ -293,12 +378,15 @@ class Admin extends MY_Controller {
 		echo json_encode($response);
 	}
 
-	private function user_exist ($user){
+	private function user_exist ($user, $user_id = ""){
 		$par["select"] = "*";
 		$email = $user['email_address'];
 		$username = $user['username'];
 		$par["join"] = array("tbl_user_details" => "tbl_user_details.user_id = tbl_users.user_id" );
-		$par["where"] = "tbl_users.username = '$username' OR tbl_user_details.email_address = '$email'";
+		$par["where"] = "(tbl_users.username = '$username' OR tbl_user_details.email_address = '$email')";
+		if(!empty($user_id)){
+			$par["where"] .=" AND (tbl_users.user_id != $user_id )";
+		}
 		$res = $this->MY_Model->getRows('tbl_users', $par);
 		if(!empty($res)){
 			return true;
@@ -307,11 +395,25 @@ class Admin extends MY_Controller {
 	}
 
 	
+	public function api_delete_user(){
+		$user_id = $this->input->post("user_id");
+		$response = array("code"=>204, "data"=> [], "message"=>"There is something wrong");
+		if(!empty($user_id)){
+			$set = array( "user_status" => 0 );
+			$where = "user_id = $user_id AND user_type != 'admin'";
+			$update = updateData("tbl_users", $set, $where);
+			if($update){
+				$response = array("code"=>200, "data"=> [], "message" => "Deleted Successfully");
+			}
+		}
+		echo json_encode($response);
+	}
+
 	public function api_dept_user($usertype){
 		$response = array("code"=>204, "data"=> []);
 		if(!empty($usertype)){
 			$par["select"] = "*";
-			$par["where"] = "u.user_type = '$usertype'";
+			$par["where"] = "u.user_type = '$usertype' AND user_status = 1";
 			$par["join"] = array( 'tbl_user_details ud' => 'u.user_id = ud.user_id' );
 			$res = getData('tbl_users u', $par, "obj");
 			if(!empty($res)){

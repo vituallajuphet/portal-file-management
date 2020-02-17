@@ -41,8 +41,26 @@ var myapp = new Vue({
                 })
             }) 
         },
-        show_modal_edit(userid){
+        show_modal_edit(user_id){
+            let self = this;
             $("#manage_user_edit_mod").modal();
+			let users = self.users.find(user => user.user_id == user_id);
+			self.frmdata.user_id= user_id
+			self.frmdata.first_name= users.firstname
+			self.frmdata.last_name=users.lastname
+			self.frmdata.email_address=users.email_address
+			self.frmdata.username = users.username
+			self.frmdata.contact_number=users.contact_number
+			self.frmdata.companies = [];
+
+			users.companies.map(comp => {
+				let company_data = {
+			    	company_id:comp.company_id,
+					company_name:comp.company_name
+				}
+				self.frmdata.companies.push(company_data);
+			})
+            
         },
         view_user(userid){
             $("#view_user_details_modal").modal();
@@ -50,9 +68,23 @@ var myapp = new Vue({
             let users = self.users.find(user => user.user_id == userid);
             self.selected_user = users;
         },
-        show_delete_user(userid){
-            
-        },
+        show_delete_user(user_id){
+			let self = this;
+			this.confirm_alert("Are you sure to delete?").then(res=>{
+				let formdata = new FormData();
+				formdata.append("user_id", user_id)
+				axios.post(`${self.base_url}admin/api_delete_user`, formdata).then(res => {
+					let resp = res.data;
+					if(resp.code == 200){
+						self.s_alert(resp.message, "success");
+						setTimeout(() => { location.reload(); }, 1200);
+					}
+					else{
+						self.s_alert(resp.message, "warning");
+					}
+				})
+			})
+		},
         show_add_modal(){
             $("#manage_user_mod").modal();
         },
@@ -63,7 +95,7 @@ var myapp = new Vue({
         submit_form(){
             let self = this;
             if(self.frmdata.companies.length == 0) {
-                 self.s_alert("Please assign a company first!", "warning");
+                 self.s_alert("Please add atleast one company", "warning");
                  return;
             }
             this.confirm_alert("Are you sure to save this user?").then(res=>{
@@ -73,7 +105,28 @@ var myapp = new Vue({
                     let resp = res.data;
                     if(resp.code == 200){
                         self.s_alert(resp.message, "success");
-                        setTimeout(() => { location.reload(); }, 1500);
+                        setTimeout(() => { location.reload(); }, 1200);
+                    }
+                    else{
+                        self.s_alert(resp.message, "warning");
+                    }
+                })
+            })
+        },
+        submit_edit_form(){
+            let self = this;
+            if(self.frmdata.companies.length == 0) {
+                 self.s_alert("Please add atleast one company", "warning");
+                 return;
+            }
+            this.confirm_alert("Are you sure to update this user?").then(res=>{
+                let formdata = new FormData();
+                formdata.append("frmdata", JSON.stringify(self.frmdata))
+                axios.post(`${self.base_url}admin/api_update_comp_user`, formdata).then(res => {
+                    let resp = res.data;
+                    if(resp.code == 200){
+                        self.s_alert(resp.message, "success");
+                        setTimeout(() => { location.reload(); }, 1200);
                     }
                     else{
                         self.s_alert(resp.message, "warning");

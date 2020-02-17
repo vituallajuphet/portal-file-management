@@ -139,6 +139,18 @@
         return $res;
     }
 
+    function updateData($tbl ="", $set, $where = array()){
+        $ci = & get_instance();
+        $res=  $ci->MY_Model->update($tbl, $set, $where);
+        return $res;
+    }
+
+    function deleteData($tbl ="", $where = array()){
+        $ci = & get_instance();
+        $res=  $ci->MY_Model->delete($tbl, $where);
+        return $res;
+    }
+
     function batchInsertData($tbl ="", $set = array()){
         $ci = & get_instance();
         $res=  $ci->MY_Model->batch_insert($tbl, $set);

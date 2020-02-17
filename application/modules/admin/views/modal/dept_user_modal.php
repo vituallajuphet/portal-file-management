@@ -23,7 +23,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Email Address</label>
-                                <input v-model="frmdata.email_address"  required type="email" name="email" class="form-control" placeholder="Enter email here">
+                                <input v-model="frmdata.email_address"  required type="email" name="email" class="form-control" placeholder="Enter email address here">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -44,7 +44,7 @@
                                 <label class="control-label">Departments</label>
                                 <select  class="form-control custom-select" v-model="selected_dept">
                                     <option value="">Please select department</option>
-                                    <option v-for="dep in department" :value="dep.dept_id">{{dep.dept_name}}</option>
+                                    <option v-for="dep in department" :value="dep.dept_name">{{dep.dept_name}}</option>
                                   
                                 </select>
                                  <div class="comp-cont">
@@ -76,7 +76,7 @@
 <div id="dept_edit_modal" class="modal show dept_modal" tabindex="-1" role="dialog" aria-labelledby="vcenter"  aria-modal="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form action="#" @submit.prevent="submit_form()">
+            <form action="#" @submit.prevent="submit_edit_form()">
                 <div class="modal-header">
                     <h4 class="modal-title" id="vcenter"><i class="icon-User"></i> Edit Department User</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -86,50 +86,43 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">First Name</label>
-                                <input required type="text" name="first_name" class="form-control" placeholder="Enter first name here">
+                                <input required v-model="frmdata.first_name" type="text" name="first_name" class="form-control" placeholder="Enter first name here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Last Name</label>
-                                <input required type="text" name="last_name" class="form-control" placeholder="Enter last name here">
+                                <input required type="text" v-model="frmdata.last_name" name="last_name" class="form-control" placeholder="Enter last name here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Email Address</label>
-                                <input required type="email" name="email" class="form-control" placeholder="Enter email here">
+                                <input required type="email"  v-model="frmdata.email_address" name="email" class="form-control" placeholder="Enter email address here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Username</label>
-                                <input required type="text" name="username" class="form-control" placeholder="Enter username here">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="control-label">Password</label>
-                                <input required type="password" name="password" class="form-control" placeholder="Enter password here">
+                                <input required type="text" v-model="frmdata.username" name="username" class="form-control" placeholder="Enter username here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Contact Number</label>
-                                <input required type="text" name="contact_number" class="form-control" placeholder="Enter number here">
+                                <input required type="text"  v-model="frmdata.contact_number" name="contact_number" class="form-control" placeholder="Enter number here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group has-success">
                                 <label class="control-label">Departments</label>
-                                <select  class="form-control custom-select">
+                                <select  v-model="selected_dept" class="form-control custom-select">
                                     <option value="">Please select department</option>
-                                    <option value="">Finance</option>
+                                    <option v-for="dep in department" :value="dep.dept_name">{{dep.dept_name}}</option>
                                   
                                 </select>
-                                 <div class="comp-cont">
-                                    <span class="">Finance <a href="javascript:;">x</a></span>
-                                    <span class="">Human Resources <a href="javascript:;">x</a></span>
+                                <div class="comp-cont">
+                                    <span v-for="depts in frmdata.departments" class="">{{depts.dept_name}} <a @click="remove_dept(depts.dept_id)" href="javascript:;">x</a></span>
                                 </div>
                             </div>
                            
