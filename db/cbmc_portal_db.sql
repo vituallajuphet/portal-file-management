@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2020 at 01:46 AM
+-- Generation Time: Feb 17, 2020 at 12:08 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -266,8 +266,9 @@ INSERT INTO `tbl_users` (`user_id`, `username`, `password`, `user_status`, `user
 (26, 'est', '$2y$10$19sI0LwyOGhoHY2cup5zZOZdlC5LHf/JOmBUh3953/dOH7VVSjBeK', 1, 'subsidiary', 1),
 (27, 'cmb3', '$2y$10$0mZqMLXnEXJftMJ.eGLpF.HpVs9Nx.8bnl6cNBONP16Hp.2fxcTfG', 1, 'cbmc', 1),
 (25, 'cbmc2', '$2y$10$I8sA9Qlzvh3TludsiKIKEO6aAdWuncs2OhE/78V4mICUxDMawX8HG', 1, 'cbmc', 1),
-(28, 'test33', '$2y$10$PEjBZEQB4R9asaI5iaDoZOCPjPaJrFZ1niPk0vtU6KTQSdT/PC1ra', 1, 'cbmc', 1),
-(29, 'test123', '$2y$10$LPJTirvMXfOVuQdO1dlES.LDZ1j6yLGS7CVedpdWmcRN4NX0C./Wy', 1, 'subsidiary', 1);
+(28, 'test33s', '$2y$10$PEjBZEQB4R9asaI5iaDoZOCPjPaJrFZ1niPk0vtU6KTQSdT/PC1ra', 1, 'cbmc', 1),
+(29, 'test1233', '$2y$10$LPJTirvMXfOVuQdO1dlES.LDZ1j6yLGS7CVedpdWmcRN4NX0C./Wy', 1, 'subsidiary', 1),
+(30, 'gerald', '$2y$10$CpH.hdF.vWZeaPgyZm/tFurMdNB7/XL7zp5xufy3aCEQ.5fdHoO3C', 1, 'cbmc', 1);
 
 -- --------------------------------------------------------
 
@@ -290,9 +291,7 @@ INSERT INTO `tbl_user_company` (`user_company_id`, `user_id`, `company_id`, `sta
 (1, 16, 1, 'joined'),
 (2, 16, 2, 'joined'),
 (3, 26, 1, 'joined'),
-(4, 29, 1, 'joined'),
-(5, 29, 2, 'joined'),
-(6, 29, 3, 'joined');
+(10, 29, 3, 'joined');
 
 -- --------------------------------------------------------
 
@@ -317,8 +316,9 @@ INSERT INTO `tbl_user_dept_details` (`user_dept_id`, `user_id`, `departments`, `
 (3, 25, 'Human Resources', 1),
 (4, 25, 'Finance', 1),
 (5, 27, 'Human Resources', 1),
-(6, 28, 'Human Resources', 1),
-(7, 28, 'Finance', 1);
+(11, 28, 'Human Resources', 1),
+(12, 28, 'Finance', 1),
+(13, 30, 'Human Resources', 1);
 
 -- --------------------------------------------------------
 
@@ -354,8 +354,9 @@ INSERT INTO `tbl_user_details` (`user_detail_id`, `user_id`, `firstname`, `lastn
 (13, 25, 'sample', 'sample', 'sample@ssample.com', '1234', '', '2020-02-13 03:56:25', '0000-00-00 00:00:00', 0),
 (14, 26, 'Jamess', 'Harden', 'james@asd.com', 'test', '', '2020-02-13 04:31:55', '0000-00-00 00:00:00', 0),
 (15, 27, 'Sample', 'Sample2', 'admin@admin.comssss', 'asdasd', '', '2020-02-13 05:00:58', '0000-00-00 00:00:00', 0),
-(16, 28, 'Sample user', 'Sample user', 'admin@admin.comsss', '234123', '', '2020-02-13 06:02:46', '0000-00-00 00:00:00', 0),
-(17, 29, 'Comp1', 'Comp1', 'admin@asd.com2', '123', '', '2020-02-13 06:03:10', '0000-00-00 00:00:00', 0);
+(16, 28, 'Axel', 'Axel2', 'axw@asd.com', '123456789', '', '2020-02-13 06:02:46', '2020-02-17 09:49:05', 0),
+(17, 29, 'Subsidiary12', 'Subsidiary12', 'admin@asd.com22', '12345678905', '', '2020-02-13 06:03:10', '2020-02-17 10:17:19', 0),
+(18, 30, 'Gerald', 'Anderson', 'gerald@123.com', '1234568', '', '2020-02-17 10:20:36', '0000-00-00 00:00:00', 0);
 
 --
 -- Indexes for dumped tables
@@ -503,22 +504,22 @@ ALTER TABLE `tbl_requests`
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `tbl_user_company`
 --
 ALTER TABLE `tbl_user_company`
-  MODIFY `user_company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `user_company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `tbl_user_dept_details`
 --
 ALTER TABLE `tbl_user_dept_details`
-  MODIFY `user_dept_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `user_dept_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `tbl_user_details`
 --
 ALTER TABLE `tbl_user_details`
-  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;COMMIT;
+  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
