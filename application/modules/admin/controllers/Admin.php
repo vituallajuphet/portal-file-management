@@ -13,7 +13,7 @@ class Admin extends MY_Controller {
 		// $data['has_header']="header_index.php";
 		// $data['has_footer']="footer_index.php";
 		// $this->load_admin_page('pages/Admin_index',$data);
-		redirect(base_url("admin/profile"));
+		redirect(base_url("admin/manage_users"));
 	}
 	public function profile(){
 		$data["title"] ="Admin - Profile";

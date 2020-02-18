@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2020 at 12:08 PM
+-- Generation Time: Feb 18, 2020 at 10:51 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -108,16 +108,22 @@ CREATE TABLE `tbl_files` (
   `files_id` int(11) NOT NULL,
   `file_name` varchar(200) NOT NULL,
   `file_department` varchar(50) NOT NULL,
-  `file_company_id` varchar(50) NOT NULL
+  `file_company_id` varchar(50) NOT NULL,
+  `file_title` varchar(100) NOT NULL,
+  `added_by` int(11) NOT NULL,
+  `date_added` date NOT NULL,
+  `file_status` varchar(100) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbl_files`
 --
 
-INSERT INTO `tbl_files` (`files_id`, `file_name`, `file_department`, `file_company_id`) VALUES
-(2, 'hr_file.txt', 'Human Resources', '1'),
-(3, 'hr_file2.txt', 'Human Resources', '2');
+INSERT INTO `tbl_files` (`files_id`, `file_name`, `file_department`, `file_company_id`, `file_title`, `added_by`, `date_added`, `file_status`) VALUES
+(2, 'hr_file.txt', 'Human Resources', '1', 'Sample File', 1, '2020-02-18', 'published'),
+(3, 'hr_file2.txt', 'Human Resources', '2', 'sample file 2', 1, '2020-02-18', 'published'),
+(4, 'file-123.txt', 'Finance', '1', 'file sample1', 1, '2020-02-19', 'published'),
+(5, 'file-12345.txt', 'Finance', '1', 'file sample 2', 1, '2020-02-19', 'published');
 
 -- --------------------------------------------------------
 
@@ -201,8 +207,10 @@ CREATE TABLE `tbl_requested_files` (
 --
 
 INSERT INTO `tbl_requested_files` (`requested_file_id`, `fk_requested_id`, `fk_file_id`) VALUES
-(1, 4, 2),
-(2, 4, 3);
+(1, 12, 2),
+(2, 4, 3),
+(3, 13, 4),
+(4, 13, 5);
 
 -- --------------------------------------------------------
 
@@ -234,7 +242,9 @@ INSERT INTO `tbl_requests` (`request_id`, `comment`, `company_id`, `department`,
 (8, 'Cccccc', 1, 'Finance Department', 'tttXDXD', '0000-00-00', 'Pending'),
 (9, 'sample ', 1, 'Finance', 'test file', '2020-02-10', 'Pending'),
 (10, 'samp here', 2, 'Human Resources', 'test file 2', '2020-02-10', 'Pending'),
-(11, 'asdasdasd', 1, 'Human Resources', 'asdasd', '2020-02-10', 'Pending');
+(11, 'asdasdasd', 1, 'Human Resources', 'asdasd', '2020-02-10', 'Pending'),
+(12, 'sample', 1, 'Finance', 'Sample File', '2020-02-18', 'Completed'),
+(13, 'hi please give me this file', 1, 'Finance', 'File Sample', '2020-02-18', 'Completed');
 
 -- --------------------------------------------------------
 
@@ -291,6 +301,7 @@ INSERT INTO `tbl_user_company` (`user_company_id`, `user_id`, `company_id`, `sta
 (1, 16, 1, 'joined'),
 (2, 16, 2, 'joined'),
 (3, 26, 1, 'joined'),
+(11, 11, 1, 'joined'),
 (10, 29, 3, 'joined');
 
 -- --------------------------------------------------------
@@ -474,7 +485,7 @@ ALTER TABLE `tbl_departments`
 -- AUTO_INCREMENT for table `tbl_files`
 --
 ALTER TABLE `tbl_files`
-  MODIFY `files_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `files_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `tbl_forgotpassword_keys`
 --
@@ -494,12 +505,12 @@ ALTER TABLE `tbl_registration_files`
 -- AUTO_INCREMENT for table `tbl_requested_files`
 --
 ALTER TABLE `tbl_requested_files`
-  MODIFY `requested_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `requested_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `tbl_requests`
 --
 ALTER TABLE `tbl_requests`
-  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --
@@ -509,7 +520,7 @@ ALTER TABLE `tbl_users`
 -- AUTO_INCREMENT for table `tbl_user_company`
 --
 ALTER TABLE `tbl_user_company`
-  MODIFY `user_company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `user_company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `tbl_user_dept_details`
 --
