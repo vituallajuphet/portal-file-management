@@ -219,3 +219,11 @@ table.dataTable thead>tr>th {
 #updateprofile input[type="file"] { width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1; }
 
 #responsive-modal #send_message, #send_request { color: #fff; background-color: #c5a36f; border-color: #c5a36f; }
+
+
+.last-td-file{text-align: center;}
+.last-td-file a{display: inline-block;margin: 0 7px;}
+
+.file-content-link{}
+.file-content-link a{display: inline-block; background: #a88b33; padding: 5px 10px; color: #fff; border-radius: 11px; font-size: 15px; vertical-align: top;margin-right: 5px;}
+.file-content-link a:hover{opacity: .5;color: #fff;text-decoration: none;}

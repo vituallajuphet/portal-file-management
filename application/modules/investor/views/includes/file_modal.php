@@ -103,3 +103,29 @@
         </div>
     </div>
 </div>
+
+<!-- start here -->
+<?php 
+    if($title == "Files"){ ?>
+    <div id="view-file-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="fa fa-files"></i> Attached File(s)</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="file-content-link">
+                            <a v-for="file in selected_file.file_data" :href="base_url+'uploaded_files/'+file.file_name" download><i class="fa fa-download"></i> {{file.file_title}}</a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php }
+?>
+
+<!-- end here -->

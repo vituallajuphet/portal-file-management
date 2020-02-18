@@ -189,7 +189,7 @@
 			$par["select"] = "*";
 			$par["where"] = array("tbl_user_company.user_id" => get_user_id(), "tbl_user_company.status" => "joined");
 			$par["join"] = array("tbl_companies" => "tbl_companies.company_id = tbl_user_company.company_id");
-			$companies =  $ci->MY_Model->getRows('tbl_user_company',$par, "obj");
+            $companies =  $ci->MY_Model->getRows('tbl_user_company',$par, "obj");
 			return $companies;
 	}
     

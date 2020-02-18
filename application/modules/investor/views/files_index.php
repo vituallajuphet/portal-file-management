@@ -2,7 +2,7 @@
 <!-- Page wrapper  -->
 <!-- ============================================================== -->
 
-
+<div id="myApp">
 <div class="page-wrapper">
    <div class="main_con">
         <div class="container-fluid">
@@ -24,39 +24,38 @@
             <!-- ============================================================== -->
             <!-- Start Page Content -->
             <!-- ============================================================== -->
-
             <div class="row">
               <div class="col-12">
                 <div class="card">
                   <div class="card-body">
 
-                    <table id="example" class="table   dt-responsive nowrap " style="width:100%">
+                    <table id="myTable" class="table   dt-responsive nowrap " style="width:100%">
                     <!-- <table id="example" class="table " style="width:100%"> -->
                         <thead>
                             <tr>
                                 <th>File Name</th>
                                 <th>Department</th>
                                 <th>Company</th>
+                                <th>No. of Files</th>
+                                <th>Date Added</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-
-                            <?php
-
-                            foreach ($files_rows as $key => $value) {
-                              echo "<tr>";
-                              echo "<td>$value->file_name</td>";
-                              echo "<td>$value->file_department</td>";
-                              echo "<td>$value->company_name</td>";
-                              if (in_array(explode(".",$value->file_name)[1] , $viewable_files)) {
-                                echo "<td class='action_td'><a class='btn' target='_blank' href='".base_url()."uploaded_files/$value->file_name'><i class='fas fa-eye'></i> </a><a class='btn' href='".base_url()."uploaded_files/$value->file_name' download><i class='fas fa-download' ></i> </a></td>";
-                              }else{
-                                echo "<td class='action_td'><a class='btn' href='".base_url()."uploaded_files/$value->file_name' download><i class='fas fa-download' ></i> </a></td>";
-                              }
-                              echo "</tr>";
-                            }
-                             ?>
+                            <tr v-for="(file, index) in getFiles">
+                              <td>{{file.file_title}}</td>
+                              <td>{{file.department}}</td>
+                              <td>{{file.company_name}}</td>
+                              <td>{{file.file_data.length}} File(s)</td>
+                              <td>{{file.file_data[0].date_added}}</td>
+                              <td class="last-td-file" v-if="file.file_data.length == 1">
+                                  <a :href="base_url+'uploaded_files/'+file.file_data[0].file_name" target="_blank" title="view details" style="color:black"><i class="fa fa-eye"></i></a>
+                                  <a :href="base_url+'uploaded_files/'+file.file_data[0].file_name" title="download file" download style="color:black" ><i class="fa fa-download"></i></a>
+                              </td>
+                              <td class="last-td-file" v-else>
+                                  <a href="javascript:;" @click="showFile(file.request_id)" title="view details" style="color:black"><i class="fa fa-eye"></i></a>
+                              </td>
+                            </tr>
                         </tbody>
                     </table>
                   </div>
@@ -75,3 +74,4 @@
             $this->load->view($has_modal);
         }  
     ?>
+</div>
