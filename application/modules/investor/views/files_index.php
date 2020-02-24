@@ -46,14 +46,19 @@
                               <td>{{file.file_title}}</td>
                               <td>{{file.department}}</td>
                               <td>{{file.company_name}}</td>
-                              <td>{{file.file_data.length}} File(s)</td>
-                              <td>{{file.file_data[0].date_added}}</td>
+                              <td>{{file.file_data.length != 0 ? file.file_data.length + ' File(s)' : 'Deleted'}} </td>
+                              <td>
+                                  {{file.file_data.length == 0 ? 'N/A' : file.file_data[0].date_added}}
+                             </td>
                               <td class="last-td-file" v-if="file.file_data.length == 1">
                                   <a :href="base_url+'uploaded_files/'+file.file_data[0].file_name" target="_blank" title="view details" style="color:black"><i class="fa fa-eye"></i></a>
                                   <a :href="base_url+'uploaded_files/'+file.file_data[0].file_name" title="download file" download style="color:black" ><i class="fa fa-download"></i></a>
                               </td>
-                              <td class="last-td-file" v-else>
+                              <td class="last-td-file" v-else-if="file.file_data.length > 1">
                                   <a href="javascript:;" @click="showFile(file.request_id)" title="view details" style="color:black"><i class="fa fa-eye"></i></a>
+                              </td>
+                              <td class="last-td-file" v-else>
+                                <span class="text-danger">No action</span>    
                               </td>
                             </tr>
                         </tbody>

@@ -2,6 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Investor extends MY_Controller {
 	
+	// Replace to true to send email notifications
+	protected $willSendEmail = false;
+
 	public function index(){
 		redirect(base_url("investor/files"));
 	}
@@ -37,7 +40,7 @@ class Investor extends MY_Controller {
 				array_push($arr_comp, $value->company_id);
 			}
 			$par["select"] = "*";
-			$par["where"] = "request_status = 'Completed'";
+			$par["where"] = "request_status = 'Completed' AND user_id = ".get_user_id();
 			$par["where_in"] = array(
 				"col" => "req.company_id",
 				"value" => $arr_comp,
@@ -52,15 +55,14 @@ class Investor extends MY_Controller {
 				$c = 0;
 				foreach ($response as $key => $value) {
 					$par["select"] = "*";
-					$par["where"] = "req_file.fk_requested_id = $value->request_id AND file.file_status = 'published'";
+					$par["where"] = "req_file.fk_requested_id = $value->request_id AND file.file_status != 'deleted'";
 					
 					$par["join"] = array(
 						"tbl_files file" => "file.files_id = req_file.fk_file_id"
 					);
 					$requested_file = getData("tbl_requested_files req_file", $par, "obj");
-					if(!empty($requested_file)){
-						$response[$c]->file_data = $requested_file;
-					}
+					$response[$c]->file_data = $requested_file;
+					
 					$c++;
 				}
 			}
@@ -92,8 +94,9 @@ class Investor extends MY_Controller {
 		$message_content = "For: $department[1] Department<br/>";
 		$message_content .="Investor name: ".$this->session->userdata('firstname')." ".$this->session->userdata('lastname')."<br><br>";
 		$message_content .="Message: ".$_POST['message'];
-		
-		sendemail($department[0], $message_content,"Contact Department",null,null,$_POST['your_email'],false);
+		if($willSendEmail){
+			sendemail($department[0], $message_content,"Contact Department",null,null,$_POST['your_email'],false);
+		}
 		$this->session->set_flashdata("flash_data", array( "err"=>"success", "message" => "Message Sent"));
 		$res = array('msg'=>'Message sent', 'err' => false);
 		$this->session->set_flashdata('results', $res );
@@ -113,20 +116,23 @@ class Investor extends MY_Controller {
 			
 			$dept = explode("|",$post['department']);
 			
-			sendemail($comp_email,'An investor requested for a document.');
-			sendemail($dept[0],'A investor requested for a document.');
+			if($willSendEmail){
+				sendemail($comp_email,'An investor requested for a document.');
+				sendemail($dept[0],'A investor requested for a document.');
+			}
+			
 			$set = array(
 				"comment"=> $comment,
+				"user_id"=> get_user_id(),
 				"company_id"=> $post['company'],
 				"department"=> $dept[1],
 				"file_title"=> $title,
 				"requested_date"=> date("Y-m-d"),
+				'date_approved' => date("0000-00-00"),
 				"request_status"=> "Pending",
 			);
 			insertData('tbl_requests', $set);
-			$this->session->set_flashdata("flash_data", array( "err"=>"success", "message" => "Request Sent"));
-			$msgs = array('msg'=>'Request Sent', 'err' => false);
-			$this->session->set_flashdata('results', $msgs );
+			swal_data("Request Sent", "success");
 			redirect(base_url("investor/files"));
 		}
 	}
@@ -150,6 +156,7 @@ class Investor extends MY_Controller {
 			from('tbl_requests r')->
 			join('tbl_companies c', "r.company_id = c.company_id")->
 			where_in("r.company_id", $my_comp)->
+			where("r.user_id", $my_id)->
 			get()->result();
 			if(!empty($request_data)){
 				$results = $request_data;

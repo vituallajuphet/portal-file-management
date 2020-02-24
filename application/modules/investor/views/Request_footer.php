@@ -53,11 +53,21 @@
       },
       downloadFile(req_id){
        alert(req_id)
+      },
+      get_row_class(status){
+        let ret = "";
+        if(status == "Completed"){
+          ret = "row-completed"
+        }
+        else if(status == "Processing"){
+          ret = "row-processed"
+        }
+        return ret;
       }
     },
 
     computed:{
-
+     
     },
 
     mounted(){

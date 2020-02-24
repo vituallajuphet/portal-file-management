@@ -7,7 +7,7 @@
      <?php elseif($err=="success"): ?>
             Swal.fire({
                 icon: 'success',
-                title: '<?= $message?>',
+                text: '<?= $message?>',
             })
     <?php elseif($err=="confirm"): ?>
             Swal.fire({

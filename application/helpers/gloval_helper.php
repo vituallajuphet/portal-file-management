@@ -36,6 +36,16 @@
         exit;
     }
 
+    function get_post(){
+        $ci = & get_instance();
+        return $ci->input->post();
+    }
+
+    function swal_data($msg, $err = "success"){
+        $ci = & get_instance();
+        $ci->session->set_flashdata("flash_data", array( "err"=>$err, "message" => $msg));
+    }
+
     function sendemail($to_email="", $message ="", $from_name="", $subject="", $type="", $from_email=""){
         $ci = & get_instance();
         if(empty($to_email)){
@@ -87,6 +97,9 @@
             }
             if(!empty($setting["max_size"])){
                 $config['max_size']     = $setting["max_size"];
+            }
+            if(!empty($setting["file_name"])){
+                $config['file_name']     = $setting["file_name"];
             }
         }
         $ci->load->library('upload', $config);
@@ -173,6 +186,12 @@
         $par["where"] ="company_type='subsidiary'";
         $res=  $ci->MY_Model->getRows("tbl_companies", $par, "obj");
         return $res;
+    }
+
+    function get_file_extension($file){
+        $filename = $file["file"]["name"];
+        $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
+        return $file_extension;
     }
 
     function get_departments(){

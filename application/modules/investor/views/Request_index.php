@@ -41,7 +41,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(req) in file_requests" :key="req.request_id" :class="(req.request_status == 'Completed' ? 'row-completed' : '')">
+                                    <tr v-for="(req) in file_requests" :key="req.request_id" :class="get_row_class(req.request_status)">
                                         <td>{{req.request_id}}</td>
                                         <td>{{req.file_title }}</td>
                                         <td>{{req.request_status}}</td>

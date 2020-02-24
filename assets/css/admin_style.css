@@ -39,3 +39,25 @@
 
 .comp-cont.user-details span{font-size: 15px;padding: 3px 5px;}
 
+.admin-table .td-manage-file {}
+.admin-table .td-manage-file a{margin: 0 10px;color: #222;}
+
+.modal-form input[type="file"] { width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1; }
+.modal-form  input[type="file"] + label { color: white; background-color: #000a24; display: inline-block; width: 100%; padding: 4px; padding-left: 9px; font-size: 15px; border-radius: 5px; border: 1px solid #575454; padding-left: 20px; cursor: pointer; position: relative; max-width: 134px; }
+
+.file-modal .modal-dialog{max-width: 500px}
+
+.file-modal .hasFile{display: inline-block;margin-left: 5px}
+.btn-theme2{background: #c5a36f; color: #fff; border-color: #c5a36f;}
+.btn-theme2:hover{color:#fff;}
+.nav-active{cursor: pointer;color: #67757c}
+
+.admin-table .row-processing{background: #fff7cc}
+.admin-table .row-approved{background: #d9fbb9;}
+
+
+.file-row-select{text-align: center}
+.file-row-select span{display: inline-block;margin: 0 5px}
+
+.main_con #myTable2_wrapper select.form-control.custom-select { background: #c5a36f; border-color: #c5a36f; color: white; }
+.main_con #myTable3_wrapper select.form-control.custom-select { background: #c5a36f; border-color: #c5a36f; color: white; }

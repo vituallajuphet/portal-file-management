@@ -227,3 +227,4 @@ table.dataTable thead>tr>th {
 .file-content-link{}
 .file-content-link a{display: inline-block; background: #a88b33; padding: 5px 10px; color: #fff; border-radius: 11px; font-size: 15px; vertical-align: top;margin-right: 5px;}
 .file-content-link a:hover{opacity: .5;color: #fff;text-decoration: none;}
+#myTable .row-processed { background: #fff7cc; }

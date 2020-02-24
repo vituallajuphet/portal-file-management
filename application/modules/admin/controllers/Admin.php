@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends MY_Controller {
 	
+	protected $will_send_email = true;
+
 	public function __construct(){
 		parent::__construct();
 	}
@@ -57,9 +59,9 @@ class Admin extends MY_Controller {
 		$data["title"] ="Admin - Requests";
 		$data["page_name"] ="file_request";
 		$data['has_header']="header_index.php";
-		// echo "This page is under development";
-		// $data['has_footer']="includes/manage_dept_user_footer";
-		$this->load_admin_page('includes/development',$data);
+		$data["has_mod"] ="modal/manage_request_modal";
+		$data['has_footer']="includes/manage_request_footer";
+		$this->load_admin_page('pages/Manage_request',$data);
 	}
 	
 	public function manage_files(){
@@ -67,9 +69,8 @@ class Admin extends MY_Controller {
 		$data["page_name"] ="manage_files";
 		$data['has_header']="header_index.php";
 		$data['has_footer']="includes/manage_file_footer";
+		$data["has_mod"] ="modal/manage_file_modal";
 		$this->load_admin_page('pages/Manage_files',$data);
-		// $data['has_footer']="includes/manage_dept_user_footer";
-		// $this->load_admin_page('pages/manage_dept_user',$data);
 	}
 	
 	public function investors(){
@@ -79,6 +80,11 @@ class Admin extends MY_Controller {
 		// echo "This page is under development";
 		// $data['has_footer']="includes/manage_dept_user_footer";
 		$this->load_admin_page('includes/development',$data);
+	}
+
+	public function add_new_file($req_id){
+		$_SESSION["add_file"] = $req_id;
+		redirect(base_url("admin/manage_files"));
 	}
 	// ----------------------------------------private functionm ---------------------
 	
@@ -410,6 +416,22 @@ class Admin extends MY_Controller {
 		echo json_encode($response);
 	}
 
+	public function get_restricted_user($file_id){
+		$response = array("code"=>204, "data"=> []);
+		$par["select"] = "user.user_id, user.user_type, u_details.firstname, u_details.lastname, fk_requested_id, fk_file_id, req.request_status, req.department";
+		$par["where"] = "user.user_status = 1 AND user.user_type != 'admin' AND req_file.fk_file_id = $file_id";
+		$par["join"] = array( 
+			'tbl_user_details u_details' => 'user.user_id = u_details.user_id',
+			'tbl_requests req' => 'req.user_id = u_details.user_id',
+			'tbl_requested_files req_file' => 'req_file.fk_requested_id = req.request_id',
+		);
+		$res = getData('tbl_users user', $par, "obj");
+		if(!empty($res)){
+			$response = array("code"=>200, "data"=>$res);
+		}
+		echo json_encode($response);
+	}
+
 	public function api_dept_user($usertype){
 		$response = array("code"=>204, "data"=> []);
 		if(!empty($usertype)){
@@ -434,6 +456,340 @@ class Admin extends MY_Controller {
 		}
 		echo json_encode($response);
 	}
-	// 
+
+	// Manage Files Functions
+	public function save_file_data(){
+		$post = $this->input->post();
+		if(!has_empty($post)){
+			$settings['upload_path'] = "./uploaded_files/";
+			$file_name = "file-".time();
+			$settings['file_name'] = $file_name;
+
+			if(upload_file($_FILES, $settings)){
+				$set = array(
+					"file_name"=> $file_name.$this->upload->data('file_ext'),
+					"file_department"=> $post["department"],
+					"file_company_id"=> 0,
+					"file_title"=> $post["file_title"],
+					"added_by"=> get_user_id(),
+					"date_added"=> date("Y-m-d"),
+					'date_updated' => date("0000-00-00"),
+					"file_status"=> "published",
+					"remarks"=> $post["remarks"]
+				);
+				insertData("tbl_files", $set);
+				swal_data("File uploaded successfully");
+			}
+			else{
+				$err = $this->upload->display_errors();
+				swal_data(strip_tags($err), "error");
+			}
+
+			if(!empty($_SESSION["add_file_req_id"])){
+				redirect(base_url("admin/manage_request"));
+			}
+			else{
+				redirect(base_url("admin/manage_files"));
+			}
+			
+		}
+	}
+
+	public function update_file_data(){
+		$post = get_post();
+		if(!has_empty($post)){
+			$settings['upload_path'] = "./uploaded_files/";
+			$file_name = "file-".time();
+			$settings['file_name'] = $file_name;
+
+			if(upload_file($_FILES, $settings)){
+				$file_id = $post["file_id"];
+				$where = "files_id = $file_id";
+				$set = array(
+					"file_name"=> $file_name.$this->upload->data('file_ext'),
+					"file_department"=> $post["department"],
+					"file_title"=> ucfirst($post["file_title"]),
+					"date_updated"=> date("Y-m-d"),
+					"remarks"=> $post["remarks"]
+				);
+				updateData("tbl_files", $set, $where);
+				swal_data("File Updated Successfully");
+			}
+			else{
+				$err = $this->upload->display_errors();
+				swal_data(strip_tags($err), "error");
+			}
+			redirect(base_url("admin/manage_files"));
+		}
+	}
+
+	// Manage Files API functions
+	public function api_get_files($result = "json"){
+		$response = array("code"=> 204, "data" => []);
+		$par["select"] ="files_id, file_name, file_department, file_company_id, file_title, date_added, file_status, user.user_id, firstname, lastname, remarks";	
+		$par["where"] ="file.file_status = 'published'";
+		$par["join"] = array(
+			"tbl_users user" => "user.user_id = file.added_by",
+			"tbl_user_details user_d" => "user.user_id = user_d.user_id",
+		);
+		$res = getData("tbl_files file", $par);
+		if(!empty($res)){
+			$response = array("code"=> 200, "data" => $res);
+		}
+		if($result == "array"){
+			return $res;
+		}else{
+			echo json_encode($response);
+		}
+	}
 	
+	public function api_restrict_users(){
+		$response = array("code"=> 204, "data" => []);
+		$post = json_decode($this->input->post("frmdata"));
+		if(!empty($post->file_id)){
+			if(!empty($post->users_id)){
+				$par ["select"] = "request_id";
+				$par ["where_in"] = array(
+					"col" => "req.user_id",
+					"value" => $post->users_id
+				);
+				$par["join"] = array(
+					"tbl_requested_files req_file" => "req_file.fk_requested_id = req.request_id"
+				);
+				$par["where"] = "(req.request_status = 'Completed' AND req_file.fk_file_id = $post->file_id)";
+				$req_data = getData("tbl_requests req", $par, "obj");
+				if(!empty($req_data)){
+					foreach ($req_data as $request) {
+						$set = array("request_status" => "Restricted");
+						$where = array("request_id" => $request->request_id);
+						updateData("tbl_requests", $set, $where);
+					}
+					$response = array("code"=> 200);
+				}
+			}
+			// unrestrict
+			if(!empty($post->un_res_users_id)){
+				$par2 ["select"] = "request_id";
+				$par2 ["where_in"] = array(
+					"col" => "req.user_id",
+					"value" => $post->un_res_users_id
+				);
+				$par2["join"] = array(
+					"tbl_requested_files req_file" => "req_file.fk_requested_id = req.request_id"
+				);
+				$par2["where"] = "(req.request_status = 'Restricted' AND req_file.fk_file_id = $post->file_id)";
+				$req_data2 = getData("tbl_requests req", $par2, "obj");
+				if(!empty($req_data2)){
+					foreach ($req_data2 as $request) {
+						$set = array("request_status" => "Completed");
+						$where = array("request_id" => $request->request_id);
+						updateData("tbl_requests", $set, $where);
+					}
+					$response = array("code"=> 200);
+				}
+			}
+		}
+		
+		echo json_encode($response);
+	}
+
+	public function api_get_archieved_files($result = "json"){
+		$response = array("code"=> 204, "data" => []);
+		$par["select"] ="files_id, file_name, file_department, file_company_id, file_title, date_added, date_updated, file_status, user.user_id, firstname, lastname, remarks";	
+		$par["where"] ="file.file_status = 'archieved'";
+		$par["join"] = array(
+			"tbl_users user" => "user.user_id = file.added_by",
+			"tbl_user_details user_d" => "user.user_id = user_d.user_id",
+		);
+		$res = getData("tbl_files file", $par);
+		if(!empty($res)){
+			$response = array("code"=> 200, "data" => $res);
+		}
+		if($result == "array"){
+			return $res;
+		}else{
+			echo json_encode($response);
+		}
+	} 
+
+	public function api_get_file_users($file_id){
+		$response = array("code"=> 204, "data" => []);
+		$par["select"] ="*";
+		$par["join"] =array(
+			"tbl_requested_files req_file"=> "req_file.fk_requested_id = req.request_id"
+		);
+		$par["where"] =array("req_file.fk_file_id == $file_id");
+		$res = getData("tbl_requests req", $par, "obj");
+		if(!empty($res)){
+			$response = array("code"=> 200, "data" => $res);
+		}
+		echo json_encode($response);
+	}
+
+	public function api_delete_file(){
+		$this->update_file_status("archieved", "File Deleted Successfully");
+	}
+	
+	public function api_delete_archieve_file(){
+		$this->update_file_status("deleted", "File Deleted Successfully");
+	}
+
+	public function api_restore_file(){
+		$this->update_file_status("published", "File Restored Successfully");
+	}
+
+	private function update_file_status($status, $msg){
+		$response = array("code"=> 204, "data" => [], "message"=>"Failed");
+		$post = get_post();	
+		if(!empty($post)){
+			$set = array(
+				"file_status" => $status,
+				"date_updated" => date("Y-m-d")
+			);
+			$where = array("files_id" => $post["file_id"]);
+			updateData("tbl_files", $set, $where);
+			$response = array("code"=> 200, "data" => $this->api_get_files("array"), "message" => $msg);	
+		}
+		echo json_encode($response);
+	}
+
+	// Manage Request functions
+
+
+	// Manage Request API functions
+	public function api_get_file_request(){
+		$this->get_files_request("");
+	}
+
+	public function api_get_approved_request($req_id){
+		$response = array("code"=> 204, "data" => []);
+		if(!empty($req_id)){
+			$par["select"] = "requested_file_id, files_id, file_name, file_department, file_company_id, file_title, date_added, date_updated, file_status, remarks, u_detail.firstname, u_detail.lastname, user.user_id";
+			$par["where"] ="req_file.fk_requested_id = $req_id";
+			$par["join"] =array(
+				"tbl_files file" => "file.files_id = req_file.fk_file_id",
+				"tbl_users user" => "user.user_id = req_file.fk_approved_user_id",
+				"tbl_user_details u_detail" => "user.user_id = u_detail.user_id"
+			);
+			$res = getData("tbl_requested_files req_file" , $par, "obj");
+			if(!empty($res)){
+				$response = array("code"=> 200, "data" => $res);
+			}
+		}
+		echo json_encode($response);
+	}
+
+	public function api_check_has_file(){
+		$response = array("code"=> 204);
+		$post = json_decode($this->input->post("frmdata"));
+		if(!empty($post)){
+			$par["select"] ="user.user_id";
+			$par["where"] = "req.request_id = $post->request_id";
+			$par["join"] = array(
+				"tbl_requests req" => "req.user_id = user.user_id",
+			);
+			$res = getData("tbl_users user", $par, "obj");
+			if(!empty($res)){
+				$user_id = $res[0]->user_id;
+				
+				$par["select"] ="req.user_id";
+				$par["where"] ="req.user_id = $user_id AND req.request_status = 'Completed' AND req_file.fk_file_id = $post->files_id";
+				$par["join"] =array(
+					"tbl_requested_files req_file" => "req_file.fk_requested_id = req.request_id"
+				);
+				$res2 = getData("tbl_requests req", $par, "obj");
+				if(!empty($res2)){
+					$response = array("code"=> 200);
+				}
+			}	
+		}
+		echo json_encode($response);
+	}
+	
+	public function api_update_request_status(){
+		$post = json_decode($this->input->post("frmdata"));
+		$response = array("code"=> 204, "data" => []);
+		if(!has_empty($post)){
+			$set = array( "request_status" => $post->status );
+			$where = array("request_id" => $post->request_id);
+			updateData("tbl_requests", $set, $where);
+			$response = array("code"=> 200, "data" => []);
+		}
+		echo json_encode($response);
+	}
+
+	// approved request function
+	public function api_approve_request_file(){
+		$response = array("code"=> 204, "data" => []);
+		$post = json_decode($this->input->post("frmdata"));
+		if(!empty($post)){
+			$file_ids = $post->file_ids;
+			$request_id = $post->request_id;
+
+			foreach ($file_ids as $file_id) {
+				$set = array(
+					"fk_requested_id" => $request_id,
+					"fk_file_id" => $file_id,
+					"fk_approved_user_id" => get_user_id()
+				);
+				insertData("tbl_requested_files", $set);
+			}
+
+			$set = array(
+				"request_status" => "Completed",
+				"date_approved" => date("Y-m-d"),
+			);
+			$where = array("request_id" => $request_id);
+			updateData('tbl_requests', $set, $where);
+			$response = array("code"=> 200, "data" => []);
+
+			if($this->will_send_email){
+				$par["select"] = "*";
+				$par["where"] = "req.request_id = $request_id";
+				$par["join"] =array(
+					"tbl_requests req" => "req.user_id = u_detail.user_id",
+				);
+				$resp = getData("tbl_user_details u_detail", $par, "obj");
+				$messge = $this->html_email($resp[0]->file_title);
+				$is_sent = sendemail($resp[0]->email_address, $messge);
+			}
+		}
+		echo json_encode($response);
+	}
+
+	private function get_files_request($status="", $result= "json"){
+		$response = array("code"=> 204, "data" => []);
+		$par["select"] ="request_id, req.user_id, comment, req.company_id, req.department, 	file_title, requested_date, request_status, firstname, lastname, requested_date, comp.company_name, req.date_approved";	
+		if(!empty($status)){
+			$par["where"] ="req.request_status = '$status'";
+		}
+		$par["join"] = array(
+			"tbl_users user" => "user.user_id = req.user_id",
+			"tbl_user_details user_d" => "user.user_id = user_d.user_id",
+			"tbl_companies comp" => "comp.company_id = req.company_id",
+		);
+		$res = getData("tbl_requests req", $par);
+		if(!empty($res)){
+			$response = array("code"=> 200, "data" => $res);
+		}
+		if($result == "array"){
+			return $res;
+		}else{
+			echo json_encode($response);
+		}
+	}
+	
+	// hmtl format
+	private function html_email($file_name){
+		$html ="
+			<div>
+				Your requested file has been approved <br>
+				Requested File Title: <strong> $file_name</strong>
+			</div>
+		";
+		return $html;
+	}
+
+
+
 }

@@ -17,4 +17,9 @@ confirm_alert(msg){
 },
 s_alert(msg, icons){
     Swal.fire({ icon:icons, text:msg })
+},
+page_reload(timeout){
+    setTimeout(() => {
+        location.reload();
+    }, timeout);
 }
