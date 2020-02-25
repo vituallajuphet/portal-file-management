@@ -17,7 +17,7 @@
                         </div> 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label form="file_status" class="control-label">File Title:</label>
+                                <label form="file_status" class="control-label">Request File Title:</label>
                                 <div style="font-weight:bold;">{{frm_status.file_title}}</div>
                             </div>
                         </div>     
@@ -80,7 +80,8 @@
                                             <td>{{file.date_added}}</td>
                                             <td class="file-row-select">
                                                 <span><input type="checkbox" ref="check_hand" :value="file.files_id" @change = "check_handler(file.files_id)" ></span>
-                                                <span><a style="color:#222" :href="base_url+'uploaded_files/'+file.file_name" target="_blank"><i class="fa fa-eye" title="view"></i></a></span>
+                                                <span v-if="is_file_viewable(file.file_name)"><a style="color:#222" :href="base_url+'uploaded_files/'+file.file_name" target="_blank"><i class="fa fa-eye" title="view"></i></a></span>
+                                                <span v-else-if="!is_file_viewable(file.file_name)" ><a style="color:#222" :href="base_url+'uploaded_files/'+file.file_name" download ><i class="fa fa-download" title="view"></i></a></span>
                                             </td>
                                         </tr>
                                     </tbody>

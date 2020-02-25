@@ -173,11 +173,27 @@ class Investor extends MY_Controller {
 						get()->result();
 						if(!empty($approvedData)){
 							$get_attached = $this->db->
-							select("file_name")->
+							select("file_name, file_title, f.files_id, rf.fk_requested_id")->
 							from('tbl_files f')->
 							join('tbl_requested_files rf', "f.files_id = rf.fk_file_id")->
 							where('rf.fk_requested_id', $r_id)->
 							get()->result_array();
+							$get_restricted = [];
+							if(!empty($get_attached)){
+								$c=0;
+								foreach ($get_attached as $key) {
+									$par2["select"] ="*";
+									$par2["where"] ="file_id =  ".$key["files_id"]." AND request_id = ".$key["fk_requested_id"]."";
+									$resp = getData("tbl_restricted_user", $par2, "obj");
+									if(!empty($resp)){
+										array_push($get_restricted, $get_attached[$c] );
+										unset($get_attached[$c]);	
+									}
+									
+									$c++;
+								}
+							}
+							$approvedData[0]->{"restricted"} = $get_restricted;
 							$approvedData[0]->{"attachments"} = $get_attached;
 						}
 						array_push($res, $approvedData[0]);

@@ -46,11 +46,13 @@
                                             <td>{{file.firstname +' '+ file.lastname}}</td>
                                             <td>{{file.date_added}}</td>
                                             <td class="td-manage-file">
-                                                <a @click="show_file_details(file.files_id)" href="javascript:;" ><i class="fas fa-eye"></i></a>
-                                                <a href="javascript:;" @click="show_edit_modal(file.files_id)" ><i class="fas fa-edit"></i></a>
-                                                <a :href="base_url+'uploaded_files/'+file.file_name" download ><i class="fas fa-download"></i></a>
-                                                <a class="text-danger" @click="show_delete_file(file.files_id)" href="javascript:;" ><i class="fas fa-trash"></i></a>
+                                                <!-- <a onClick="show_file_details(myapp.file.files_id)" href="javascript:;" ><i class="fas fa-eye"></i></a> -->
+                                                <a class="show_file_details act_btn" :data="file.files_id" @click="show_file_details(file.files_id)" href="javascript:;" ><i class="fas fa-eye"></i></a>
+                                                <a class="show_edit_modal act_btn" :data="file.files_id" href="javascript:;" @click="show_edit_modal(file.files_id)" ><i class="fas fa-edit"></i></a>
+                                                <a class="act_btn" :href="base_url+'uploaded_files/'+file.file_name" download ><i class="fas fa-download"></i></a>
+                                                <a class="text-danger show_delete_file act_btn"  :data="file.files_id" @click="show_delete_file(file.files_id)" href="javascript:;" ><i class="fas fa-trash"></i></a>
                                             </td>
+                                          
                                         </tr>
                                     </tbody>
                                 </table>
@@ -76,9 +78,8 @@
                                             <td>{{file.file_department}}</td>
                                             <td>{{file.date_updated}}</td>
                                             <td class="td-manage-file" style="max-width:300px;">
-                                                <a @click="show_restore_file(file.files_id)" title="restore file" href="javascript:;"><i class="fa fa-recycle"></i></a>
-                                                <a title="download file" download :href="base_url + 'uploaded_files/'+file.file_name"><i class="fa fa-download"></i></a>
-                                                <a title="delete file" @click="show_delete_archieve(file.files_id)" class="text-danger" href="javascript:;"><i class="fa fa-trash"></i></a>
+                                                <a class="act_btn show_restore_file" :data="file.files_id" @click="show_restore_file(file.files_id)" title="restore file" href="javascript:;"><i class="fa fa-recycle"></i></a>
+                                                <a class="show_delete_archieve" :data="file.files_id" title="delete file" @click="show_delete_archieve(file.files_id)" class="text-danger" href="javascript:;"><i class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>

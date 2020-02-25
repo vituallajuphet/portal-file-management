@@ -13,13 +13,15 @@ var hasFile = false;
 let selected_user_ids =[];
 let selected_un_restrict_ids = [];
 $(document).ready(function(){
-	$("#upload_file").change(function(){
+	$("#upload_file").change(function(e){
+		let filename =e.target.files[0].name;
 		hasFile = true;
-		$(".hasFile").show();
+		$(".hasFile").show().html(filename);
 	})
-	$("#upload_file2").change(function(){
+	$("#upload_file2").change(function(e){
+		let filename =e.target.files[0].name;
 		hasFile = true;
-		$(".hasFile").show();
+		$(".hasFile").show().html(filename);
 	})
 
 	
@@ -101,7 +103,7 @@ var myapp = new Vue({
 				let self = this;
 				let file_data = self.files.find(file => file.files_id == file_id);
 				self.file_details = file_data;
-				this.selected_restrict_file_id = file_id
+				
 				axios.get(`${self.base_url}admin/api_get_file_users/${file_id}`).then(res =>{
 					let resp = res.data;
 					if(resp.code == 200){
@@ -123,6 +125,7 @@ var myapp = new Vue({
 			show_edit_modal(file_id){
 				let self = this;
 				let file_data = self.files.find(file => file.files_id == file_id);
+				this.selected_restrict_file_id = file_id
 				self.frmdata.file_title =file_data.file_title
 				self.frmdata.remarks =file_data.remarks
 				self.frmdata.department =file_data.file_department
@@ -147,11 +150,14 @@ var myapp = new Vue({
 					}
 				})
 			},
+			test_method(){
+				alert(1)
+			},
 			show_delete_archieve(file_id){
 				let self = this;
 				let formdata = new FormData();
 				formdata.append("file_id", file_id);
-				self.confirm_alert("Are you sure to delete permnently this file?").then(res =>{
+				self.confirm_alert("Are you sure to delete permanently this file?").then(res =>{
 					if(res == 200){
 						axios.post(`${self.base_url}admin/api_delete_archieve_file`, formdata).then(res=> {
 							let resp = res.data;
@@ -214,7 +220,7 @@ var myapp = new Vue({
 						self.users = resp.data
 						self.users.map(user => {
 							let action_td = `<input type="checkbox" class="restrict_box" data="${user.user_id}"> Restrict`;
-							if(user.request_status == "Restricted"){
+							if(user.req_status == "Restricted"){
 								action_td =`<input type="checkbox" class="un_restrict_box" data="${user.user_id}"> Remove`
 							}
 							html += `
@@ -222,7 +228,7 @@ var myapp = new Vue({
 									<td>${user.user_id}</td>
 									<td>${user.firstname +' '+user.lastname}</td>
 									<td>${user.user_type}</td>
-									<td>${user.request_status}</td>
+									<td>${user.req_status}</td>
 									<td>
 										${action_td}
 									</td>
@@ -237,7 +243,7 @@ var myapp = new Vue({
 						$("#myTable3").DataTable();	
 					}
 					else{
-						self.s_alert("No users/investor that been restricted on this file", "error")
+						self.s_alert("No investor that been given of this file", "error")
 					}
 					
 				})
@@ -247,12 +253,21 @@ var myapp = new Vue({
 			},
 			submit_restrict_form(){
 				let self = this;
+				var con_message = "Are you sure to restrict this user of this file";
+				if(selected_user_ids.length == 0 && selected_un_restrict_ids != 0){
+					con_message = "Are you sure to remove user's restriction of this file";
+				}
+				else if(selected_user_ids.length != 0 && selected_un_restrict_ids != 0){
+					con_message = "Are you sure to remove restriction and restrict the selected users of this file";
+				}
+
 				if(selected_user_ids.length == 0 && selected_un_restrict_ids == 0){
 					self.s_alert("Please select at least one user", "error");
 					return;
 				}
+
 				else{
-					self.confirm_alert("Are you sure to proceed for this updates?").then(res =>{
+					self.confirm_alert(con_message).then(res =>{
 						if(res == 200){
 							let frmdata = new FormData();
 							let fdata = {
@@ -286,10 +301,6 @@ var myapp = new Vue({
 			},
 			submit_edit_form(){
 				let self = this;
-				if(!hasFile){
-					self.s_alert("Please add a file first", "error");
-					return;
-				}frm_add_file
 				self.confirm_alert("Are you sure to update this file?").then(res =>{
 					if(res == 200){
 						$("#frm_edit_file").submit();
@@ -322,6 +333,66 @@ var myapp = new Vue({
 				alert(res);
 			}
 		}
+	})
+
+	// jquery in responsive events
+	$(document).ready(function(){
+		let is_reposive = false;
+		let is_reposive2 = false;
+		setResponsive();
+		$(window).resize(function(){
+			setResponsive();
+		})
+
+		function setResponsive(){
+			let myTable = $("#myTable thead th:last-child");
+			let myTable2 = $("#myTable2 thead th:last-child");
+			setTimeout(() => {
+				is_reposive = (myTable.css("display") == "none")
+				is_reposive2 = (myTable2.css("display") == "none")	
+			}, 1200);
+			
+		}
+		$(document).on("click", ".show_file_details", function(){
+			if(is_reposive){
+				let f_id = $(this).attr("data");
+				myapp.show_file_details(f_id);
+			}
+		})
+		$(document).on("click", ".show_edit_modal", function(){
+			if(is_reposive){
+				let f_id = $(this).attr("data");
+				myapp.show_edit_modal(f_id);
+			}
+		})
+		$(document).on("click", ".show_delete_file", function(){
+			if(is_reposive){
+				let f_id = $(this).attr("data");
+				myapp.show_delete_file(f_id);
+			}
+		})
+
+		
+
+		// archive
+
+
+		$(document).on("click", ".show_restore_file", function(){
+			if(is_reposive2){
+				let f_id = $(this).attr("data");
+				myapp.show_restore_file(f_id);
+			}
+		})
+		$(document).on("click", ".show_delete_archieve", function(){
+			if(is_reposive2){
+				let f_id = $(this).attr("data");
+				myapp.show_delete_archieve(f_id);
+			}
+		})
+
+
+		
+
 	})
 	</script>
 	

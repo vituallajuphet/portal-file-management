@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 18, 2020 at 10:51 AM
+-- Generation Time: Feb 25, 2020 at 11:17 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -112,18 +112,30 @@ CREATE TABLE `tbl_files` (
   `file_title` varchar(100) NOT NULL,
   `added_by` int(11) NOT NULL,
   `date_added` date NOT NULL,
-  `file_status` varchar(100) NOT NULL
+  `date_updated` date NOT NULL,
+  `file_status` varchar(100) NOT NULL,
+  `remarks` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbl_files`
 --
 
-INSERT INTO `tbl_files` (`files_id`, `file_name`, `file_department`, `file_company_id`, `file_title`, `added_by`, `date_added`, `file_status`) VALUES
-(2, 'hr_file.txt', 'Human Resources', '1', 'Sample File', 1, '2020-02-18', 'published'),
-(3, 'hr_file2.txt', 'Human Resources', '2', 'sample file 2', 1, '2020-02-18', 'published'),
-(4, 'file-123.txt', 'Finance', '1', 'file sample1', 1, '2020-02-19', 'published'),
-(5, 'file-12345.txt', 'Finance', '1', 'file sample 2', 1, '2020-02-19', 'published');
+INSERT INTO `tbl_files` (`files_id`, `file_name`, `file_department`, `file_company_id`, `file_title`, `added_by`, `date_added`, `date_updated`, `file_status`, `remarks`) VALUES
+(2, 'hr_file.txt', 'Human Resources', '1', 'Sample File', 1, '2020-02-18', '2020-02-20', 'deleted', ''),
+(3, 'file-1582221113.png', 'Finance', '2', 'Files update23', 1, '2020-02-18', '2020-02-24', 'published', 'this is updated2'),
+(4, 'file-123.txt', 'Finance', '1', 'file sample1', 1, '2020-02-19', '2020-02-20', 'published', ''),
+(5, 'file-12345.txt', 'Finance', '1', 'file sample 2', 1, '2020-02-19', '2020-02-20', 'archieved', ''),
+(6, 'file-1582136871.jpg', 'Finance', '0', 'Finance file', 1, '2020-02-19', '2020-02-20', 'archieved', 'This is a sample only'),
+(7, 'file-1582223835.png', 'Human Resources', '0', 'Finance new2', 1, '2020-02-19', '2020-02-20', 'published', 'SAmple only 2'),
+(8, 'file-1582138350.jpg', 'Human Resources', '0', 'Test file 2', 1, '2020-02-19', '2020-02-20', 'published', 'This is only a sample'),
+(9, 'file-1582225975.png', 'N/A', '0', 'Test File', 1, '2020-02-20', '2020-02-20', 'archieved', 'sample'),
+(10, 'file-1582253102.png', 'Finance', '0', 'test file 2', 1, '2020-02-21', '0000-00-00', 'published', 'sample file asdk; as'),
+(11, 'file-1582253769.png', 'Finance', '0', 'test 55', 1, '2020-02-21', '0000-00-00', 'published', 'test ssss'),
+(12, 'file-1582255020.png', 'Human Resources', '0', 'new file', 1, '2020-02-21', '0000-00-00', 'published', 'test'),
+(13, 'file-1582264950.png', 'Finance', '0', 'sasdasdasd', 1, '2020-02-21', '0000-00-00', 'published', 'sadasdasdasd asd asd asd'),
+(14, 'file-1582525743.png', 'N/A', '0', 'test file 1', 1, '2020-02-24', '0000-00-00', 'published', 'test'),
+(15, 'file-1582536967.zip', 'Finance', '0', 'zip1', 1, '2020-02-24', '0000-00-00', 'published', '');
 
 -- --------------------------------------------------------
 
@@ -199,18 +211,22 @@ INSERT INTO `tbl_registration_files` (`registration_files_id`, `user_id`, `file_
 CREATE TABLE `tbl_requested_files` (
   `requested_file_id` int(11) NOT NULL,
   `fk_requested_id` int(11) NOT NULL,
-  `fk_file_id` int(11) NOT NULL
+  `fk_file_id` int(11) NOT NULL,
+  `fk_approved_user_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbl_requested_files`
 --
 
-INSERT INTO `tbl_requested_files` (`requested_file_id`, `fk_requested_id`, `fk_file_id`) VALUES
-(1, 12, 2),
-(2, 4, 3),
-(3, 13, 4),
-(4, 13, 5);
+INSERT INTO `tbl_requested_files` (`requested_file_id`, `fk_requested_id`, `fk_file_id`, `fk_approved_user_id`) VALUES
+(62, 18, 8, 1),
+(61, 18, 7, 1),
+(60, 18, 3, 1),
+(59, 17, 10, 1),
+(58, 17, 8, 1),
+(57, 17, 7, 1),
+(56, 17, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -220,11 +236,13 @@ INSERT INTO `tbl_requested_files` (`requested_file_id`, `fk_requested_id`, `fk_f
 
 CREATE TABLE `tbl_requests` (
   `request_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `comment` text NOT NULL,
   `company_id` int(11) NOT NULL,
   `department` varchar(50) NOT NULL,
   `file_title` varchar(100) NOT NULL,
   `requested_date` date NOT NULL,
+  `date_approved` date NOT NULL,
   `request_status` varchar(50) NOT NULL DEFAULT 'Pending'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -232,19 +250,33 @@ CREATE TABLE `tbl_requests` (
 -- Dumping data for table `tbl_requests`
 --
 
-INSERT INTO `tbl_requests` (`request_id`, `comment`, `company_id`, `department`, `file_title`, `requested_date`, `request_status`) VALUES
-(2, 'sample comment', 2, 'Human Resources', 'hr file', '2020-01-20', 'Pending'),
-(3, 'I need file for finance', 3, 'Finance', 'finance file', '2020-01-20', 'Pending'),
-(4, 'I need the document for the HR file', 2, 'Human Resources', 'Hr File', '2020-01-21', 'Completed'),
-(5, 'cccc', 1, 'HR Department', 'Test', '0000-00-00', 'Pending'),
-(6, 'ccccc', 1, 'HR Department', 'ttt', '0000-00-00', 'Pending'),
-(7, 'Cccccc', 1, 'Finance Department', 'tttXDXD', '0000-00-00', 'Pending'),
-(8, 'Cccccc', 1, 'Finance Department', 'tttXDXD', '0000-00-00', 'Pending'),
-(9, 'sample ', 1, 'Finance', 'test file', '2020-02-10', 'Pending'),
-(10, 'samp here', 2, 'Human Resources', 'test file 2', '2020-02-10', 'Pending'),
-(11, 'asdasdasd', 1, 'Human Resources', 'asdasd', '2020-02-10', 'Pending'),
-(12, 'sample', 1, 'Finance', 'Sample File', '2020-02-18', 'Completed'),
-(13, 'hi please give me this file', 1, 'Finance', 'File Sample', '2020-02-18', 'Completed');
+INSERT INTO `tbl_requests` (`request_id`, `user_id`, `comment`, `company_id`, `department`, `file_title`, `requested_date`, `date_approved`, `request_status`) VALUES
+(17, 11, 'sample', 1, 'Human Resources', 'test file 1', '2020-02-25', '2020-02-25', 'Completed'),
+(18, 31, 'test', 1, 'Finance', 'finance 1', '2020-02-25', '2020-02-25', 'Completed'),
+(19, 11, 'test file', 1, 'Human Resources', 'test file 3', '2020-02-25', '0000-00-00', 'Processing'),
+(20, 11, 'test 4', 1, 'Finance', 'test file 4 ', '2020-02-25', '0000-00-00', 'Pending');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_restricted_user`
+--
+
+CREATE TABLE `tbl_restricted_user` (
+  `restricted_id` int(11) NOT NULL,
+  `file_id` int(11) NOT NULL,
+  `request_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `status` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_restricted_user`
+--
+
+INSERT INTO `tbl_restricted_user` (`restricted_id`, `file_id`, `request_id`, `user_id`, `status`) VALUES
+(5, 7, 17, 11, 'Restricted'),
+(10, 3, 18, 31, 'Restricted');
 
 -- --------------------------------------------------------
 
@@ -278,7 +310,8 @@ INSERT INTO `tbl_users` (`user_id`, `username`, `password`, `user_status`, `user
 (25, 'cbmc2', '$2y$10$I8sA9Qlzvh3TludsiKIKEO6aAdWuncs2OhE/78V4mICUxDMawX8HG', 1, 'cbmc', 1),
 (28, 'test33s', '$2y$10$PEjBZEQB4R9asaI5iaDoZOCPjPaJrFZ1niPk0vtU6KTQSdT/PC1ra', 1, 'cbmc', 1),
 (29, 'test1233', '$2y$10$LPJTirvMXfOVuQdO1dlES.LDZ1j6yLGS7CVedpdWmcRN4NX0C./Wy', 1, 'subsidiary', 1),
-(30, 'gerald', '$2y$10$CpH.hdF.vWZeaPgyZm/tFurMdNB7/XL7zp5xufy3aCEQ.5fdHoO3C', 1, 'cbmc', 1);
+(30, 'gerald', '$2y$10$CpH.hdF.vWZeaPgyZm/tFurMdNB7/XL7zp5xufy3aCEQ.5fdHoO3C', 1, 'cbmc', 1),
+(31, 'opet', '$2y$10$LF5oGws0GiyjKROjna/Ote0Z4OxCVQUYMX4rnCnmjdWVFiEjiQqWi', 1, 'investor', 1);
 
 -- --------------------------------------------------------
 
@@ -302,7 +335,8 @@ INSERT INTO `tbl_user_company` (`user_company_id`, `user_id`, `company_id`, `sta
 (2, 16, 2, 'joined'),
 (3, 26, 1, 'joined'),
 (11, 11, 1, 'joined'),
-(10, 29, 3, 'joined');
+(10, 29, 3, 'joined'),
+(12, 31, 1, 'joined');
 
 -- --------------------------------------------------------
 
@@ -356,18 +390,19 @@ CREATE TABLE `tbl_user_details` (
 
 INSERT INTO `tbl_user_details` (`user_detail_id`, `user_id`, `firstname`, `lastname`, `email_address`, `contact_number`, `profile_picture`, `created_date`, `updated_date`, `company_id`) VALUES
 (1, 1, 'Richard', 'Cruz', 'admin@admin.com', '09123456789', 'profile-1581329524.png', '2020-01-15 00:00:00', '2020-02-10 11:12:24', 0),
-(7, 11, 'Juan', 'Dela Cruz', 'juandelacruz@gmail.com', '09123456789', 'profile-1581328061.png', '2020-01-16 09:25:57', '2020-02-10 10:46:04', 1),
+(7, 11, 'Juan', 'Dela Cruz', 'prospteam@gmail.com', '09123456789', 'profile-1581328061.png', '2020-01-16 09:25:57', '2020-02-10 10:46:04', 1),
 (8, 12, 'John', 'Doe', 'example@proweaver.com', 'Uy', '', '2020-01-17 06:23:52', '0000-00-00 00:00:00', 1),
 (9, 13, 'John', 'Smith', 'john@gmail.com', '0945609', '', '2020-01-22 08:09:05', '0000-00-00 00:00:00', 0),
 (10, 14, 'webweb', 'webweb', 'webweb@test.com', 'webweb', '', '2020-01-22 08:17:39', '0000-00-00 00:00:00', 0),
-(11, 15, 'John', 'Doe', 'example@example.com', '09123456789', 'profile-1581329375.png', '2020-01-22 08:47:10', '2020-02-10 11:09:26', 0),
+(11, 15, 'John', 'Doe', 'web2.juphetvitualla@gmail.com', '09123456789', 'profile-1581329375.png', '2020-01-22 08:47:10', '2020-02-10 11:09:26', 0),
 (12, 16, 'Jessie', 'Joe', 'sub@assd.com', '123456', '', '2020-01-22 08:47:10', '2020-01-22 08:47:10', 1),
 (13, 25, 'sample', 'sample', 'sample@ssample.com', '1234', '', '2020-02-13 03:56:25', '0000-00-00 00:00:00', 0),
 (14, 26, 'Jamess', 'Harden', 'james@asd.com', 'test', '', '2020-02-13 04:31:55', '0000-00-00 00:00:00', 0),
 (15, 27, 'Sample', 'Sample2', 'admin@admin.comssss', 'asdasd', '', '2020-02-13 05:00:58', '0000-00-00 00:00:00', 0),
 (16, 28, 'Axel', 'Axel2', 'axw@asd.com', '123456789', '', '2020-02-13 06:02:46', '2020-02-17 09:49:05', 0),
 (17, 29, 'Subsidiary12', 'Subsidiary12', 'admin@asd.com22', '12345678905', '', '2020-02-13 06:03:10', '2020-02-17 10:17:19', 0),
-(18, 30, 'Gerald', 'Anderson', 'gerald@123.com', '1234568', '', '2020-02-17 10:20:36', '0000-00-00 00:00:00', 0);
+(18, 30, 'Gerald', 'Anderson', 'gerald@123.com', '1234568', '', '2020-02-17 10:20:36', '0000-00-00 00:00:00', 0),
+(19, 31, 'Juphet', 'Vitualla', 'lll@aasd.com', '1234567', '', '2020-02-17 10:20:36', '', 0);
 
 --
 -- Indexes for dumped tables
@@ -434,6 +469,12 @@ ALTER TABLE `tbl_requests`
   ADD PRIMARY KEY (`request_id`);
 
 --
+-- Indexes for table `tbl_restricted_user`
+--
+ALTER TABLE `tbl_restricted_user`
+  ADD PRIMARY KEY (`restricted_id`);
+
+--
 -- Indexes for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
@@ -485,7 +526,7 @@ ALTER TABLE `tbl_departments`
 -- AUTO_INCREMENT for table `tbl_files`
 --
 ALTER TABLE `tbl_files`
-  MODIFY `files_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `files_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `tbl_forgotpassword_keys`
 --
@@ -505,22 +546,27 @@ ALTER TABLE `tbl_registration_files`
 -- AUTO_INCREMENT for table `tbl_requested_files`
 --
 ALTER TABLE `tbl_requested_files`
-  MODIFY `requested_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `requested_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 --
 -- AUTO_INCREMENT for table `tbl_requests`
 --
 ALTER TABLE `tbl_requests`
-  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+--
+-- AUTO_INCREMENT for table `tbl_restricted_user`
+--
+ALTER TABLE `tbl_restricted_user`
+  MODIFY `restricted_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `tbl_user_company`
 --
 ALTER TABLE `tbl_user_company`
-  MODIFY `user_company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `user_company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `tbl_user_dept_details`
 --
@@ -530,7 +576,7 @@ ALTER TABLE `tbl_user_dept_details`
 -- AUTO_INCREMENT for table `tbl_user_details`
 --
 ALTER TABLE `tbl_user_details`
-  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;COMMIT;
+  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

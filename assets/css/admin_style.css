@@ -61,3 +61,11 @@
 
 .main_con #myTable2_wrapper select.form-control.custom-select { background: #c5a36f; border-color: #c5a36f; color: white; }
 .main_con #myTable3_wrapper select.form-control.custom-select { background: #c5a36f; border-color: #c5a36f; color: white; }
+
+.act_btn{color:#222; margin: 0 10px;}
+
+@media only screen
+and (max-width : 767px) {
+  .main_con  .row.page-titles .col-md-7{  display: block !important; text-align: left !important; margin: 14px 0 0;}
+  
+}

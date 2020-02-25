@@ -30,13 +30,13 @@
                                 <label class="control-label">Select a File</label><br>
                                 <input id="upload_file" required name="file" type="file" class="form-control">
                                 <label for="upload_file"><i class="fa fa-upload"></i>  Browse a file</label>
-                                <span class="text-success hasFile" style="display:none;"><i class="fa fa-check"></i>  </span> 
+                                <span  class="text-success hasFile" style="display:none;color: #282b29 !important; font-weight: bold; font-size: 14px;">  </span> 
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="control-label">Remarks / Additional Information</label>
-                                <textarea v-model="frmdata.remarks" name="remarks" required placeholder="Enter additional information (Optional)" name="name"rows="4" class="form-control"></textarea>
+                                <textarea v-model="frmdata.remarks" name="remarks" placeholder="Enter additional information (Optional)" name="name"rows="4" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
@@ -63,6 +63,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button @click="show_restrict_user()" type="button" class="btn btn-theme2">Restrict User</button>
+                            <hr>
+                        </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <input type="hidden" name="file_id" v-model="selected_file_id">
@@ -85,7 +89,7 @@
                                 <label class="control-label">Select a File</label><br>
                                 <input id="upload_file2" name="file" type="file" class="form-control">
                                 <label for="upload_file2"><i class="fa fa-upload"></i>  Browse a file</label>
-                                <span class="text-success hasFile" style="display:none;"><i class="fa fa-check"></i>  </span> 
+                                <span  class="text-success hasFile" style="display:none;color: #282b29 !important; font-weight: bold; font-size: 14px;">  </span> 
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -120,10 +124,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-12 text-right">
-                            <button @click="show_restrict_user()" class="btn btn-theme2">Restrict User</button>
-                            <hr>
-                        </div>
+                       
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">File Title</label>

@@ -127,10 +127,10 @@ var myapp = new Vue({
 		submit_approve_form(){
 			let self = this;
 			if(self.check_request_id.length == 0){
-				self.s_alert("Please select atleast one file!", "error")
+				self.s_alert("Please select at least one file", "error")
 				return;
 			}
-			self.confirm_alert("Are you sure to save this file(s) and approve this request?").then(res =>{
+			self.confirm_alert("Are you sure to approve this request?").then(res =>{
 				if(res == 200){
 					let frmdata = new FormData();
 					let fdata = {
@@ -157,6 +157,18 @@ var myapp = new Vue({
 			}
 			return "";
 		},
+		is_file_viewable(file){
+			let result = true;
+			let file_exe =  file.split('.').pop();
+			let viewable_exe = ["png", "pdf", "jpg", "jpeg"];
+			let res = viewable_exe.find(exe => exe == file_exe);
+			console.log(res, file_exe)
+			if(res == "" || res == undefined){
+				result = false;
+			}
+			return result;
+			
+		},
 		check_handler(file_id ){
 			let self = this;
 			let fdata ={
@@ -175,7 +187,7 @@ var myapp = new Vue({
 			axios.post(`${self.base_url}admin/api_check_has_file`, frmdata).then(res =>{
 				if(res.data.code == 200){
 					get_node.checked = false;
-					self.s_alert("This investor has already this file", "error");
+					self.s_alert("This investor already has this file", "error");
 				}
 				else{
 					self.check_request_id.push(file_id)
@@ -184,8 +196,6 @@ var myapp = new Vue({
 				
 			})
 			
-			
-
 
 		},
 		<?= $this->load->view("modules/swal_vue_function");?>
@@ -216,4 +226,59 @@ var myapp = new Vue({
 		
 	}
 })
+	// jquery in responsive events
+	$(document).ready(function(){
+		let is_reposive = false;
+		let is_reposive2 = false;
+		setResponsive();
+		$(window).resize(function(){
+			setResponsive();
+		})
+
+		function setResponsive(){
+			let myTable = $("#myTable thead th:last-child");
+			let myTable2 = $("#myTable2 thead th:last-child");
+			setTimeout(() => {
+				is_reposive = (myTable.css("display") == "none")
+				is_reposive2 = (myTable2.css("display") == "none")
+			}, 1200);
+			
+		}
+		$(document).on("click", ".view_request_details", function(){
+			if(is_reposive){
+				let r_id = $(this).attr("data");
+				myapp.view_request_details(r_id);
+			}
+		})
+		$(document).on("click", ".show_approve_request_frm", function(){
+			if(is_reposive){
+				let r_id = $(this).attr("data");
+				myapp.show_approve_request_frm(r_id);
+			}
+		})
+		$(document).on("click", ".show_update_status", function(){
+			if(is_reposive){
+				let r_id = $(this).attr("data");
+				myapp.show_update_status(r_id);
+			}
+		})
+
+		$(document).on("click", ".show_delete_user", function(){
+			if(is_reposive){
+				let r_id = $(this).attr("data");
+				alert(r_id)
+			}
+		})
+		$(document).on("click", ".show_completed_details", function(){
+			if(is_reposive2){
+				let r_id = $(this).attr("data");
+				myapp.show_completed_details(r_id);
+			}
+		})
+
+
+	})
+
+
 </script>
+

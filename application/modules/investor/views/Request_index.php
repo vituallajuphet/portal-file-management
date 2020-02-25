@@ -114,9 +114,15 @@
                                 <div class="col-md-12" v-if="modaldata.attachment_files != undefined && modaldata.attachment_files !='' ">
                                     <div class="form-group">
                                         <label for="company">Attached File(s):</label>
-                                        <div class="attached-file">
-                                          <a v-for="files in modaldata.attachment_files" title="Download File" :href="base_url+'uploaded_files/'+files.file_name" download>{{files.file_name}} <i class="fa fa-download"></i></a>
+                                        <div class="attached-file mb-3">
+                                          <a v-for="files in modaldata.attachment_files" title="Download File" :href="base_url+'uploaded_files/'+files.file_name" download>{{files.file_title}} <i class="fa fa-download"></i></a>
                                         </div>
+                                        
+                                        <label v-show="modaldata.restricted.length != 0" for="company">Restricted File(s):</label>
+                                        <div class="attached-file">
+                                          <a v-for="files in modaldata.restricted" title="Resticted" href="javascript:;">{{files.file_title}} </a>
+                                        </div>
+                                       
                                     </div>
                                 </div>
                             </div>

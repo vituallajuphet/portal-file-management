@@ -48,6 +48,7 @@
            this.modaldata.requested_date = res.requested_date;
            this.modaldata.comment = res.comment;
            this.modaldata.attachment_files = res.attachments;
+           this.modaldata.restricted = res.restricted;
            $("#verticalcenter").modal()
          }
       },

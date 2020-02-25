@@ -418,7 +418,7 @@ class Admin extends MY_Controller {
 
 	public function get_restricted_user($file_id){
 		$response = array("code"=>204, "data"=> []);
-		$par["select"] = "user.user_id, user.user_type, u_details.firstname, u_details.lastname, fk_requested_id, fk_file_id, req.request_status, req.department";
+		$par["select"] = "user.user_id, user.user_type, u_details.firstname, u_details.lastname, fk_requested_id, fk_file_id, req.request_status, req.department" ;
 		$par["where"] = "user.user_status = 1 AND user.user_type != 'admin' AND req_file.fk_file_id = $file_id";
 		$par["join"] = array( 
 			'tbl_user_details u_details' => 'user.user_id = u_details.user_id',
@@ -427,6 +427,17 @@ class Admin extends MY_Controller {
 		);
 		$res = getData('tbl_users user', $par, "obj");
 		if(!empty($res)){
+			$c = 0;
+			foreach ($res as $user) {
+				$par2["select"] ="*";
+				$par2["where"] ="user_id = $user->user_id AND file_id = $file_id";
+				$res[$c]->req_status ="Completed";
+				$res2 = getData("tbl_restricted_user", $par2, "obj");
+				if(!empty($res2)){
+					$res[$c]->req_status ="Restricted";
+				}
+				$c++;
+			}
 			$response = array("code"=>200, "data"=>$res);
 		}
 		echo json_encode($response);
@@ -460,7 +471,7 @@ class Admin extends MY_Controller {
 	// Manage Files Functions
 	public function save_file_data(){
 		$post = $this->input->post();
-		if(!has_empty($post)){
+		if(!empty($post)){
 			$settings['upload_path'] = "./uploaded_files/";
 			$file_name = "file-".time();
 			$settings['file_name'] = $file_name;
@@ -497,16 +508,32 @@ class Admin extends MY_Controller {
 
 	public function update_file_data(){
 		$post = get_post();
-		if(!has_empty($post)){
-			$settings['upload_path'] = "./uploaded_files/";
-			$file_name = "file-".time();
-			$settings['file_name'] = $file_name;
+		if(!empty($post)){
+			$file_id = $post["file_id"];
+			$where = "files_id = $file_id";
+			if(!empty($_FILES["name"])){
+				$settings['upload_path'] = "./uploaded_files/";
+				$file_name = "file-".time();
+				$settings['file_name'] = $file_name;
 
-			if(upload_file($_FILES, $settings)){
-				$file_id = $post["file_id"];
-				$where = "files_id = $file_id";
+				if(upload_file($_FILES, $settings)){
+					$set = array(
+						"file_name"=> $file_name.$this->upload->data('file_ext'),
+						"file_department"=> $post["department"],
+						"file_title"=> ucfirst($post["file_title"]),
+						"date_updated"=> date("Y-m-d"),
+						"remarks"=> $post["remarks"]
+					);
+					updateData("tbl_files", $set, $where);
+					swal_data("File Updated Successfully");
+				}
+				else{
+					$err = $this->upload->display_errors();
+					swal_data(strip_tags($err), "error");
+				}	
+			}
+			else{
 				$set = array(
-					"file_name"=> $file_name.$this->upload->data('file_ext'),
 					"file_department"=> $post["department"],
 					"file_title"=> ucfirst($post["file_title"]),
 					"date_updated"=> date("Y-m-d"),
@@ -515,10 +542,7 @@ class Admin extends MY_Controller {
 				updateData("tbl_files", $set, $where);
 				swal_data("File Updated Successfully");
 			}
-			else{
-				$err = $this->upload->display_errors();
-				swal_data(strip_tags($err), "error");
-			}
+			
 			redirect(base_url("admin/manage_files"));
 		}
 	}
@@ -548,7 +572,7 @@ class Admin extends MY_Controller {
 		$post = json_decode($this->input->post("frmdata"));
 		if(!empty($post->file_id)){
 			if(!empty($post->users_id)){
-				$par ["select"] = "request_id";
+				$par ["select"] = "request_id, user_id";
 				$par ["where_in"] = array(
 					"col" => "req.user_id",
 					"value" => $post->users_id
@@ -558,18 +582,24 @@ class Admin extends MY_Controller {
 				);
 				$par["where"] = "(req.request_status = 'Completed' AND req_file.fk_file_id = $post->file_id)";
 				$req_data = getData("tbl_requests req", $par, "obj");
+
+				// set restrictions
 				if(!empty($req_data)){
 					foreach ($req_data as $request) {
-						$set = array("request_status" => "Restricted");
-						$where = array("request_id" => $request->request_id);
-						updateData("tbl_requests", $set, $where);
+						$set = array(
+							"file_id" => $post->file_id,
+							"request_id" => $request->request_id,
+							"user_id" => $request->user_id,
+							"status" => "Restricted",
+						);
+						insertData("tbl_restricted_user", $set);
 					}
 					$response = array("code"=> 200);
 				}
 			}
 			// unrestrict
 			if(!empty($post->un_res_users_id)){
-				$par2 ["select"] = "request_id";
+				$par2 ["select"] = "request_id, user_id";
 				$par2 ["where_in"] = array(
 					"col" => "req.user_id",
 					"value" => $post->un_res_users_id
@@ -577,13 +607,16 @@ class Admin extends MY_Controller {
 				$par2["join"] = array(
 					"tbl_requested_files req_file" => "req_file.fk_requested_id = req.request_id"
 				);
-				$par2["where"] = "(req.request_status = 'Restricted' AND req_file.fk_file_id = $post->file_id)";
+				$par2["where"] = "(req_file.fk_file_id = $post->file_id)";
 				$req_data2 = getData("tbl_requests req", $par2, "obj");
 				if(!empty($req_data2)){
 					foreach ($req_data2 as $request) {
-						$set = array("request_status" => "Completed");
-						$where = array("request_id" => $request->request_id);
-						updateData("tbl_requests", $set, $where);
+						$where = array(
+							"file_id" => $post->file_id,
+							"request_id" => $request->request_id,
+							"user_id" => $request->user_id,
+						);
+						deleteData("tbl_restricted_user", $where);
 					}
 					$response = array("code"=> 200);
 				}
@@ -713,8 +746,24 @@ class Admin extends MY_Controller {
 			$set = array( "request_status" => $post->status );
 			$where = array("request_id" => $post->request_id);
 			updateData("tbl_requests", $set, $where);
+
+			if($this->will_send_email){
+				$par["select"] = "*";
+				$par["where"] = "req.request_id = $post->request_id";
+				$par["join"] =array(
+					"tbl_requests req" => "req.user_id = u_detail.user_id",
+				);
+				if($post->status == "Processing"){
+					$resp = getData("tbl_user_details u_detail", $par, "obj");
+					$app_txt = "Your requested file has been proccessed.";
+					$messge = $this->html_email($resp, $app_txt);
+					$is_sent = sendemail($resp[0]->email_address, $messge, "File Request", "CMBC Notification");
+				}
+			}
 			$response = array("code"=> 200, "data" => []);
 		}
+
+
 		echo json_encode($response);
 	}
 
@@ -749,9 +798,10 @@ class Admin extends MY_Controller {
 				$par["join"] =array(
 					"tbl_requests req" => "req.user_id = u_detail.user_id",
 				);
+
 				$resp = getData("tbl_user_details u_detail", $par, "obj");
-				$messge = $this->html_email($resp[0]->file_title);
-				$is_sent = sendemail($resp[0]->email_address, $messge);
+				$messge = $this->html_email($resp);
+				$is_sent = sendemail("prospteam@gmail.com", $messge, "File Request", "CMBC Notification");
 			}
 		}
 		echo json_encode($response);
@@ -780,14 +830,42 @@ class Admin extends MY_Controller {
 	}
 	
 	// hmtl format
-	private function html_email($file_name){
+	private function html_email($arr, $msg ="Your requested file has been approved."){
 		$html ="
 			<div>
-				Your requested file has been approved <br>
-				Requested File Title: <strong> $file_name</strong>
+				Hi ".$arr[0]->firstname.",
+				<br><br>
+				Requested File: ".$arr[0]->file_title." <br><br>
+				$msg
+				<br><br><br>
+				Sincerely, <br>
+				".$arr[0]->department."
 			</div>
 		";
 		return $html;
+	}
+
+	public function sent_test_email(){
+		exit;
+		 $object = (object) [
+				'email_address' => 'sample@com',
+				'firstname' => "opet",
+				'department' => "HR",
+				'requested_file' => "test file",
+		 ];
+		 $arr = [$object];
+
+	
+
+		$messge = $this->html_email($arr);
+		$is_sent = sendemail("prospteam@gmail.com", $messge, "File Request", "CMBC Notification");
+		if($is_sent){
+			echo 1;	
+		}else{
+			echo 2;
+		}
+
+
 	}
 
 
