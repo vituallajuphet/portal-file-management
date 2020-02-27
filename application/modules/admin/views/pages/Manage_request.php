@@ -51,9 +51,10 @@
                                                     <td>{{req.firstname + ' '+  req.lastname}}</td>
                                                     <td>{{req.requested_date}}</td>
                                                     <td class="td-manage-file">
-                                                       <a class="view_request_details act_btn" :data="req.request_id" href="javascript:;" @click="view_request_details(req.request_id)" title="View Details" ><i class="fas fa-eye"></i></a>
+                                                       <a class="view_request_details act_btn" :data="req.request_id" href="javascript:;" @click="view_request_details(req.request_id)" title="View Details" ><i class="fa fa-eye"></i></a>
                                                         <a class="show_approve_request_frm act_btn" :data="req.request_id" @click="show_approve_request_frm(req.request_id)" v-if="req.request_status != 'Pending'" href="javascript:;" title="Upload file to approve"><i class="fas fa-upload"></i></a>
-                                                        <a :data="req.request_id"  class="text-danger show_delete_user" title ="Delete Request" href="javascript:;" ><i class="fas fa-trash"></i></a>
+                                                        <a class="act_btn" style="cursor:not-allowed" v-else-if="req.request_status == 'Pending'" href="javascript:;" title="Upload file to approve"><i class="fas fa-upload"></i></a>
+                                                        <a :data="req.request_id"  class="text-danger show_delete_request act_btn" title ="Delete Request" href="javascript:;" :data="req.request_id" @click="show_delete_request(req.request_id)" ><i class="fas fa-trash"></i></a>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -87,7 +88,7 @@
                                                     <td class="td-manage-file">
                                                         <a class="act_btn show_completed_details" :data="req.request_id"  href="javascript:;" @click="show_completed_details(req.request_id)" title="View Details" ><i class="fas fa-eye"></i></a>
                                                         <a class="act_btn"  href="javascript:;" title="Edit"><i class="fas fa-edit"></i></a>
-                                                        <a class="text-danger" title ="Delete Request" href="javascript:;" ><i class="fas fa-trash"></i></a>
+                                                        <a class="text-danger show_delete_request act_btn" :data="req.request_id" @click="show_delete_request(req.request_id)" title ="Delete Request" href="javascript:;" ><i class="fas fa-trash"></i></a>
                                                     </td>
                                                 </tr>
                                             </tbody>

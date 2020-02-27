@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Admin extends MY_Controller {
 	
 	protected $will_send_email = true;
+	protected $http_response   = array("code"=> 204, "data" => [], "message"=>"");
 
 	public function __construct(){
 		parent::__construct();
@@ -14,6 +15,7 @@ class Admin extends MY_Controller {
 		redirect(base_url("admin/manage_users"));
 
 	}
+
 	public function profile(){
 
 		$data["title"] 		= "Admin - Profile";
@@ -86,7 +88,9 @@ class Admin extends MY_Controller {
 		$data["title"] ="Admin - Investors";
 		$data["page_name"] ="investors";
 		$data['has_header']="header_index.php";
-		$this->load_admin_page('includes/development',$data);
+		$data['has_footer']="includes/manage_investors_footer";
+		// $data["has_mod"] ="modal/manage_file_modal";
+		$this->load_admin_page('pages/Manage_investors',$data);
 
 	}
 
@@ -939,12 +943,31 @@ class Admin extends MY_Controller {
 		echo json_encode($response);
 	}
 
+	public function api_delete_request(){
+
+		$post = $this->input->post();
+
+		if(!empty($post)){
+			$request_id = $post["request_id"];
+
+			$where 	 = "request_id = {$request_id}";
+			$set	 = array( "request_status" => "Deleted");
+			updateData("tbl_requests", $set, $where);
+
+			$this->http_response = array("code" => 200);
+
+		}
+
+		echo json_encode($this->http_response);
+	}
+
 	private function get_files_request($status="", $result= "json"){
 		$response = array("code"=> 204, "data" => []);
 		$par["select"] ="request_id, req.user_id, comment, req.company_id, req.department, 	file_title, requested_date, request_status, 					firstname, lastname, requested_date, comp.company_name, req.date_approved";	
+		$par["where"] ="req.request_status != 'Deleted'";
 
 		if(!empty($status)){
-			$par["where"] ="req.request_status = '$status'";
+			$par["where"] ="req.request_status = '$status' AND req.request_status != 'Deleted'";
 		}
 
 		$par["join"] = array(
@@ -967,6 +990,30 @@ class Admin extends MY_Controller {
 		}
 
 	}
+
+
+	// Manage Investors
+
+	public function api_get_investors(){
+
+		$response = array("code"=>204, "data"=> []);
+
+		$par["select"] 	= "*";
+		$par["where"] 	= "user.user_type = 'investor'";
+		$par["join"]	= array( 
+			'tbl_user_details user_detail'	=> 'user.user_id = user_detail.user_id', 
+			'tbl_user_company user_comp'    => 'user_comp.user_id = user.user_id',  
+			'tbl_companies comp'    	=> 'comp.company_id = user_comp.company_id',  
+		);
+		$res = getData('tbl_users user', $par);
+
+		if(!empty($res)){
+			$response = array("code"=>200, "data"=> $res);
+		}
+
+		echo json_encode($response);
+
+	}
 	
 	// hmtl format
 	private function html_email($arr, $msg ="Your requested file has been approved."){
@@ -986,6 +1033,7 @@ class Admin extends MY_Controller {
 		return $html;
 
 	}
+	
 
 	// for testing only
 	public function sent_test_email(){

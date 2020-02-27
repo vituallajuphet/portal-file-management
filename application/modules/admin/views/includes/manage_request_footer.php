@@ -82,15 +82,30 @@ var myapp = new Vue({
 		show_completed_details(req_id){
 			let self = this;
 			let req_file = self.completed_files.find(file => file.request_id == req_id);
-			// let comp_files = self.completed_files.find(file => file.request_id = req_id);
 			axios.get(`${self.base_url}admin/api_get_approved_request/${req_id}`).then(res =>{
 				let resp = res.data;
 				if(resp.code == 200){
 					req_file.file_data = resp.data
 					self.selected_completed_file = req_file;
-					 $("#view_completed_files").modal();
+					$("#view_completed_files").modal();
 				}
 			})	
+		},
+		show_delete_request(request_id){ //show delete alert 
+			let self = this;
+
+			self.confirm_alert("Are you sure to delete this request?").then(result => {
+				let form_data = new FormData();
+				form_data.append("request_id", request_id);
+
+				axios.post(`${self.base_url}admin/api_delete_request`, form_data).then(response =>{
+					if(response.data.code == 200){
+						self.s_alert("Deleted Successfully", "success");
+						self.page_reload(1500);
+					}
+				})
+
+			})
 		},
 		view_request_details(req_id){
 			let self = this;
@@ -158,11 +173,11 @@ var myapp = new Vue({
 			return "";
 		},
 		is_file_viewable(file){
-			let result = true;
-			let file_exe =  file.split('.').pop();
+			let result 		 = true;
+			let file_exe	 =  file.split('.').pop();
 			let viewable_exe = ["png", "pdf", "jpg", "jpeg"];
-			let res = viewable_exe.find(exe => exe == file_exe);
-			console.log(res, file_exe)
+			let res			 = viewable_exe.find(exe => exe == file_exe);
+
 			if(res == "" || res == undefined){
 				result = false;
 			}
@@ -276,6 +291,12 @@ var myapp = new Vue({
 			}
 		})
 
+		$(document).on("click", ".show_delete_request", function(){
+			if(is_reposive || is_reposive2){
+				let r_id = $(this).attr("data");
+				myapp.show_delete_request(r_id);
+			}
+		})
 
 	})
 
