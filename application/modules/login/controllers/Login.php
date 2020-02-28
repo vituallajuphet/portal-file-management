@@ -49,7 +49,10 @@ class Login extends MY_Controller {
 						$msg = array( "err"=>"error", "message" => "Email Address or Username is already used." );
 					}else{
 						$settings['upload_path'] = "./assets/registration_files/";
-						$filepath = $settings['upload_path'].$_FILES["file"]["name"];
+						$file_name = "register-file-".time();
+						$settings['file_name'] 	 = $file_name;
+						$ext = $this->get_file_exe();
+						$filepath = $settings['upload_path'].$file_name.".".$ext;
 						if(file_exists($filepath)){
 							if(empty($_FILES["file"]["name"])){
 								$msg = array( "err"=>"error", "message" => "Please upload the required documents.");
@@ -81,9 +84,8 @@ class Login extends MY_Controller {
 								$this->db->insert("tbl_user_details",$set);
 								$set = array(
 									'user_id'=> $user_id,
-									'file_name'=> $_FILES["file"]["name"],
+									'file_name'=> $file_name.$this->upload->data('file_ext'),
 									'status'=> 1,
-									'approved'=> 0,
 								);
 								$this->db->insert("tbl_registration_files",$set);
 								$msg = array( "err"=>"success", "message" => "Registered Successfully");
@@ -291,22 +293,29 @@ class Login extends MY_Controller {
 	}
 	
 	// test function
-	public function test_here(){
-		// $content ="<h1>sample</h1>";
-		// if(sendemail("prospteam@gmail.com", $content)){
-			// 	echo 1;
-			// }else{
-				// 	echo 2;
-				// }
-				$par["select"] = "*";
-				$par["where"] = array("tbl_user_company.user_id" => 11);
-				$par["join"] = array("tbl_companies" => "tbl_companie.company_id = tbl_user_company.company_id");
-				$res = $this->MY_Model->getRows('tbl_user_company',$par);
-				echo '<pre>';
-				print_r($res);
-				echo '</pre>';
-				exit;
-			}
-			
-			
+		public function test_here(){
+	// $content ="<h1>sample</h1>";
+	// if(sendemail("prospteam@gmail.com", $content)){
+		// 	echo 1;
+		// }else{
+			// 	echo 2;
+			// }
+			$par["select"] = "*";
+			$par["where"] = array("tbl_user_company.user_id" => 11);
+			$par["join"] = array("tbl_companies" => "tbl_companie.company_id = tbl_user_company.company_id");
+			$res = $this->MY_Model->getRows('tbl_user_company',$par);
+			echo '<pre>';
+			print_r($res);
+			echo '</pre>';
+			exit;
 		}
+
+		public function get_file_exe(){
+			$path = $_FILES['image']['name'];
+			$ext = pathinfo($path, PATHINFO_EXTENSION);
+
+			return $ext;
+		}
+			
+			
+	}

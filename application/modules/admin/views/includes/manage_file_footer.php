@@ -10,44 +10,43 @@ var hasFile = false;
 </script>
 
 <script>
-let selected_user_ids =[];
-let selected_un_restrict_ids = [];
-$(document).ready(function(){
-	$("#upload_file").change(function(e){
-		let filename =e.target.files[0].name;
-		hasFile = true;
-		$(".hasFile").show().html(filename);
-	})
-	$("#upload_file2").change(function(e){
-		let filename =e.target.files[0].name;
-		hasFile = true;
-		$(".hasFile").show().html(filename);
-	})
+	let selected_user_ids =[];
+	let selected_un_restrict_ids = [];
+	$(document).ready(function(){
+		$("#upload_file").change(function(e){
+			let filename =e.target.files[0].name;
+			hasFile = true;
+			$(".hasFile").show().html(filename);
+		})
+		$("#upload_file2").change(function(e){
+			let filename =e.target.files[0].name;
+			hasFile = true;
+			$(".hasFile").show().html(filename);
+		})
 
-	
-	$(document).on("change", ".restrict_box", function(){
-		let selected_id = $(this).attr("data");
-		let is_checked = $(this)[0].checked;
-		if(is_checked){
-			selected_user_ids.push(selected_id)
-		}else{
-			selected_user_ids = selected_user_ids.filter(ids => ids != selected_id );
-		}
+		
+		$(document).on("change", ".restrict_box", function(){
+			let selected_id = $(this).attr("data");
+			let is_checked = $(this)[0].checked;
+			if(is_checked){
+				selected_user_ids.push(selected_id)
+			}else{
+				selected_user_ids = selected_user_ids.filter(ids => ids != selected_id );
+			}
+		})
+
+		$(document).on("change", ".un_restrict_box", function(){
+			let selected_id = $(this).attr("data");
+			let is_checked = $(this)[0].checked;
+			if(is_checked){
+				selected_un_restrict_ids.push(selected_id)
+			}else{
+				selected_un_restrict_ids = selected_un_restrict_ids.filter(ids => ids != selected_id );
+			}
+		})
+
+		
 	})
-
-	$(document).on("change", ".un_restrict_box", function(){
-		let selected_id = $(this).attr("data");
-		let is_checked = $(this)[0].checked;
-		if(is_checked){
-			selected_un_restrict_ids.push(selected_id)
-		}else{
-			selected_un_restrict_ids = selected_un_restrict_ids.filter(ids => ids != selected_id );
-		}
-	})
-
-	
-})
-
 </script>
 
 <script type="text/javascript" class="init">

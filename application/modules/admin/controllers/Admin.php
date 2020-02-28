@@ -85,11 +85,11 @@ class Admin extends MY_Controller {
 	
 	public function investors(){
 
-		$data["title"] ="Admin - Investors";
-		$data["page_name"] ="investors";
-		$data['has_header']="header_index.php";
-		$data['has_footer']="includes/manage_investors_footer";
-		// $data["has_mod"] ="modal/manage_file_modal";
+		$data["title"] 		= "Admin - Investors";
+		$data["page_name"]  = "investors";
+		$data['has_header'] = "header_index.php";
+		$data['has_footer'] = "includes/manage_investors_footer";
+		$data["has_mod"] 	= "modal/manage_investors_modal";
 		$this->load_admin_page('pages/Manage_investors',$data);
 
 	}
@@ -889,7 +889,12 @@ class Admin extends MY_Controller {
 					"tbl_requests req" => "req.user_id = u_detail.user_id",
 				);
 				if($post->status == "Processing"){
+
+					
+
 					$resp = getData("tbl_user_details u_detail", $par, "obj");
+					// sent notifucaton
+					send_notification($resp[0]->user_id, "Your request has been processed");
 					$app_txt = "Your requested file has been proccessed.";
 					$messge = $this->html_email($resp, $app_txt);
 					$is_sent = sendemail($resp[0]->email_address, $messge, "File Request", "CMBC Notification");
@@ -1001,14 +1006,128 @@ class Admin extends MY_Controller {
 		$par["select"] 	= "*";
 		$par["where"] 	= "user.user_type = 'investor'";
 		$par["join"]	= array( 
-			'tbl_user_details user_detail'	=> 'user.user_id = user_detail.user_id', 
-			'tbl_user_company user_comp'    => 'user_comp.user_id = user.user_id',  
-			'tbl_companies comp'    	=> 'comp.company_id = user_comp.company_id',  
+			'tbl_user_details user_detail'	=> 'user.user_id = user_detail.user_id'
 		);
-		$res = getData('tbl_users user', $par);
+		$result_users = getData('tbl_users user', $par, "obj");
 
-		if(!empty($res)){
-			$response = array("code"=>200, "data"=> $res);
+		if(!empty($result_users)){
+			
+			$c = 0;
+
+			foreach ($result_users as $user) {
+				$par2["select"] 	= "company_name, comp.company_id";
+				$par2["where"] 		= "user_id = $user->user_id";
+				$par2["join"]		= array(
+					"tbl_companies comp" => "comp.company_id = user_comp.company_id"
+				);
+				$companies = getData("tbl_user_company user_comp", $par2, "obj");
+
+				$par3["select"] 	= "file_name";
+				$par3["where"] 		= "user_id = $user->user_id";
+				$reg_files = getData("tbl_registration_files reg_files", $par3, "obj");
+
+				$result_users[$c]->companies = $companies;
+				$result_users[$c]->reg_file = $reg_files;
+				unset($result_users[$c]->password);
+
+				$c++;
+			}
+
+			$response = array("code"=>200, "data"=> $result_users);
+		}
+
+		echo json_encode($response);
+
+	}
+
+	public function api_approve_investor(){
+		
+		$response = array("code"=>204, "data"=> []);
+		$post = $this->input->post();
+
+		if(!empty($post)){
+			$set   = array("approved" => 1);
+			$where = "user_id  = {$post['user_id']} AND user_type = 'investor'";
+
+			updateData("tbl_users", $set, $where);
+
+			$response = array("code"=>200, "data"=> []);
+
+			if($this->will_send_email){
+				$par["where"] 		= "user_id = {$post['user_id']}";
+				$user_data    		= getData("tbl_user_details", $par, "obj");
+
+				// sent notificions helper
+				send_notification($user_data[0]->user_id, "Your account has been appoved.");
+
+				$message = "Hi {$user_data[0]->firstname}, <br><br>";
+				$message .= "Your account has been approved by the administrator. <br><br><br>";
+				$message .= "<a href='".base_url("login")."'>Click this link to login</a>";
+				sendemail("prospteam@gmail.com", $message , "Registration Approved", "CMBC Notification");
+			}
+		}
+
+		echo json_encode($response);
+
+	}
+
+	public function api_update_investor_status(){
+
+		$response	 = array("code"=>204, "data"=> []);
+		$user_id	 = $this->input->post("user_id");
+		$user_status = $this->input->post("user_status");
+
+		if(!empty($user_id) && isset($user_status)){
+			$set   = array("user_status" => $user_status);
+			$where = "user_id  = {$user_id} AND user_type = 'investor'";
+
+			updateData("tbl_users", $set, $where);
+
+			$response = array("code"=>200, "data"=> []);
+
+			if($this->will_send_email){
+				
+			}
+		}
+
+		echo json_encode($response);
+
+	}
+
+	public function api_assigned_company(){
+
+		$response	 = array("code"=>204, "data"=> []);
+
+		$post = json_decode($this->input->post("frmdata"));
+
+		if(!empty($post->user_id)){
+
+			if(!empty($post->comp_ids)){
+				
+				foreach ($post->comp_ids as $comp_id) {
+					$set = array(
+						"user_id" 	 => $post->user_id,
+						"company_id" => $comp_id,
+						"status" 	 => "joined",
+					);
+					insertData("tbl_user_company", $set);
+				}
+
+				$response	 = array("code"=>200, "data"=> []);
+			}
+
+			if(!empty($post->un_comp_ids)){
+
+				foreach ($post->un_comp_ids as $comp_id) {
+
+					$where = "user_id = {$post->user_id} AND company_id = $comp_id";
+					deleteData("tbl_user_company", $where);
+
+					$response	 = array("code"=>200, "data"=> []);
+				}
+
+			}
+
 		}
 
 		echo json_encode($response);

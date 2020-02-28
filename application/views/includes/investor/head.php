@@ -35,6 +35,8 @@
     ?>
 </head>
 
+    
+
 <body class="fix-header card-no-border fix-sidebar">
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
@@ -99,29 +101,68 @@
                         <!-- ============================================================== -->
                         <!-- Comment -->
                         <!-- ============================================================== -->
+                        <?php 
+                            $notifications = get_my_notifications();
+                            $noti_count = 0;
+                            if(!empty($notifications)){
+                                
+                                foreach ($notifications as $noti) {
+                                   if($noti->is_read == 0){
+                                       $noti_count ++;
+                                   }
+                                }
+                            }
+                            
+                        ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="icon-Bell"></i>
-                                <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+                                <?php 
+                                if($noti_count != 0){
+                                    ?>
+                                    <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+                                    <?php
+                                }
+                                ?>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown">
                                 <ul>
                                     <li>
-                                        <div class="drop-title">You have a notifications</div>
+                                        <div class="drop-title">Notifications</div>
                                     </li>
                                     <li>
                                         <div class="message-center">
                                             <!-- Message -->
-                                            <a href="#">
+                                            <?php 
+                                                $notifications = get_my_notifications();
 
-                                                <div class="mail-contnet">
-                                                    <h5>Admin</h5> <span class="mail-desc">Dummy text only</span> <span class="time">9:30 AM</span> </div>
-                                            </a>
-                                            <a href="#">
-                                                <div class="mail-contnet">
-                                                    <h5>John Doe</h5> <span class="mail-desc">Just see the my new admin!</span> <span class="time">9:30
-                                                        AM</span>
-                                                </div>
-                                            </a>
+                                                if(empty($notifications)){
+                                                    ?>
+                                                     <span class="empty_notification">You have no notifications</span>
+                                                    <?php
+                                                }
+                                                else{ 
+
+                                                    foreach ($notifications as $notify) {
+                                                        
+                                                        $readClass = ($notify->is_read == 0 ? "unread" : "");
+
+                                                        $user_heading = ($notify->user_type == "admin") ? "Administrator" : "$notify->user_type";
+                                                        $date = strtotime($notify->date_created);
+
+                                                        ?>
+                                                            <a href="#" class="noti-cont <?=$readClass?>">
+                                                                <div class="mail-contnet">
+                                                                    <h5><?= $user_heading;?></h5> <span class="mail-desc"><?= $notify->message?></span> <span class="time"> <?= date("Y-m-d h:m A", $date)?>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="read-icon <?=$readClass?>"></span>
+                                                            </a>
+                                                        <?php
+                                                    }
+
+                                                 }
+                                            ?>
+
                                         </div>
                                     </li>
                                     <li>

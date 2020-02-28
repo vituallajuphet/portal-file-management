@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Investor extends MY_Controller {
 	
 	// Replace to true to send email notifications
-	protected $willSendEmail = false;
+	protected $willSendEmail = true;
 
 	public function index(){
 		redirect(base_url("investor/files"));
@@ -94,7 +94,7 @@ class Investor extends MY_Controller {
 		$message_content = "For: $department[1] Department<br/>";
 		$message_content .="Investor name: ".$this->session->userdata('firstname')." ".$this->session->userdata('lastname')."<br><br>";
 		$message_content .="Message: ".$_POST['message'];
-		if($willSendEmail){
+		if($this->willSendEmail){
 			sendemail($department[0], $message_content,"Contact Department",null,null,$_POST['your_email'],false);
 		}
 		$this->session->set_flashdata("flash_data", array( "err"=>"success", "message" => "Message Sent"));
@@ -116,7 +116,7 @@ class Investor extends MY_Controller {
 			
 			$dept = explode("|",$post['department']);
 			
-			if($willSendEmail){
+			if($this->willSendEmail){
 				sendemail($comp_email,'An investor requested for a document.');
 				sendemail($dept[0],'A investor requested for a document.');
 			}

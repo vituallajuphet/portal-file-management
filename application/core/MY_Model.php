@@ -53,6 +53,7 @@ class MY_Model extends CI_Model {
         }
         (!empty($options['group'])) ? $this->db->group_by($options['group']) : null;
         (!empty($options['limit'])) ? $this->db->limit($options['limit'][0],$options['limit'][1]) : null;
+        (!empty($options['limit2'])) ? $this->db->limit($options['limit2'][0]) : null;
         (!empty($options['order'])) ? $this->db->order_by($options['order']) : null;
         $query = $this->db->get($table);
         switch ($result) {

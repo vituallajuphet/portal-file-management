@@ -210,7 +210,41 @@
 			$par["join"] = array("tbl_companies" => "tbl_companies.company_id = tbl_user_company.company_id");
             $companies =  $ci->MY_Model->getRows('tbl_user_company',$par, "obj");
 			return $companies;
-	}
+    }
+    
+    function get_my_notifications(){
+        $ci = & get_instance();
+        $user_id = $ci->session->userdata("user_id");
+        $par["select"] = "*";
+        $par["where"] = "fk_user_id_to = $user_id";
+        $par["limit2"] = [3];
+        $par["join"] = array(
+            "tbl_user_details user_d" => "user_d.user_id = noti.fk_user_id_from",
+            "tbl_users user" => "user_d.user_id = user.user_id",
+        );
+
+        $res = $ci->MY_Model->getRows("tbl_notification noti", $par, "obj");
+
+        return $res;
+    }
+
+    function send_notification($to_id, $message){
+
+        $ci = & get_instance();
+        $from_id = $ci->session->userdata("user_id");
+        date_default_timezone_set("Asia/Manila");
+        $set = array(
+            "message" => $message,
+            "fk_user_id_from" => $from_id,
+            "fk_user_id_to" => $to_id,
+            "is_read" => 0,
+            'date_created' => date("Y-m-d H:i:s"),
+            "notify_status" =>1
+        );
+
+        insertData("tbl_notification", $set);
+        
+    }
     
     
 ?>

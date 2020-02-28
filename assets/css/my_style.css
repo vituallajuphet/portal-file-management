@@ -26,7 +26,7 @@ body{background-color: #f3f5ed;}
 .topbar .navbar-collapse{background-color: #c5a36f;}
 
 .topbar .top-navbar{min-height: 55px!important;}
-.navbar-header{height: 55px;}
+.navbar-header{height: 56px;}
 .topbar .navbar-light .navbar-nav .nav-item > a.nav-link{color: #fff!important;font-weight: bold;}
 
 .topbar .top-navbar .navbar-nav > .nav-item > .nav-link{line-height: 36px;}
@@ -228,3 +228,15 @@ table.dataTable thead>tr>th {
 .file-content-link a{display: inline-block; background: #a88b33; padding: 5px 10px; color: #fff; border-radius: 11px; font-size: 15px; vertical-align: top;margin-right: 5px;}
 .file-content-link a:hover{opacity: .5;color: #fff;text-decoration: none;}
 #myTable .row-processed { background: #fff7cc; }
+
+.mailbox .message-center{min-height: 75px;}
+
+.empty_notification{font-size: 14px; display: block; text-align: center; margin: 9px 0 0; color: #dd7c7c;}
+
+.mail-contnet h5{color: #222; font-size: 15px; font-weight: bold;}
+
+.noti-cont{position: relative;}
+.read-icon{position: absolute; display: block; width: 10px; height: 10px;right: 14px; top: 50%; transform: translateY(-50%); border-radius: 50%;}
+.read-icon.unread{background: green;}
+
+.noti-cont.unread{background: #e9edf2;}
