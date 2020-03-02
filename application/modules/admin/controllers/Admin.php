@@ -57,7 +57,9 @@ class Admin extends MY_Controller {
 		$data["title"] ="Admin - Companies";
 		$data["page_name"] ="companies";
 		$data['has_header']="header_index.php";
-		$this->load_admin_page('includes/development',$data);
+		$data["has_mod"] = "modal/manage_company_modal";
+		$data['has_footer'] = "includes/manage_company_footer";
+		$this->load_admin_page('pages/Manage_company',$data);
 		
 	}
 	
@@ -1134,6 +1136,91 @@ class Admin extends MY_Controller {
 
 	}
 	
+	// manage companies functions
+
+	public function api_save_company(){
+
+		$response = array("code"=>204, "data"=> []);
+		$post 	  = json_decode($this->input->post("frmdata"));
+
+		if(!empty($post)){
+			if($this->is_exist_company($post)){
+				$response 	= array("code"=>204, "message"=> "Email address or company name was already used!");
+			}
+			else{
+				$set = array(
+					"company_name" 		=> $post->company_name,
+					"address" 			=> $post->address,
+					"company_contact"   => $post->company_contact,
+					"company_email" 	=> $post->company_email,
+					"remarks" 			=> $post->remarks,
+					"company_type" 		=> "subsidiary",
+					"company_status" 	=> "active",
+				);
+
+				insertData("tbl_companies", $set);
+				$response = array("code"=>200, "data"=> []);
+			}
+
+		}
+
+		echo json_encode($response);
+
+	}
+
+	private function is_exist_company($comp){
+		$par["select"] = "*";
+		$par["where"] = "company_name = '{$comp->company_name}' OR company_email = '{$comp->company_email}'";
+		
+		$res = getData("tbl_companies", $par);
+
+		if(!empty($res)){
+			return true;
+		}
+		return false;
+	}
+
+	public function api_delete_company(){
+		
+		$response 	= array("code"=>204, "data"=> []);
+		$company_id = $this->input->post("company_id");
+
+		if(!empty($company_id)){
+			$set = array("company_status" => "deleted");
+			$where = "company_id = {$company_id}";
+			updateData("tbl_companies", $set, $where);
+
+			$response = array("code"=>200, "data"=> []);
+		}
+		
+		echo json_encode($response);
+
+	}
+
+	public function api_update_company(){
+		
+		$response 	= array("code"=>204, "data"=> []);
+		$post 	  	= json_decode($this->input->post("frmdata"));
+		
+		if(!empty($post)){
+
+				$set = array(
+					"company_name" 		=> $post->company_name,
+					"address" 			=> $post->address,
+					"company_contact"   => $post->company_contact,
+					"company_email" 	=> $post->company_email,
+					"remarks" 			=> $post->remarks,
+				);
+				$where = "company_id = {$post->company_id}";
+				updateData("tbl_companies", $set, $where);
+
+				$response = array("code"=>200, "data"=> []);
+		}
+		
+		echo json_encode($response);
+
+	}
+
 	// hmtl format
 	private function html_email($arr, $msg ="Your requested file has been approved."){
 

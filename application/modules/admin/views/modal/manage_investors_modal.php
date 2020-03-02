@@ -9,7 +9,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="text-center mb-5">
-                                <img style="border: 1px solid #9c9ea2; border-radius: 50%;" :src="base_url+'assets/images/profiles/'+(frmdata.profile_picture != '' ? frmdata.profile_picture : 'dummyprofile.png')" alt="profile">
+                                <figure style="max-width:200px;margin: 0 auto;">
+                                    <img style="border: 1px solid #9c9ea2; border-radius: 50%;width:100%;" :src="base_url+'assets/images/profiles/'+(frmdata.profile_picture != '' ? frmdata.profile_picture : 'dummyprofile.png')" alt="profile">
+                                </figure>
                             </div>
                             <hr>
                         </div>

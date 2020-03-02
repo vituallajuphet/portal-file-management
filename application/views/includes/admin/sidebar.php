@@ -5,7 +5,7 @@
             <!-- Sidebar navigation-->
             <nav class="sidebar-nav">
                 <ul id="sidebarnav">
-                    <li> <a class="has-arrow waves-effect waves-dark" href="<?= base_url("admin/manage_users")?>" aria-expanded="false"><i class="icon-Administrator "></i><span class="hide-menu">Manage Company Users </span></a>
+                    <li> <a class="has-arrow waves-effect waves-dark" href="<?= base_url("admin/manage_users")?>" aria-expanded="false"><i class="icon-Administrator "></i><span class="hide-menu">Manage Subsidiary Users </span></a>
                     </li>
                     <li> <a class="has-arrow waves-effect waves-dark" href="<?= base_url("admin/department_user")?>" aria-expanded="false"><i class="icon-User"></i><span class="hide-menu">Manage Department Users </span></a>
                     </li>
