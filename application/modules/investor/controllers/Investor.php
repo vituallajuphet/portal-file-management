@@ -99,6 +99,9 @@ class Investor extends MY_Controller {
 		}
 		$this->session->set_flashdata("flash_data", array( "err"=>"success", "message" => "Message Sent"));
 		$res = array('msg'=>'Message sent', 'err' => false);
+
+		send_notification(1, "Investor send you an email.");
+
 		$this->session->set_flashdata('results', $res );
 		redirect(base_url("investor/files"));
 	}
@@ -117,8 +120,10 @@ class Investor extends MY_Controller {
 			$dept = explode("|",$post['department']);
 			
 			if($this->willSendEmail){
+				send_notification(1, "Investor requested a file");
 				sendemail($comp_email,'An investor requested for a document.');
 				sendemail($dept[0],'A investor requested for a document.');
+
 			}
 			
 			$set = array(

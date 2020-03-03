@@ -116,11 +116,11 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="icon-Bell"></i>
                                 <?php 
-                                if($noti_count != 0){
-                                    ?>
-                                    <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
-                                    <?php
-                                }
+                                    if($noti_count != 0){
+                                        ?>
+                                        <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+                                        <?php
+                                    }
                                 ?>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown">

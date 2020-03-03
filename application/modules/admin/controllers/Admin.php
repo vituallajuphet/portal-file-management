@@ -96,6 +96,17 @@ class Admin extends MY_Controller {
 
 	}
 
+	public function notifications(){
+
+		$data["title"] 		= "Admin - Notifications";
+		$data["page_name"]  = "notifications";
+		$data['has_header'] = "header_index.php";
+		$data['has_footer'] = "includes/notification_footer";
+		$data["has_mod"] 	= "modal/manage_notification_modal";
+		$this->load_admin_page('pages/Notifications',$data);
+
+	}
+
 	public function add_new_file($req_id){
 
 		$_SESSION["add_file"] = $req_id;
@@ -1219,6 +1230,38 @@ class Admin extends MY_Controller {
 		
 		echo json_encode($response);
 
+	}
+
+	// notifications
+
+	public function api_delete_notification(){
+
+		$response 	= array("code"=>204, "data"=> []);
+		$notify_id 	= $this->input->post("notify_id");
+		
+		if(!empty($notify_id)){
+
+				$set = array( "notify_status" => "deleted", );
+				$where = array( "notify_id" => $notify_id );
+				updateData("tbl_notification", $set, $where);
+				$response = array("code"=>200, "data"=> []);
+		}
+		
+		echo json_encode($response);
+
+	}
+
+	public function api_update_notification($notify_id){
+
+		if(!empty($notify_id)){
+
+				$set 	= array( "is_read" => 1 );
+				$where  = array( "notify_id" => $notify_id );
+				updateData("tbl_notification", $set, $where);
+				$response = array("code"=>200, "data"=> []);
+		}
+		
+		redirect(base_url("admin/notifications"));
 	}
 
 	// hmtl format

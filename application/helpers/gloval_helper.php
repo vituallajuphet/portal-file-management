@@ -216,7 +216,7 @@
         $ci = & get_instance();
         $user_id = $ci->session->userdata("user_id");
         $par["select"] = "*";
-        $par["where"] = "fk_user_id_to = $user_id";
+        $par["where"] = "fk_user_id_to = $user_id AND notify_status != 'deleted'";
         $par["limit2"] = [3];
         $par["join"] = array(
             "tbl_user_details user_d" => "user_d.user_id = noti.fk_user_id_from",

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2020 at 12:04 PM
+-- Generation Time: Mar 03, 2020 at 12:38 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -65,17 +65,31 @@ CREATE TABLE `tbl_companies` (
   `company_id` int(11) NOT NULL,
   `company_name` varchar(50) NOT NULL,
   `company_email` varchar(100) NOT NULL,
-  `company_type` varchar(100) NOT NULL
+  `address` varchar(100) NOT NULL,
+  `company_contact` varchar(100) NOT NULL,
+  `company_type` varchar(100) NOT NULL,
+  `company_status` varchar(55) NOT NULL,
+  `remarks` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbl_companies`
 --
 
-INSERT INTO `tbl_companies` (`company_id`, `company_name`, `company_email`, `company_type`) VALUES
-(1, 'Hap Chan', 'prospteam@gmail.com', 'subsidiary'),
-(2, 'Nuat Thai', 'prospteam@gmail.com', 'subsidiary'),
-(3, 'Nuat Thai - Marikina', 'prospteam@gmail.com', 'subsidiary');
+INSERT INTO `tbl_companies` (`company_id`, `company_name`, `company_email`, `address`, `company_contact`, `company_type`, `company_status`, `remarks`) VALUES
+(1, 'Hap Chan', 'prospteam@gmail.com', 'Malabon', '1234', 'subsidiary', 'active', 'test remakrs'),
+(2, 'Nuat Thai', 'prospteam@gmail.com', 'Cebu', '1234656', 'subsidiary', 'active', 'test remakrs'),
+(3, 'Nuat Thai - Marikina', 'prospteam@gmail.com', 'Marikina', '1235123123', 'subsidiary', 'active', 'test remakrs'),
+(4, 'proweaver', 'ased@asd.com', 'Test Addresss', 'asd', 'subsidiary', 'active', 'asdasdasd'),
+(5, 'Proweaver22', 'asd@asd.com', 'Proweaver2', 'asdasd', 'subsidiary', 'active', '123123'),
+(6, 'test c1', 'gasdasd2@asd.com', 'asdasd', 'asd', 'subsidiary', 'deleted', '123123'),
+(7, 'test 1', 'asd@asd.com', 'asd', '123123', 'subsidiary', 'deleted', 'asdteas'),
+(8, 'test c12', 'gasdasd2@asd.com', 'asdasd', 'asd', 'subsidiary', 'deleted', '123123'),
+(9, 'latest Company', 'gasdasd2@asd.com', 'asdasd', 'asd', 'subsidiary', 'deleted', '123123'),
+(10, 'test c12', 'gasdasd2@asd.com', 'asdasd', 'asd', 'subsidiary', 'deleted', ''),
+(11, 'latest Companys', 'gasdasd2@asd.com', 'asdasd', 'asd', 'subsidiary', 'deleted', ''),
+(12, 'latest Companys222', 'gasdasd2@asd.com', 'asdasd', 'asdasdasd', 'subsidiary', 'deleted', 'asdasd'),
+(13, 'asdasdasd', 'prospteam@gmail.com', 'asasdasd', 'asdasd', 'subsidiary', 'active', 'asdasd');
 
 -- --------------------------------------------------------
 
@@ -159,19 +173,22 @@ CREATE TABLE `tbl_notification` (
   `fk_user_id_from` int(11) NOT NULL,
   `fk_user_id_to` int(11) NOT NULL,
   `is_read` int(11) NOT NULL,
-  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `notify_status` varchar(20) NOT NULL
+  `notify_status` varchar(20) NOT NULL,
+  `date_created` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbl_notification`
 --
 
-INSERT INTO `tbl_notification` (`notify_id`, `message`, `fk_user_id_from`, `fk_user_id_to`, `is_read`, `date_created`, `notify_status`) VALUES
-(1, 'You account has been approved.', 1, 11, 0, '2020-02-28 07:07:07', '1'),
-(3, 'Your account has been appoved.', 1, 34, 1, '2020-02-28 10:58:45', '1'),
-(4, 'Your account has been appoved.', 1, 34, 1, '2020-02-28 10:58:46', '1'),
-(5, 'Your request has been processed', 1, 34, 0, '2020-02-28 11:02:39', '1');
+INSERT INTO `tbl_notification` (`notify_id`, `message`, `fk_user_id_from`, `fk_user_id_to`, `is_read`, `notify_status`, `date_created`) VALUES
+(1, 'You account has been approved.', 1, 11, 0, '1', '2020-03-03'),
+(3, 'Your account has been appoved.', 1, 34, 1, '1', '2020-03-17'),
+(4, 'Your account has been appoved.', 1, 34, 1, '1', '2020-03-16'),
+(5, 'Your request has been processed', 1, 34, 0, '1', '2020-03-15'),
+(6, 'Your account has been appoved.', 1, 34, 0, '1', '2020-03-12'),
+(7, 'Inverstor send a request file', 11, 1, 1, 'published', '2020-03-11'),
+(8, 'Investor requested a file', 11, 1, 1, '1', '2020-03-20');
 
 -- --------------------------------------------------------
 
@@ -253,9 +270,12 @@ CREATE TABLE `tbl_requests` (
 --
 
 INSERT INTO `tbl_requests` (`request_id`, `user_id`, `comment`, `company_id`, `department`, `file_title`, `requested_date`, `date_approved`, `request_status`) VALUES
+(24, 11, 'test', 2, 'Finance', 'test', '2020-03-03', '0000-00-00', 'Pending'),
 (23, 34, 'test', 2, 'Human Resources', 'test', '2020-02-28', '0000-00-00', 'Processing'),
 (22, 11, 'test', 1, 'Finance', 'finance test1', '2020-02-28', '0000-00-00', 'Pending'),
-(21, 11, 'I need finance File', 1, 'Finance', 'Finance File', '2020-02-28', '0000-00-00', 'Pending');
+(21, 11, 'I need finance File', 1, 'Finance', 'Finance File', '2020-02-28', '0000-00-00', 'Pending'),
+(25, 11, 'test', 2, 'Finance', 'test 123', '2020-03-03', '0000-00-00', 'Pending'),
+(26, 11, 'tes', 3, 'Human Resources', 'test2123', '2020-03-03', '0000-00-00', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -292,8 +312,8 @@ CREATE TABLE `tbl_users` (
 
 INSERT INTO `tbl_users` (`user_id`, `username`, `password`, `user_status`, `user_type`, `approved`) VALUES
 (1, 'admin', '$2y$10$.Nice1AanGpYvxxrX40kmeDtwoaeQDp5RhYzO3b5bZ57Msp5JxiIm', 1, 'admin', 1),
-(11, 'test', '$2y$10$LF5oGws0GiyjKROjna/Ote0Z4OxCVQUYMX4rnCnmjdWVFiEjiQqWi', 1, 'investor', 1),
-(34, 'test3', '$2y$10$LF5oGws0GiyjKROjna/Ote0Z4OxCVQUYMX4rnCnmjdWVFiEjiQqWi', 1, 'investor', 1),
+(11, 'test', '$2y$10$LF5oGws0GiyjKROjna/Ote0Z4OxCVQUYMX4rnCnmjdWVFiEjiQqWi', 0, 'investor', 1),
+(34, 'test3', '$2y$10$LF5oGws0GiyjKROjna/Ote0Z4OxCVQUYMX4rnCnmjdWVFiEjiQqWi', 0, 'investor', 1),
 (33, 'test2', '$2y$10$cZRjHKeuRbdL5YoczHXRB.TcdFUGSTklPRRQOw8cwsTi6uJyTkdAi', 1, 'cbmc', 1);
 
 -- --------------------------------------------------------
@@ -314,9 +334,11 @@ CREATE TABLE `tbl_user_company` (
 --
 
 INSERT INTO `tbl_user_company` (`user_company_id`, `user_id`, `company_id`, `status`) VALUES
+(24, 11, 3, 'joined'),
+(23, 11, 2, 'joined'),
 (21, 34, 2, 'joined'),
 (20, 34, 1, 'joined'),
-(19, 11, 1, 'joined');
+(22, 11, 1, 'joined');
 
 -- --------------------------------------------------------
 
@@ -486,7 +508,7 @@ ALTER TABLE `tbl_cmbc_dept`
 -- AUTO_INCREMENT for table `tbl_companies`
 --
 ALTER TABLE `tbl_companies`
-  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `tbl_departments`
 --
@@ -506,7 +528,7 @@ ALTER TABLE `tbl_forgotpassword_keys`
 -- AUTO_INCREMENT for table `tbl_notification`
 --
 ALTER TABLE `tbl_notification`
-  MODIFY `notify_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `notify_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `tbl_notifications`
 --
@@ -526,12 +548,12 @@ ALTER TABLE `tbl_requested_files`
 -- AUTO_INCREMENT for table `tbl_requests`
 --
 ALTER TABLE `tbl_requests`
-  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `tbl_restricted_user`
 --
 ALTER TABLE `tbl_restricted_user`
-  MODIFY `restricted_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `restricted_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --
@@ -541,7 +563,7 @@ ALTER TABLE `tbl_users`
 -- AUTO_INCREMENT for table `tbl_user_company`
 --
 ALTER TABLE `tbl_user_company`
-  MODIFY `user_company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `user_company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `tbl_user_dept_details`
 --
