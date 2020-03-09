@@ -96,7 +96,14 @@ class Admin extends MY_Controller {
 
 	}
 
-	public function notifications(){
+	public function notifications($nofi_id =""){
+
+		if(!empty($nofi_id) && is_numeric($nofi_id)){
+			$data["has_notify_id"] = $nofi_id;
+			$set 	= array( "is_read" => 1 );
+			$where  = array( "notify_id" => $nofi_id );
+			updateData("tbl_notification", $set, $where);
+		}
 
 		$data["title"] 		= "Admin - Notifications";
 		$data["page_name"]  = "notifications";
@@ -887,6 +894,7 @@ class Admin extends MY_Controller {
 	}
 	
 	public function api_update_request_status(){
+		
 		$post = json_decode($this->input->post("frmdata"));
 		$response = array("code"=> 204, "data" => []);
 
@@ -1283,7 +1291,6 @@ class Admin extends MY_Controller {
 
 	}
 	
-
 	// for testing only
 	public function sent_test_email(){
 

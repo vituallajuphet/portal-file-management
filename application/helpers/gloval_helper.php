@@ -13,18 +13,25 @@
         $route = $ci->router->fetch_class();
         $user_type = $ci->session->userdata("user_type");
         $allowpage = ["login", "register", "logout", "files", "home"];
-        if(!in_array($route, $allowpage)){
-            if(!empty($user_type)){
-                if($user_type == $route){
-                    return 1;
-                }
-                else{
-                    return 2;
-                }
-            }
+
+        if($route == "api"){
+            return 1;
         }
-        return 3;
-        
+        else{
+            if(!in_array($route, $allowpage)){
+                if(!empty($user_type)){
+                    if($user_type == $route){
+                        return 1;
+                    }
+                    else{
+                        return 2;
+                    }
+                }
+           }
+
+        }
+
+        return 3;  
         exit;
     }
 
@@ -244,6 +251,16 @@
 
         insertData("tbl_notification", $set);
         
+    }
+
+    function get_my_department(){
+
+        $ci = & get_instance();
+        $par["select"] ="*";
+        $par["where"] ="status = 1 AND user_id = ". get_user_id();
+        $res=  $ci->MY_Model->getRows("tbl_user_dept_details", $par, "obj");
+        return $res;
+
     }
     
     

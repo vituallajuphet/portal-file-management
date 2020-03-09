@@ -23,14 +23,6 @@ var myapp = new Vue({
         }
     },
     methods:{
-        getRequestData(){
-            return new Promise((resolve, reject)=> {
-                axios.get(`${BASE_URL}admin/api_get_comp_user/`).then((res)=>{
-                    this.users = res.data.data;
-                    resolve(200);
-                })
-            }) 
-        },
         show_delele_noti(noti_id){
             let self = this;
 
@@ -38,7 +30,7 @@ var myapp = new Vue({
                 
                 let formdata = new FormData();
                 formdata.append("notify_id", noti_id);
-                axios.post(`${self.base_url}admin/api_delete_notification`, formdata).then(res =>{
+                axios.post(`${self.base_url}api/delete_notification`, formdata).then(res =>{
                     if(res.data.code == 200){
                         self.s_alert("Deleted Successfully", "success")
                         self.page_reload(500);
@@ -78,10 +70,10 @@ var myapp = new Vue({
         }
     },
     mounted(){
-        this.getRequestData().then((res)=>{
-            $('#myTable').DataTable();
-        }) 
-
+        // this.getRequestData().then((res)=>{
+        //     $('#myTable').DataTable();
+        // }) 
+        $('#myTable').DataTable();
         <?php
             if(!empty($has_notify_id)){
                 ?>  

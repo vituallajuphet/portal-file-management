@@ -140,16 +140,17 @@
                                                 else{ 
 
                                                     foreach ($notifications as $notify) {
-                                                        
                                                         $readClass = ($notify->is_read == 0 ? "unread" : "");
 
-                                                        $user_heading = ($notify->user_type == "admin") ? "Administrator" : "$notify->user_type";
+                                                        $user_heading = ($notify->user_type == "admin") ? "Administrator" : ucfirst($notify->user_type);
                                                         $date = strtotime($notify->date_created);
 
                                                         ?>
-                                                            <a href="#" class="noti-cont <?=$readClass?>">
+                                                            <a href="<?= base_url("admin/notifications/view/".$notify->notify_id)?>" class="noti-cont <?=$readClass?>">
                                                                 <div class="mail-contnet">
-                                                                    <h5><?= $user_heading;?></h5> <span class="mail-desc"><?= $notify->message?></span> <span class="time"> <?= $notify->date_created;?>
+                                                                    <h5><?= $user_heading;?></h5> 
+                                                                    <small style="color:#222"><?= $notify->firstname. " ". $notify->lastname ;?></small>
+                                                                    <span class="mail-desc"><?= $notify->message?></span> <span class="time"> <?= $notify->date_created;?>
                                                                     </span>
                                                                 </div>
                                                                 <span class="read-icon <?=$readClass?>"></span>

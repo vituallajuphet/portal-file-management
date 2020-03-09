@@ -21,9 +21,11 @@
     <link href="<?php echo base_url(); ?>assets/css/my_media.css" id="theme" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/css/croppie.css" id="theme" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/css/admin_style.css" id="theme" rel="stylesheet">
+        <link href="<?php echo base_url(); ?>assets/css/tab-style.css" id="theme" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/module/bootstrap2.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/module/datatable-bootstrap.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/module/datatable-responsive.css">
+    
 
 <style>
 	thead {
@@ -141,7 +143,7 @@
                                                 <div class="mail-contnet">
                                                     <h5>Admin</h5> <span class="mail-desc">Dummy text only</span> <span class="time">9:30 AM</span> </div>
                                             </a>
-                                            <a href="<?=base_url("admin/profile")?>">
+                                            <a href="<?=base_url("cbmc/profile")?>">
                                                 <div class="mail-contnet">
                                                     <h5>John Doe</h5> <span class="mail-desc">Just see the my new admin!</span> <span class="time">9:30
                                                         AM</span>
@@ -186,7 +188,7 @@
                                     <li>
                                         <div class="dw-user-box">
                                             <div class="u-text">
-                                                <a href="<?=base_url("admin/profile")?>" class="nav-profile">
+                                                <a href="<?=base_url("cbmc/profile")?>" class="nav-profile">
                                                     <h4>My Profile</h4>
                                                     <p><?= my_profile("email_address")?></p>
                                                 </a>
@@ -206,7 +208,7 @@
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        <?php $this->load->view("includes/admin/sidebar"); ?>
+        <?php $this->load->view("includes/cbmc/sidebar"); ?>
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->

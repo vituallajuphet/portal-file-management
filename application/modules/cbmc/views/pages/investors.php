@@ -13,11 +13,11 @@
                 <div class="container-fluid">
                     <div class="row page-titles">
                         <div class="col-md-5 align-self-center">
-                            <h3 class="text-themecolor">Manage Investors
+                            <h3 class="text-themecolor">Investors
                         </h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="<?=base_url()?>">Home</a></li>
-                                <li class="breadcrumb-item active">Manage Investors</li>
+                                <li class="breadcrumb-item active">Investors</li>
                             </ol>
                         </div>
                         <div class="col-md-7 align-self-center text-right d-none d-md-block">
@@ -44,18 +44,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="user in users" :class="(user.approved == 1) ? 'row-approved':''"> 
+                                    <tr v-for="user in users"> 
                                         <td>{{user.user_id}}</td>
                                         <td>{{user.firstname}}</td>
                                         <td>{{user.lastname}}</td>
-                                        <td>{{(user.user_status == 1 && user.approved == 1) ? "Active":"Inactive" }} <a @click="show_update_active(user.user_id, user.user_status)" href="javascript:;" style="color:#222"><i class="fa fa-edit"></i></a></td>
+                                        <td>{{(user.user_status == 1 && user.approved == 1) ? "Active":"Inactive" }} </td>
                                         <td>{{(user.approved == 1) ? "Approved":"Pending" }}</td>
                                         <td>{{user.email_address}}</td>
                                         <td class="td-manage-user">
                                             <a class="act_btn" href="javascript:;" style="color:black" @click="showInvestorDetails(user.user_id)" title="View Details"><i class="fas fa-eye"></i></a>
-                                            <a class="act_btn" href="javascript:;" style="color:black" @click="showInvestorCompany(user.user_id)" title="Assign company"><i class="fas fa-edit"></i></a>
-                                            <a v-if="user.approved != 1" href="javascript:;" class="show_approve_investor act_btn" :data="user.user_id" @click="showApproveInvestor(user.user_id)" style="color:green"> <i class="fa fa-check" title="approve"></i></a>
-                                            <a v-else href="javascript:;" style="cursor:not-allowed;color:green"> <i class="fa fa-check" title="approve"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -69,8 +66,8 @@
                 </div>
                 <!-- modal -->
                 <?php 
-                    if(!empty($has_mod)){
-                        $this->load->view($has_mod);
+                    if(!empty($has_modal)){
+                        $this->load->view($has_modal);
                     }
                 ?>
             <!-- end modal -->

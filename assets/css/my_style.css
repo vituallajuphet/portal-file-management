@@ -240,3 +240,11 @@ table.dataTable thead>tr>th {
 .read-icon.unread{background: green;}
 
 .noti-cont.unread{background: #e9edf2;}
+
+.notify-user-profile{}
+.notify-user-profile img{width: 100%;}
+
+.td-manage-user a {
+    display: inline-block;
+    margin: 0 12px;
+}

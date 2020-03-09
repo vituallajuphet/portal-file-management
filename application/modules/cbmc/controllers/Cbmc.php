@@ -17,6 +17,46 @@ class Cbmc extends MY_Controller {
 	}
 
 
+      public function investors(){
+		$data["title"] ="CBMC - Investors";
+		$data["page_name"] ="investors";
+		$data['has_header']="includes/cbmc/header";
+            $data['has_footer']="includes/investor_footer";
+            $data['has_modal']="modal/investor_modal";
+		$this->load_cbmc_page('pages/investors',$data);
+      }
+      
+      public function companies(){
+		$data["title"] ="CBMC - Companies";
+		$data["page_name"] ="companies";
+		$data['has_header']="includes/cbmc/header";
+            $data['has_footer']="includes/company_footer";
+            $data['has_modal']="modal/company_modal";
+		$this->load_cbmc_page('pages/companies',$data);
+	}
+
+     public function manage_request(){
+
+		$data["title"] ="CBMC - Requests";
+		$data["page_name"] ="file_request";
+		$data['has_header']="includes/cbmc/header";
+		$data["has_mod"] ="modal/manage_request_modal";
+		$data['has_footer']="includes/manage_request_footer";
+		$this->load_cbmc_page('pages/Manage_request',$data);
+
+      }
+      
+      public function manage_files(){
+
+		$data["title"] ="CBMC - Files";
+		$data["page_name"] ="files";
+		$data['has_header']="includes/cbmc/header";
+		$data["has_mod"] ="modal/manage_file_modal";
+		$data['has_footer']="includes/manage_file_footer";
+		$this->load_cbmc_page('pages/Manage_files',$data);
+
+	}
+
 	
 // api here
 	public function api_update_profilepic(){
@@ -83,6 +123,92 @@ class Cbmc extends MY_Controller {
             echo json_encode($response);
       }
 
+      // manage files
+
+      public function save_file_data(){
+		$post = $this->input->post();
+
+		if(!empty($post)){
+			$settings['upload_path'] = "./uploaded_files/";
+			$file_name		       = "file-".time();
+			$settings['file_name'] 	 = $file_name;
+
+			if(upload_file($_FILES, $settings)){
+				$set = array(
+					"file_name"			=> $file_name.$this->upload->data('file_ext'),
+					"file_department"	      => $post["department"],
+					"file_company_id"	      => 0,
+					"file_title"		=> $post["file_title"],
+					"added_by"			=> get_user_id(),
+					"date_added"		=> date("Y-m-d"),
+					'date_updated'		=> date("0000-00-00"),
+					"file_status"		=> "published",
+					"remarks"			=> $post["remarks"]
+				);
+
+				insertData("tbl_files", $set);
+				swal_data("File uploaded successfully");
+			}
+			else{
+				$err = $this->upload->display_errors();
+				swal_data(strip_tags($err), "error");
+			}
+
+			if(!empty($_SESSION["add_file_req_id"])){
+				redirect(base_url("cbmc/manage_request"));
+			}
+			else{
+				redirect(base_url("cbmc/manage_files"));
+			}
+			
+		}
+      }
+      
+      public function update_file_data(){
+		$post = get_post();
+
+		if(!empty($post)){
+
+			$file_id = $post["file_id"];
+			$where	 = "files_id = $file_id";
+
+			if(!empty($_FILES["name"])){
+				$settings['upload_path'] = "./uploaded_files/";
+				$file_name				 = "file-".time();
+				$settings['file_name']	 = $file_name;
+
+				if(upload_file($_FILES, $settings)){
+					$set = array(
+						"file_name"		  => $file_name.$this->upload->data('file_ext'),
+						"file_department" => $post["department"],
+						"file_title"	  => ucfirst($post["file_title"]),
+						"date_updated" 	  => date("Y-m-d"),
+						"remarks"		  => $post["remarks"]
+					);
+
+					updateData("tbl_files", $set, $where);
+					swal_data("File Updated Successfully");
+				}
+				else{
+					$err = $this->upload->display_errors();
+					swal_data(strip_tags($err), "error");
+				}	
+			}
+			else{
+				$set = array(
+					"file_department" => $post["department"],
+					"file_title"	  => ucfirst($post["file_title"]),
+					"date_updated" 	  => date("Y-m-d"),
+					"remarks"		  => $post["remarks"]
+				);
+				
+				updateData("tbl_files", $set, $where);
+				swal_data("File Updated Successfully");
+			}
+			
+			redirect(base_url("cbmc/manage_files"));
+		}
+	}
 
       // private functions here
       private function user_exists ($user){
