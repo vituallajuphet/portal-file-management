@@ -56,7 +56,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12 text-right">
-                            <a :href="base_url+'admin/add_new_file/'+selected_approved_req_id" class="btn btn-theme"><i class="fa fa-plus"></i> Add File</a>
+                            <a :href="base_url+'cbmc/add_new_file/'+selected_approved_req_id" class="btn btn-theme"><i class="fa fa-plus"></i> Add File</a>
                         </div>
                         <div class="col-md-12">
                             <input type="hidden" name="request_id" v-model="selected_approved_req_id" required>
@@ -236,7 +236,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-theme waves-effect" data-dismiss="modal"><i class="fa fa-times"></i>  Close</button>
                 </div>
         </div>
         <!-- /.modal-content -->

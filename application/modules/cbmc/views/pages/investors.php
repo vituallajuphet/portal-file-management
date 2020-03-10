@@ -52,7 +52,7 @@
                                         <td>{{(user.approved == 1) ? "Approved":"Pending" }}</td>
                                         <td>{{user.email_address}}</td>
                                         <td class="td-manage-user">
-                                            <a class="act_btn" href="javascript:;" style="color:black" @click="showInvestorDetails(user.user_id)" title="View Details"><i class="fas fa-eye"></i></a>
+                                            <a class="act_btn showInvestorDetails" :data="user.user_id" href="javascript:;" style="color:black" @click="showInvestorDetails(user.user_id)" title="View Details"><i class="fas fa-eye"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>

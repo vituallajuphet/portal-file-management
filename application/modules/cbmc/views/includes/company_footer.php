@@ -63,4 +63,28 @@ var myapp = new Vue({
 	
 })
 
+	// jquery in responsive events
+	$(document).ready(function(){
+		let is_reposive = false;
+		setResponsive();
+		$(window).resize(function(){
+			setResponsive();
+		})
+
+		function setResponsive(){
+			let myTable = $("#myTable thead th:last-child");
+			setTimeout(() => {
+				is_reposive = (myTable.css("display") == "none")
+			}, 1200);
+			
+		}
+		$(document).on("click", ".show_details_modal", function(){
+			if(is_reposive){
+				let c_id = $(this).attr("data");
+				myapp.show_details_modal(c_id);
+			}
+		})
+
+	})
+
 </script>

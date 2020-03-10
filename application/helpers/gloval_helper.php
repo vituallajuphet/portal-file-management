@@ -201,10 +201,14 @@
         return $file_extension;
     }
 
-    function get_departments(){
+    function get_departments($params = array()){
         $ci = & get_instance();
         $par["select"] ="*";
-        $par["where"] ="dept_status=1";
+        $par["where"] ="dept_status = 1 ";
+        if(!empty($params["where"])){
+            $par["where"] .= $params["where"];
+        }
+       
         $res=  $ci->MY_Model->getRows("tbl_cmbc_dept", $par, "obj");
         return $res;
     }
@@ -219,18 +223,23 @@
 			return $companies;
     }
     
-    function get_my_notifications(){
+    function get_my_notifications($has_limit = false){
         $ci = & get_instance();
         $user_id = $ci->session->userdata("user_id");
         $par["select"] = "*";
         $par["where"] = "fk_user_id_to = $user_id AND notify_status != 'deleted'";
-        $par["limit2"] = [3];
+        $par["order_by"] = "notify_id";
+        if($has_limit){
+            $par["limit2"] = [3];
+            $par["where"] = "fk_user_id_to = $user_id AND notify_status != 'deleted' AND is_read = 0";
+        }
         $par["join"] = array(
             "tbl_user_details user_d" => "user_d.user_id = noti.fk_user_id_from",
             "tbl_users user" => "user_d.user_id = user.user_id",
         );
 
         $res = $ci->MY_Model->getRows("tbl_notification noti", $par, "obj");
+    
 
         return $res;
     }
@@ -252,6 +261,8 @@
         insertData("tbl_notification", $set);
         
     }
+
+
 
     function get_my_department(){
 

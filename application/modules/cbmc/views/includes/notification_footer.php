@@ -34,7 +34,7 @@ var myapp = new Vue({
         show_delele_noti(noti_id){
             let self = this;
 
-            self.confirm_alert("Are you sure to delete this notification?").then(res=>{
+            self.confirm_alert("are you sure to delete this message?").then(res=>{
                 
                 let formdata = new FormData();
                 formdata.append("notify_id", noti_id);
@@ -97,5 +97,36 @@ var myapp = new Vue({
         ?>
     }
 })
+
+	// jquery in responsive events
+	$(document).ready(function(){
+		let is_reposive = false;
+		setResponsive();
+		$(window).resize(function(){
+			setResponsive();
+		})
+
+		function setResponsive(){
+			let myTable = $("#myTable thead th:last-child");
+			setTimeout(() => {
+				is_reposive = (myTable.css("display") == "none")
+			}, 1200);
+			
+		}
+		$(document).on("click", ".show_notify_details", function(){
+			if(is_reposive){
+				let f_id = $(this).attr("data");
+				myapp.show_notify_details(f_id);
+			}
+		})
+
+        $(document).on("click", ".show_delele_noti", function(){
+			if(is_reposive){
+				let f_id = $(this).attr("data");
+				myapp.show_delele_noti(f_id);
+			}
+		})	
+
+	})
 
 </script>

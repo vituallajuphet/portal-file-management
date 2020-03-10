@@ -27,8 +27,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label f-bold">Type</label>
-                                <div >{{frmdata.company_type}}</div>
+                                <label class="control-label f-bold">Location</label>
+                                <div >{{frmdata.address}}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-theme waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                 </div>
         </div>
         <!-- /.modal-content -->

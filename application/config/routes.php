@@ -52,6 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'home';
 $route['admin/notifications/view/(:num)'] = 'admin/notifications/$1';
 $route['investor/notifications/view/(:num)'] = 'investor/notifications/$1';
+$route['cbmc/notifications/view/(:num)'] = 'cbmc/notifications/$1';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 // $route['register'] = 'login/register';

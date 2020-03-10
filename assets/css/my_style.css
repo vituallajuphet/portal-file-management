@@ -242,9 +242,11 @@ table.dataTable thead>tr>th {
 .noti-cont.unread{background: #e9edf2;}
 
 .notify-user-profile{}
-.notify-user-profile img{width: 100%;}
-
+.notify-user-profile img { width: 100%; border-radius: 50%; border: 1px solid #eee6e6; }
 .td-manage-user a {
     display: inline-block;
     margin: 0 12px;
 }
+
+.modal-header{ background: #c5a36f; color: #fff;}
+.f-bold{font-weight: bold;}

@@ -104,7 +104,7 @@ class Investor extends MY_Controller {
 		$data["has_mod"] 	= "modal/notification_modal";
 		$this->load_investor_page('pages/notifications',$data);
 
-	}
+	}	
 
 	public function contact_department(){
 		// $this->emaillibrary->sendmail($_POST['message-text']);
@@ -124,6 +124,20 @@ class Investor extends MY_Controller {
 		redirect(base_url("investor/files"));
 	}
 	
+	private function get_cbmc_dept_email($dept = ""){
+
+		$par["select"] 	= "*";
+		$par["where"] 	= "user_dept.departments = '{$dept}' AND user.user_type = 'cbmc'";
+		$par["join"] 	= array(
+			"tbl_users user" 			 => "user_dept.user_id = user.user_id",	
+		 	"tbl_user_details u_details" => "u_details.user_id = user.user_id",	
+		);
+
+		$res = getData("tbl_user_dept_details user_dept", $par, "obj");
+		
+		return $res;
+	} 
+
 	public function send_request_file(){
 		$post = $this->input->post();
 		if(!empty($post)){
@@ -138,9 +152,31 @@ class Investor extends MY_Controller {
 			$dept = explode("|",$post['department']);
 			
 			if($this->willSendEmail){
+				
+				$dept_user = $this->get_cbmc_dept_email($dept[1]);
+
+				if(!empty($dept_user)){
+					foreach ($dept_user as $d_user) {
+						send_notification($d_user->user_id, "Investor requested a file");
+					}
+				}
+				
 				send_notification(1, "Investor requested a file");
-				sendemail($comp_email,'An investor requested for a document.');
-				sendemail($dept[0],'A investor requested for a document.');
+				
+				$from_info = array(
+					"firstname" => $dept[1]. " Department",
+					"file_title" => $title,
+				);
+				
+				sendemail($comp_email, $html_msg, "File Request", "CBMC Notification");
+
+				$from_info = array(
+					"firstname" => "Admin",
+					"file_title" => $title,
+				);
+				$html_msg = $this->html_msg($from_info);
+				sendemail("prospteam@gmail.com", $html_msg, "File Request", "CBMC Notification");
+				// sendemail($dept[0],'A investor requested for a document.');
 
 			}
 			
@@ -160,6 +196,23 @@ class Investor extends MY_Controller {
 		}
 	}
 	
+	private function html_msg($arr = array(), $msg = "An investor requested a file."){
+
+		$user_data = get_logged_user();	
+
+		$html ="
+			<div>
+				Hi <strong>".$arr["firstname"]."</strong>,
+				<br><br>
+				An investor <strong>{$user_data["firstname"]} {$user_data["lastname"]}</strong> requested a file.
+				<br><br><br>
+			</div>
+		";
+
+		return $html;
+
+	}
+
 	// private function 
 	
 	// api request functions
@@ -296,16 +349,7 @@ class Investor extends MY_Controller {
 		return false;
 	}
 	
-	// test function
-	public function test_here(){
-		$content ="<h1>sample</h1>";
-		if(sendemail("prospteam@gmail.com", $content)){
-			echo 1;
-		}else{
-			echo 2;
-		}
-		exit;
-	}
+
 	
 	public function api_update_propic(){
 		$post = $this->input->post();
@@ -331,7 +375,7 @@ class Investor extends MY_Controller {
 	}	
 	
 	public function send_message_investor(){
-		
+		// sendemail("prospteam@gmail.com", "this is a test");
 	}
 	
 	public function request_a_file(){

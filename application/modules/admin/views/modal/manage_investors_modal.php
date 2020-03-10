@@ -17,52 +17,52 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">First Name</label>
-                                <div style="font-weight: bold;">{{frmdata.firstname}}</div>
+                                <label class="control-label f-bold">First Name</label>
+                                <div style="">{{frmdata.firstname}}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Last Name</label>
-                                <div style="font-weight: bold;">{{frmdata.lastname}}</div>
+                                <label class="control-label f-bold">Last Name</label>
+                                <div style="">{{frmdata.lastname}}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Email Address</label>
-                                <div style="font-weight: bold;">{{frmdata.email_address}}</div>
+                                <label class="control-label f-bold">Email Address</label>
+                                <div style="">{{frmdata.email_address}}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Status</label>
-                                <div style="font-weight: bold;">{{frmdata.approved == 1 ? 'Approved' : 'Pending'}}</div>
+                                <label class="control-label f-bold">Status</label>
+                                <div style="">{{frmdata.approved == 1 ? 'Approved' : 'Pending'}}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Contact Number</label>
-                                <div style="font-weight: bold;">{{frmdata.contact_number}}</div>
+                                <label class="control-label f-bold">Contact Number</label>
+                                <div style="">{{frmdata.contact_number}}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group" v-if="frmdata.reg_file.length != 0">
-                                <label class="control-label">Files / Documents</label>
-                                <div style="font-weight: bold;" v-for="file in frmdata.reg_file"><a :href="base_url+'assets/registration_files/'+file.file_name" download class="btn btn-theme"><i class="fa fa-download"></i> Download File</a></div>
+                                <label class="control-label f-bold">Files / Documents</label>
+                                <div style="" v-for="file in frmdata.reg_file"><a :href="base_url+'assets/registration_files/'+file.file_name" download class="btn btn-theme"><i class="fa fa-download"></i> Download File</a></div>
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group" v-if="frmdata.companies.length != 0">
-                                <label class="control-label">Company</label>
-                                <div style="font-weight: bold;" v-for="comp in frmdata.companies">{{comp.company_name}}</div>
+                                <label class="control-label f-bold">Company</label>
+                                <div style="" v-for="comp in frmdata.companies">{{comp.company_name}}</div>
                             </div>
                         </div>
                         
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-theme waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                 </div>
         </div>
         <!-- /.modal-content -->
@@ -82,8 +82,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="control-label">Assigned Company</label>
-                                    <div v-if="frmdata.companies.length > 0" style="font-weight: bold;" v-for="comp in frmdata.companies">{{comp.company_name}}</div>
+                                    <label class="control-label f-bold">Assigned Company</label>
+                                    <div v-if="frmdata.companies.length > 0" style="" v-for="comp in frmdata.companies">{{comp.company_name}}</div>
                                     <div v-if="frmdata.companies.length == 0" style="font-size: 13px; color: #df7272;">This investor has no company yet.</div>
                                     <input type="hidden" name="user_id" :value="selected_user_id">
                                 </div>

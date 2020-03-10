@@ -97,7 +97,7 @@
                     <!-- ============================================================== -->
                     <ul class="navbar-nav my-lg-0">
                     <?php 
-                            $notifications = get_my_notifications();
+                            $notifications = get_my_notifications(true);
                             $noti_count = 0;
                             if(!empty($notifications)){
                                 
@@ -130,11 +130,11 @@
                                     <li>
                                         <div class="message-center">
                                              <?php 
-                                                $notifications = get_my_notifications();
+                                                $notifications = get_my_notifications(true);
 
                                                 if(empty($notifications)){
                                                     ?>
-                                                     <span class="empty_notification">You have no notifications</span>
+                                                     <span class="empty_notification">You have no new notifications</span>
                                                     <?php
                                                 }
                                                 else{ 

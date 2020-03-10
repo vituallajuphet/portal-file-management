@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2020 at 05:59 AM
+-- Generation Time: Mar 10, 2020 at 01:42 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -139,6 +139,8 @@ INSERT INTO `tbl_files` (`files_id`, `file_name`, `file_department`, `file_compa
 (7, 'file-1582223835.png', 'Human Resources', '0', 'Finance File', 1, '2020-02-19', '2020-02-28', 'published', 'SAmple only 2'),
 (8, 'file-1582138350.jpg', 'Human Resources', '0', 'HR File', 1, '2020-02-19', '2020-02-20', 'published', 'This is only a sample'),
 (9, 'file-1582225975.png', 'Finance', '0', 'Test Files', 1, '2020-02-20', '2020-03-09', 'archieved', 'samples'),
+(21, 'file-1583803088.jpg', 'Human Resources', '0', 'test file 2', 33, '2020-03-10', '0000-00-00', 'published', 'test'),
+(22, 'file-1583841892.jpg', 'Human Resources', '0', 'test file 2', 33, '2020-03-10', '0000-00-00', 'published', 'asdasdasdasd'),
 (20, 'file-1583722521.jpg', 'Finance', '0', 'finance 2', 33, '2020-03-09', '2020-03-09', 'deleted', 'test');
 
 -- --------------------------------------------------------
@@ -183,21 +185,23 @@ CREATE TABLE `tbl_notification` (
 --
 
 INSERT INTO `tbl_notification` (`notify_id`, `message`, `fk_user_id_from`, `fk_user_id_to`, `is_read`, `notify_status`, `date_created`) VALUES
-(1, 'You account has been approved.', 1, 11, 1, 'published', '2020-03-03'),
-(3, 'Your account has been appoved.', 1, 34, 0, '1', '2020-03-17'),
-(4, 'Your account has been appoved.', 1, 34, 0, '1', '2020-03-16'),
-(5, 'Your request has been processed', 1, 34, 0, '1', '2020-03-15'),
-(6, 'Your account has been appoved.', 1, 34, 0, '1', '2020-03-12'),
-(7, 'Inverstor send a request file', 11, 1, 1, 'published', '2020-03-11'),
-(8, 'Investor requested a file', 11, 1, 1, 'published', '2020-03-20'),
-(9, 'Investor requested a file', 11, 1, 1, 'published', '2020-03-04'),
-(10, 'Your request has been processed', 33, 11, 0, '1', '2020-03-06'),
-(11, 'Your request has been processed', 33, 11, 0, '1', '2020-03-06'),
-(12, 'Your request has been processed', 33, 11, 0, '1', '2020-03-06'),
-(13, 'Your request has been processed', 33, 11, 0, '1', '2020-03-06'),
-(14, 'Your request has been processed', 33, 11, 0, '1', '2020-03-06'),
-(15, 'Your request has been processed', 33, 11, 0, '1', '2020-03-06'),
-(16, 'Your request has been processed', 33, 11, 0, '1', '2020-03-09');
+(19, 'Investor requested a file', 11, 33, 0, '1', '2020-03-10'),
+(20, 'Investor requested a file', 11, 1, 1, '1', '2020-03-10'),
+(21, 'Investor requested a file', 11, 33, 0, '1', '2020-03-10'),
+(22, 'Investor requested a file', 11, 1, 1, '1', '2020-03-10'),
+(23, 'Investor requested a file', 11, 33, 0, '1', '2020-03-10'),
+(24, 'Investor requested a file', 11, 1, 1, '1', '2020-03-10'),
+(25, 'Investor requested a file', 11, 33, 0, '1', '2020-03-10'),
+(26, 'Investor requested a file', 11, 1, 1, '1', '2020-03-10'),
+(27, 'Investor requested a file', 11, 33, 0, '1', '2020-03-10'),
+(28, 'Investor requested a file', 11, 1, 1, '1', '2020-03-10'),
+(29, 'Investor requested a file', 11, 33, 0, '1', '2020-03-10'),
+(30, 'Investor requested a file', 11, 1, 1, '1', '2020-03-10'),
+(31, 'Investor requested a file', 11, 33, 0, '1', '2020-03-10'),
+(32, 'Investor requested a file', 11, 1, 1, '1', '2020-03-10'),
+(33, 'Investor requested a file', 11, 33, 0, '1', '2020-03-10'),
+(34, 'Investor requested a file', 11, 1, 1, '1', '2020-03-10'),
+(35, 'Your request has been processed', 33, 11, 0, '1', '2020-03-10');
 
 -- --------------------------------------------------------
 
@@ -256,16 +260,6 @@ CREATE TABLE `tbl_requested_files` (
   `fk_approved_user_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tbl_requested_files`
---
-
-INSERT INTO `tbl_requested_files` (`requested_file_id`, `fk_requested_id`, `fk_file_id`, `fk_approved_user_id`) VALUES
-(64, 23, 7, 33),
-(67, 21, 8, 33),
-(66, 21, 7, 33),
-(65, 23, 7, 33);
-
 -- --------------------------------------------------------
 
 --
@@ -289,13 +283,14 @@ CREATE TABLE `tbl_requests` (
 --
 
 INSERT INTO `tbl_requests` (`request_id`, `user_id`, `comment`, `company_id`, `department`, `file_title`, `requested_date`, `date_approved`, `request_status`) VALUES
-(24, 11, 'test', 2, 'Finance', 'test', '2020-03-03', '0000-00-00', 'Processing'),
-(23, 34, 'test', 2, 'Human Resources', 'test', '2020-02-28', '2020-03-06', 'Completed'),
-(22, 11, 'test', 1, 'Finance', 'finance test1', '2020-02-28', '0000-00-00', 'Processing'),
-(21, 11, 'I need finance File', 1, 'Finance', 'Finance File', '2020-02-28', '2020-03-06', 'Completed'),
-(25, 11, 'test', 2, 'Finance', 'test 123', '2020-03-03', '0000-00-00', 'Processing'),
-(26, 11, 'tes', 3, 'Human Resources', 'test2123', '2020-03-03', '0000-00-00', 'Deleted'),
-(27, 11, 'test', 3, 'Finance', 'test', '2020-03-04', '0000-00-00', 'Deleted');
+(35, 11, 'asdasd', 3, 'Finance', 'testasd', '2020-03-10', '0000-00-00', 'Pending'),
+(34, 11, 'asdasd', 3, 'Finance', 'asdasd', '2020-03-10', '0000-00-00', 'Pending'),
+(33, 11, 'test', 3, 'Finance', 'test', '2020-03-10', '0000-00-00', 'Pending'),
+(32, 11, 'asdasda asd', 3, 'Finance', 'test fasd', '2020-03-10', '0000-00-00', 'Pending'),
+(31, 11, 'asdasd', 3, 'Finance', 'testfff', '2020-03-10', '0000-00-00', 'Pending'),
+(30, 11, 'tasd', 2, 'Finance', 'test fil2', '2020-03-10', '0000-00-00', 'Pending'),
+(29, 11, 'test 1', 1, 'Finance', 'test file1', '2020-03-10', '0000-00-00', 'Processing'),
+(36, 11, 'asd', 3, 'Finance', 'asdasdasd', '2020-03-10', '0000-00-00', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -333,6 +328,7 @@ CREATE TABLE `tbl_users` (
 INSERT INTO `tbl_users` (`user_id`, `username`, `password`, `user_status`, `user_type`, `approved`) VALUES
 (1, 'admin', '$2y$10$.Nice1AanGpYvxxrX40kmeDtwoaeQDp5RhYzO3b5bZ57Msp5JxiIm', 1, 'admin', 1),
 (11, 'test', '$2y$10$LF5oGws0GiyjKROjna/Ote0Z4OxCVQUYMX4rnCnmjdWVFiEjiQqWi', 1, 'investor', 1),
+(35, 'test2', '$2y$10$pdb.0XS5VCN9uhTH.pwEC.xiu3xWOz2ZUAxsNzOGkpb1ffuw/qADC', 1, 'subsidiary', 1),
 (34, 'test3', '$2y$10$LF5oGws0GiyjKROjna/Ote0Z4OxCVQUYMX4rnCnmjdWVFiEjiQqWi', 1, 'investor', 1),
 (33, 'cbmc', '$2y$10$cZRjHKeuRbdL5YoczHXRB.TcdFUGSTklPRRQOw8cwsTi6uJyTkdAi', 1, 'cbmc', 1);
 
@@ -354,6 +350,7 @@ CREATE TABLE `tbl_user_company` (
 --
 
 INSERT INTO `tbl_user_company` (`user_company_id`, `user_id`, `company_id`, `status`) VALUES
+(25, 35, 1, 'joined'),
 (24, 11, 3, 'joined'),
 (23, 11, 2, 'joined'),
 (21, 34, 2, 'joined'),
@@ -408,7 +405,8 @@ INSERT INTO `tbl_user_details` (`user_detail_id`, `user_id`, `firstname`, `lastn
 (1, 1, 'Richard', 'Cruz', 'admin@admin.com', '09123456789', 'profile-1581329524.png', '2020-01-15 00:00:00', '2020-02-10 11:12:24', 0),
 (8, 11, 'John', 'Doe', 'prospteam@gmail.com', 'Uy', 'profile-1582875083.png', '2020-01-17 06:23:52', '0000-00-00 00:00:00', 1),
 (21, 33, 'James', 'Rizal', 'prospteam@gmail.com', '123456', '', '2020-02-28 08:34:57', '2020-03-05 03:47:29', 0),
-(22, 34, 'Maine', 'Mendoza', 'prospteam@gmail.com', '123456', '', '2020-02-28 08:35:42', '0000-00-00 00:00:00', 0);
+(22, 34, 'Maine', 'Mendoza', 'prospteam@gmail.com', '123456', '', '2020-02-28 08:35:42', '0000-00-00 00:00:00', 0),
+(23, 35, 'Gerald', 'Ad', 'asd@asd.com', '1234', '', '2020-03-10 12:39:29', '0000-00-00 00:00:00', 0);
 
 --
 -- Indexes for dumped tables
@@ -538,7 +536,7 @@ ALTER TABLE `tbl_departments`
 -- AUTO_INCREMENT for table `tbl_files`
 --
 ALTER TABLE `tbl_files`
-  MODIFY `files_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `files_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `tbl_forgotpassword_keys`
 --
@@ -548,7 +546,7 @@ ALTER TABLE `tbl_forgotpassword_keys`
 -- AUTO_INCREMENT for table `tbl_notification`
 --
 ALTER TABLE `tbl_notification`
-  MODIFY `notify_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `notify_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT for table `tbl_notifications`
 --
@@ -563,27 +561,27 @@ ALTER TABLE `tbl_registration_files`
 -- AUTO_INCREMENT for table `tbl_requested_files`
 --
 ALTER TABLE `tbl_requested_files`
-  MODIFY `requested_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `requested_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 --
 -- AUTO_INCREMENT for table `tbl_requests`
 --
 ALTER TABLE `tbl_requests`
-  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT for table `tbl_restricted_user`
 --
 ALTER TABLE `tbl_restricted_user`
-  MODIFY `restricted_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `restricted_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT for table `tbl_user_company`
 --
 ALTER TABLE `tbl_user_company`
-  MODIFY `user_company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `user_company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `tbl_user_dept_details`
 --
@@ -593,7 +591,7 @@ ALTER TABLE `tbl_user_dept_details`
 -- AUTO_INCREMENT for table `tbl_user_details`
 --
 ALTER TABLE `tbl_user_details`
-  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;COMMIT;
+  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

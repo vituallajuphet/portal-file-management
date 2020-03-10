@@ -11,13 +11,13 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">File Title</label>
+                                <label class="control-label f-bold">File Title</label>
                                 <input required v-model="frmdata.file_title" required type="text" name="file_title" class="form-control" placeholder="Enter file title here">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Department</label>
+                                <label class="control-label f-bold">Department</label>
                                 <select name="department" v-model="frmdata.department" required id="" class="form-control">
                                     <option value="">Please select a department</option>
                                     <option v-for="dept in departments" :value="dept.dept_name">{{dept.dept_name}}</option>
@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Select a File</label><br>
+                                <label class="control-label f-bold">Select a File</label><br>
                                 <input id="upload_file" required name="file" type="file" class="form-control">
                                 <label for="upload_file"><i class="fa fa-upload"></i>  Browse a file</label>
                                 <span  class="text-success hasFile" style="display:none;color: #282b29 !important; font-weight: bold; font-size: 14px;">  </span> 
@@ -35,7 +35,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Remarks / Additional Information</label>
+                                <label class="control-label f-bold">Remarks / Additional Information</label>
                                 <textarea v-model="frmdata.remarks" name="remarks" placeholder="Enter additional information (Optional)" name="name"rows="4" class="form-control"></textarea>
                             </div>
                         </div>
@@ -70,13 +70,13 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <input type="hidden" name="file_id" v-model="selected_file_id">
-                                <label class="control-label">File Title</label>
+                                <label class="control-label f-bold">File Title</label>
                                 <input v-model="frmdata.file_title"  required type="text" name="file_title" class="form-control" placeholder="Enter file title here">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Department</label>
+                                <label class="control-label f-bold">Department</label>
                                 <select name="department" v-model="frmdata.department" required id="" class="form-control">
                                     <option value="">Please select a department</option>
                                     <option v-for="dept in departments" :value="dept.dept_name">{{dept.dept_name}}</option>
@@ -86,7 +86,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Select a File</label><br>
+                                <label class="control-label f-bold">Select a File</label><br>
                                 <input id="upload_file2" name="file" type="file" class="form-control">
                                 <label for="upload_file2"><i class="fa fa-upload"></i>  Browse a file</label>
                                 <span  class="text-success hasFile" style="display:none;color: #282b29 !important; font-weight: bold; font-size: 14px;">  </span> 
@@ -94,7 +94,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Remarks / Additional Information</label>
+                                <label class="control-label f-bold">Remarks / Additional Information</label>
                                 <textarea  v-model="frmdata.remarks" name="remarks" rows="4" class="form-control"></textarea>
                             </div>
                         </div>
@@ -127,43 +127,43 @@
                        
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">File Title</label>
+                                <label class="control-label f-bold">File Title</label>
                                 <input readonly v-model="file_details.file_title"  required type="text" name="file_title" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-6"></div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Department</label>
+                                <label class="control-label f-bold">Department</label>
                                 <input type="text" class="form-control" readonly v-model="file_details.file_department">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Added By</label>
+                                <label class="control-label f-bold">Added By</label>
                                 <input type="text" class="form-control" readonly v-model="file_details.firstname">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">File Status</label>
+                                <label class="control-label f-bold">File Status</label>
                                 <input type="text" class="form-control" readonly v-model="file_details.file_status">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Date Added</label>
+                                <label class="control-label f-bold">Date Added</label>
                                 <input type="text" class="form-control" readonly v-model="file_details.date_added">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Remarks / Additional Information</label>
+                                <label class="control-label f-bold">Remarks / Additional Information</label>
                                 <textarea  v-model="file_details.remarks" readonly name="name"rows="4" class="form-control"></textarea>
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label class="control-label">File Attached</label><br>
+                            <label class="control-label f-bold">File Attached</label><br>
                             <span> <a class="btn btn-theme" :href="base_url+'uploaded_files/'+file_details.file_name" download><i class="fa fa-download"></i> Download File</a></span>
                         </div>
 

@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <figure class="notify-user-profile">
-                                <img :src="base_url+'assets/images/profiles/'+frmdata.profile_picture" alt="Profile">
+                                <img :src="base_url+'assets/images/profiles/'+(frmdata.profile_picture == '' ? 'dummyprofile.png' : frmdata.profile_picture)" alt="Profile">
                             </figure>
                         </div>
                         <div class="col-md-8">

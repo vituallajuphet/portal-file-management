@@ -9,38 +9,38 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Company Name</label>
-                                <div style="font-weight:bold">{{frmdata.company_name}}</div>
+                                <label class="control-label f-bold">Company Name</label>
+                                <div style="">{{frmdata.company_name}}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Email Address</label>
-                                <div style="font-weight:bold">{{frmdata.company_email}}</div>
+                                <label class="control-label f-bold">Email Address</label>
+                                <div style="">{{frmdata.company_email}}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Contact Number</label>
-                               <div style="font-weight:bold">{{frmdata.company_contact}}</div>
+                                <label class="control-label f-bold">Contact Number</label>
+                               <div style="">{{frmdata.company_contact}}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Type</label>
-                                <div style="font-weight:bold">{{frmdata.company_type}}</div>
+                                <label class="control-label f-bold">Location</label>
+                                <div style="">{{frmdata.address}}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Additional Information / Remarks</label>
-                                <div style="font-weight:bold">{{frmdata.remarks}}</div>
+                                <label class="control-label f-bold">Additional Information / Remarks</label>
+                                <div style="">{{frmdata.remarks}}</div>
                             </div>
                         </div>                        
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-theme waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                 </div>
         </div>
         <!-- /.modal-content -->
@@ -61,31 +61,31 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Company Name</label>
+                                <label class="control-label f-bold">Company Name</label>
                                 <input class="form-control" type="text" required v-model="frmdata.company_name" Placeholder="Enter Company Name">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Address</label>
+                                <label class="control-label f-bold">Address</label>
                                 <input class="form-control" type="text" required v-model="frmdata.address" Placeholder="Enter Address">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Email Address</label>
+                                <label class="control-label f-bold">Email Address</label>
                                 <input class="form-control" type="email" required v-model="frmdata.company_email" Placeholder="Enter Email Address">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Contact Number</label>
+                                <label class="control-label f-bold">Contact Number</label>
                                <input class="form-control" type="text" required v-model="frmdata.company_contact" Placeholder="Enter Numbers">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Additional Information / Remarks</label>
+                                <label class="control-label f-bold">Additional Information / Remarks</label>
                                 <textarea v-model="frmdata.remarks" class="form-control" placeholder="Enter addional information (Optional)" ></textarea>
                             </div>
                         </div>                        
@@ -118,31 +118,31 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Company Name</label>
+                                <label class="control-label f-bold">Company Name</label>
                                 <input class="form-control" type="text" required v-model="frmdata.company_name" Placeholder="Enter Company Name">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Address</label>
+                                <label class="control-label f-bold">Address</label>
                                 <input class="form-control" type="text" required v-model="frmdata.address" Placeholder="Enter Address">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Email Address</label>
+                                <label class="control-label f-bold">Email Address</label>
                                 <input class="form-control" type="email" required v-model="frmdata.company_email" Placeholder="Enter Email Address">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Contact Number</label>
+                                <label class="control-label f-bold">Contact Number</label>
                                <input class="form-control" type="text" required v-model="frmdata.company_contact" Placeholder="Enter Numbers">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label">Additional Information / Remarks</label>
+                                <label class="control-label f-bold">Additional Information / Remarks</label>
                                 <textarea v-model="frmdata.remarks" class="form-control" placeholder="Enter addional information (Optional)" ></textarea>
                             </div>
                         </div>                        

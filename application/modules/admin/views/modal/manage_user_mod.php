@@ -10,37 +10,37 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">First Name</label>
+                                <label class="control-label f-bold">First Name</label>
                                 <input required type="text" v-model="frmdata.first_name" name="frmdata.first_name" class="form-control" placeholder="Enter first name here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Last Name</label>
+                                <label class="control-label f-bold">Last Name</label>
                                 <input required type="text" v-model="frmdata.last_name" name="last_name" class="form-control" placeholder="Enter last name here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Email Address</label>
+                                <label class="control-label f-bold">Email Address</label>
                                 <input required type="email" v-model="frmdata.email_address" name="email" class="form-control" placeholder="Enter email address here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Username</label>
+                                <label class="control-label f-bold">Username</label>
                                 <input required type="text" v-model="frmdata.username" name="username" class="form-control" placeholder="Enter username here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Contact Number</label>
+                                <label class="control-label f-bold">Contact Number</label>
                                 <input required type="text" v-model="frmdata.contact_number" name="contact_number" class="form-control" placeholder="Enter number here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group has-success">
-                                <label class="control-label">Assigned Company</label>
+                                <label class="control-label f-bold">Assigned Company</label>
                                 <select v-model="selected_comp" class="form-control custom-select">
                                     <option value="">Please select company</option>
                                    <option :value="comp.company_id" v-for="comp in companies">{{comp.company_name}}</option>
@@ -81,37 +81,37 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">First Name</label>
+                                <label class="control-label f-bold">First Name</label>
                                 <input required type="text" v-model="frmdata.first_name" name="first_name" class="form-control" placeholder="Enter first name here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Last Name</label>
+                                <label class="control-label f-bold">Last Name</label>
                                 <input required type="text" v-model="frmdata.last_name" name="last_name" class="form-control" placeholder="Enter last name here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Email Address</label>
+                                <label class="control-label f-bold">Email Address</label>
                                 <input required type="email" v-model="frmdata.email_address" name="email" class="form-control" placeholder="Enter email address here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Username</label>
+                                <label class="control-label f-bold">Username</label>
                                 <input required type="text" v-model="frmdata.username" name="username" class="form-control" placeholder="Enter username here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Contact Number</label>
+                                <label class="control-label f-bold">Contact Number</label>
                                 <input required type="text" v-model="frmdata.contact_number" name="contact_number" class="form-control" placeholder="Enter number here">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group has-success">
-                                <label class="control-label">Assigned Company</label>
+                                <label class="control-label f-bold">Assigned Company</label>
                                 <select v-model="selected_comp" v-model="frmdata.selected_comp" class="form-control custom-select">
                                     <option value="">Please select company</option>
                                    <option :value="comp.company_id" v-for="comp in companies">{{comp.company_name}}</option>
@@ -153,37 +153,37 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">First Name</label>
+                                <label class="control-label f-bold">First Name</label>
                                 <input required type="text" v-model="selected_user.firstname" name="first_name" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Last Name</label>
+                                <label class="control-label f-bold">Last Name</label>
                                 <input required type="text"  v-model="selected_user.lastname" name="last_name" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Email Address</label>
+                                <label class="control-label f-bold">Email Address</label>
                                 <input required type="email"  v-model="selected_user.email_address" name="email" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Username</label>
+                                <label class="control-label f-bold">Username</label>
                                 <input required type="text" v-model="selected_user.username" name="username" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label">Contact Number</label>
+                                <label class="control-label f-bold">Contact Number</label>
                                 <input required type="text" v-model="selected_user.contact_number" name="contact_number" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group has-success">
-                                <label class="control-label">Assigned Company</label>
+                                <label class="control-label f-bold">Assigned Company</label>
                                
                                 <div class="comp-cont">
                                     <span class="" v-for="comp in selected_user.companies">{{comp.company_name}} 
@@ -200,7 +200,7 @@
                 </div>
                 <div class="modal-footer">
                  
-                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-theme waves-effect " data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                 </div>
             </form>
         </div>

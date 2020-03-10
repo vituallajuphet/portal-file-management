@@ -55,6 +55,24 @@ class Cbmc extends MY_Controller {
 		$data['has_footer']="includes/manage_file_footer";
 		$this->load_cbmc_page('pages/Manage_files',$data);
 
+		
+	  }
+
+	  public function notifications($nofi_id =""){
+
+		if(!empty($nofi_id) && is_numeric($nofi_id)){
+			$data["has_notify_id"] = $nofi_id;
+			$set 	= array( "is_read" => 1 );
+			$where  = array( "notify_id" => $nofi_id );
+			updateData("tbl_notification", $set, $where);
+		}
+
+		$data["title"] ="CBMC - Notifications";
+		$data["page_name"] ="notifications";
+		$data['has_header']="includes/cbmc/header";
+		$data["has_mod"] ="modal/manage_notification_modal";
+		$data['has_footer']="includes/notification_footer";
+		$this->load_cbmc_page('pages/Notifications',$data);
 	}
 
 	
@@ -121,7 +139,9 @@ class Cbmc extends MY_Controller {
                   }
             }
             echo json_encode($response);
-      }
+	  }
+	  
+		
 
       // manage files
 
@@ -130,7 +150,7 @@ class Cbmc extends MY_Controller {
 
 		if(!empty($post)){
 			$settings['upload_path'] = "./uploaded_files/";
-			$file_name		       = "file-".time();
+			$file_name		       = "file-".time();	
 			$settings['file_name'] 	 = $file_name;
 
 			if(upload_file($_FILES, $settings)){
@@ -209,6 +229,14 @@ class Cbmc extends MY_Controller {
 			redirect(base_url("cbmc/manage_files"));
 		}
 	}
+
+	// manage request
+	  public function add_new_file($req_id){
+
+		$_SESSION["add_file"] = $req_id;
+		redirect(base_url("cbmc/manage_files"));
+
+	  }
 
       // private functions here
       private function user_exists ($user){

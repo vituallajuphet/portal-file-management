@@ -180,14 +180,14 @@ var myapp = new Vue({
         },
         submitFormAddCompany(){
             let self = this;
-            var con_message = "Are you sure to assign this company(s) to this investor?";
+            var con_message = "Are you sure to update this investor's company information?";
 
-            if(selected_company_ids.length == 0 && selected_remove_company_ids != 0){
-                con_message = "Are you sure to remove this company(s) to this investor?";
-            }
-            else if(selected_company_ids.length != 0 && selected_remove_company_ids != 0){
-                con_message = "Are you sure to remove and add the selected companies to this investor?";
-            }
+            // if(selected_company_ids.length == 0 && selected_remove_company_ids != 0){
+            //     con_message = "Are you sure to remove this company(s) to this investor?";
+            // }
+            // else if(selected_company_ids.length != 0 && selected_remove_company_ids != 0){
+            //     con_message = "Are you sure to remove and add the selected companies to this investor?";
+            // }
 
             if(selected_company_ids.length == 0 && selected_remove_company_ids == 0){
                 self.s_alert("Plaese select at least one company", "error");

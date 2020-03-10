@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-theme waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
                 </div>
         </div>
         <!-- /.modal-content -->
