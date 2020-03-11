@@ -22,6 +22,7 @@ var myapp = new Vue({
 				company_email: "",
 				remarks: "",
 			},
+			selected_comp:{},
 			selected_comp_id:"",
 			companies: <?= json_encode(get_companies());?>,
 		}
@@ -30,9 +31,13 @@ var myapp = new Vue({
         
         show_details_modal(company_id){
             let self = this;
-
             let company = self.companies.find(comp => comp.company_id == company_id);
-            self.frmdata = company;
+			self.frmdata.company_id 	 = company_id
+			self.frmdata.company_name 	 = company.company_name
+			self.frmdata.address		 = company.address
+			self.frmdata.company_contact = company.company_contact
+			self.frmdata.company_email 	 = company.company_email
+			self.frmdata.remarks 	     = company.remarks
 
             $("#company_details_modal").modal();
         },
@@ -44,14 +49,17 @@ var myapp = new Vue({
 
 		show_edit_modal(company_id){
             let self = this;
-			
+			$("#company_edit_modal").modal();
+			let company = self.companies.find(comp => comp.company_id == company_id);
 			self.selected_comp_id = company_id;
 
-			let company = self.companies.find(comp => comp.company_id == company_id);
-			self.frmdata.company_id = company_id
-			self.frmdata 			= company;
-
-            $("#company_edit_modal").modal();
+			self.frmdata.company_id 	 = company_id
+			self.frmdata.company_name 	 = company.company_name
+			self.frmdata.address		 = company.address
+			self.frmdata.company_contact = company.company_contact
+			self.frmdata.company_email 	 = company.company_email
+			self.frmdata.remarks 	     = company.remarks
+            
         },
 		show_delete_company(comp_id){
 			let self = this;
@@ -141,5 +149,44 @@ var myapp = new Vue({
 	
 	
 })
+
+	// jquery in responsive events
+	$(document).ready(function(){
+		let is_reposive = false;
+		setResponsive();
+		$(window).resize(function(){
+			setResponsive();
+		})
+
+		function setResponsive(){
+			let myTable = $("#myTable thead th:last-child");
+			setTimeout(() => {
+				is_reposive = (myTable.css("display") == "none")
+			}, 1200);
+			
+		}
+
+		$(document).on("click", ".show_details_modal", function(){
+			if(is_reposive){
+				let c_id = $(this).attr("data");
+				myapp.show_details_modal(c_id);
+			}
+		})
+
+		$(document).on("click", ".show_edit_modal", function(){
+			if(is_reposive){
+				let c_id = $(this).attr("data");
+				myapp.show_edit_modal(c_id);
+			}
+		})
+
+		$(document).on("click", ".show_delete_company", function(){
+			if(is_reposive){
+				let c_id = $(this).attr("data");
+				myapp.show_delete_company(c_id);
+			}
+		})
+
+	})
 
 </script>

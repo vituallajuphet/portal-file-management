@@ -157,7 +157,7 @@
                                     <li>
                                         <div class="message-center">
                                              <?php 
-                                                $notifications = get_my_notifications(false);
+                                                $notifications = get_my_notifications(true);
 
                                                 if(empty($notifications)){
                                                     ?>

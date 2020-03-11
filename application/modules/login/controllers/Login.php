@@ -128,7 +128,11 @@ class Login extends MY_Controller {
 				if (password_verify($password, $res[0]->password)) {
 					if($res[0]->user_type =="investor" &&  $res[0]->approved == 0){
 						$msg = array( "err"=>"error", "message" => "Your account has not approved yet!" );
-					}else{
+					}
+					if($res[0]->user_type =="investor" &&  $res[0]->approved == 2){
+						$msg = array( "err"=>"error", "message" => "Your account has been disabled by administrator" );
+					}
+					else{
 						
 						$getDept = [];
 						if($res[0]->user_type =="cbmc"){

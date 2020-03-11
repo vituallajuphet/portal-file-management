@@ -6,6 +6,8 @@
 
 <script>
 var BASE_URL = "<?= base_url();?>";
+
+var dtable ="";
 </script>
 
 <script type="text/javascript" class="init">
@@ -79,7 +81,8 @@ var myapp = new Vue({
     },
     mounted(){
         this.getRequestData().then((res)=>{
-            $('#myTable').DataTable();
+            dtable = $('#myTable').DataTable();
+            dtable.order( [ 0, 'desc' ] ) .draw();
         }) 
 
         <?php
@@ -100,6 +103,34 @@ var myapp = new Vue({
 
 	// jquery in responsive events
 	$(document).ready(function(){
+
+        $.fn.dataTable.ext.search.push(
+			function( settings, data, dataIndex ) {
+
+				var dateFrom = $('#date_from').val()
+				var dateTo = $('#date_to').val()
+
+				let date_added = data[3];
+
+				if ( dateFrom != "" &&  dateTo != ""){
+					let dfrom = new Date(dateFrom);
+					let dto = new Date(dateTo);
+					let d_added = new Date(date_added);
+					
+					if((dfrom.getTime() <= d_added.getTime()) && (dto.getTime() >= d_added.getTime()) ){
+						return true;
+					}
+					return false;
+				}
+
+				return true;
+			}
+		);
+
+		$('#date_from, #date_to').change( function() {
+			dtable.draw();
+		} );
+
 		let is_reposive = false;
 		setResponsive();
 		$(window).resize(function(){

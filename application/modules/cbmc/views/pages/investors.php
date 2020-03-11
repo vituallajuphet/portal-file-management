@@ -31,13 +31,14 @@
                     <div class="col-12">
                         <div class="card">
                         <div class="card-body">
+
+
                             <table id="myTable" class="table dt-responsive nowrap admin-table" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Investor ID</th>
+                                         <th>Investor ID</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
-                                        <th>Active</th>
                                         <th>Status</th>
                                         <th>Email Address</th>
                                         <th>Action</th>
@@ -48,8 +49,7 @@
                                         <td>{{user.user_id}}</td>
                                         <td>{{user.firstname}}</td>
                                         <td>{{user.lastname}}</td>
-                                        <td>{{(user.user_status == 1 && user.approved == 1) ? "Active":"Inactive" }} </td>
-                                        <td>{{(user.approved == 1) ? "Approved":"Pending" }}</td>
+                                        <td>{{get_status(user.approved)}}</td>
                                         <td>{{user.email_address}}</td>
                                         <td class="td-manage-user">
                                             <a class="act_btn showInvestorDetails" :data="user.user_id" href="javascript:;" style="color:black" @click="showInvestorDetails(user.user_id)" title="View Details"><i class="fas fa-eye"></i></a>

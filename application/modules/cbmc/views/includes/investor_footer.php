@@ -6,6 +6,7 @@
 
 <script>
     var BASE_URL = "<?= base_url();?>";
+    
 </script>
 
 
@@ -34,6 +35,22 @@ var myapp = new Vue({
                     resolve(200);
                 })
             }) 
+        },
+        get_status(status_id){
+
+            let status_string = ""
+
+            if(status_id == 0){
+                status_string = "Pending"
+            }
+            else if(status_id == 1){
+                status_string = "Active"
+            }
+            else if(status_id == 2){
+                status_string = "Disabled"
+            }
+
+            return status_string;
         },
     
         showInvestorDetails(user_id){

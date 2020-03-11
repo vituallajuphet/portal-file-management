@@ -10,7 +10,7 @@
             </div>
             
             <div class="modal-body">
-                <form id="myform" method="post" action="<?=base_url("investor/contact_department")?>">
+                <form id="myform" @submit.prevent="submit_contact_dept()" method="post" action="<?=base_url("investor/contact_department")?>">
                     <div class="form-group">
                         <label for="recipient-name" class="control-label f-bold">Department:</label>
                         <select name="department" class="form-control custom-select">
@@ -49,7 +49,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                <form id="send_request_form" method="post" action="<?=base_url("investor/send_request_file")?>">
+                <form @submit.prevent="submit_request()" id="send_request_form" method="post" action="<?=base_url("investor/send_request_file")?>">
                     <!-- <div class="form-group">
                         <label for="recipient-name" class="control-label f-bold">Company:</label>
                         <select class="form-control custom-select">
@@ -60,7 +60,7 @@
                     <div class="form-group">
                         <label for="recipient-name" class="control-label f-bold">Department:</label>
                         <!-- <input type="text" class="form-control" name="recipient-name"> -->
-                        <select name="department" class="form-control custom-select">
+                        <select required name="department" class="form-control custom-select">
                             <?php
                            
                       
@@ -76,12 +76,12 @@
                     </div>
                     <div class="form-group">
                       <label for="message-text" class="control-label f-bold">Title:</label>
-                        <input type="text" class="form-control" name="title">
+                        <input required type="text" class="form-control" name="title">
                     </div>
 
                      <div class="form-group">
                       <label for="message-text" class="control-label f-bold">Company: </label>
-                        <select name="company" required class="form-control custom-select">
+                        <select required name="company" required class="form-control custom-select">
                              <option value="">Please select a company</option>
                              <?php 
                                 foreach ($company_email as $key) {

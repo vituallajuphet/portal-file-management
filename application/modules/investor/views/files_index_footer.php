@@ -32,7 +32,22 @@
         let get_file = self.files.find(file => file.request_id == req_id );
         this.selected_file = get_file;
         $("#view-file-modal").modal();
-      }
+      },
+      submit_request(){
+        let self = this;
+        self.confirm_alert("Are you sure to send this request?").then(res =>{
+            $(".preloader").show();
+            $("#send_request_form").submit();
+        })
+      },
+       submit_contact_dept(){
+        let self = this;
+        self.confirm_alert("Are you sure to send this message?").then(res =>{
+            $(".preloader").show();
+            $("#myform").submit();
+        })
+      },
+      <?= $this->load->view("modules/swal_vue_function");?>
     },
     computed:{
        getFiles(){

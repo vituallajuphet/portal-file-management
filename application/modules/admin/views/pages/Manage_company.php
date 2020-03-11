@@ -45,9 +45,9 @@
                                         <td>{{comp.company_contact}}</td>
 
                                         <td class="td-manage-user">
-                                            <a href="javascript:;" @click="show_details_modal(comp.company_id)" title="View Details"><i class="fas fa-eye"></i></a>
-                                          <a href="javascript:;" @click="show_edit_modal(comp.company_id)" title="Edit"><i class="fas fa-edit"></i></a>
-                                          <a href="javascript:;" @click="show_delete_company(comp.company_id)" title="Delete"><i class="fas fa-trash"></i></a>
+                                            <a href="javascript:;" class="show_details_modal act_btn" :data="comp.company_id" @click="show_details_modal(comp.company_id)" title="View Details"><i class="fas fa-eye"></i></a>
+                                          <a href="javascript:;" :data="comp.company_id" class="show_edit_modal act_btn" @click="show_edit_modal(comp.company_id)" title="Edit"><i class="fas fa-edit"></i></a>
+                                          <a href="javascript:;" :data="comp.company_id" class="act_btn show_delete_company" @click="show_delete_company(comp.company_id)" title="Delete"><i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>

@@ -27,6 +27,22 @@
                         <div class="card">
                         <div class="card-body">
                             <div v-show="!archieved_table_shown">
+                                 <div class="date_cont mt-4">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="formgroup">
+                                                <label class="control-label">Date From:</label>
+                                                <input class="form-control" type="date" id="date_from" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="formgroup">
+                                                <label class="control-label">Date To:</label>
+                                                <input class="form-control" type="date" id="date_to">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <table id="myTable" class="table dt-responsive nowrap admin-table" style="width:100%">
                                     <thead>
                                         <tr>
@@ -61,6 +77,22 @@
                             <!-- archived files table -->
                             <div v-show="archieved_table_shown">
                                 <!-- table a"rhieved -->
+                                 <div class="date_cont mt-4">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="formgroup">
+                                                <label class="control-label">Date From:</label>
+                                                <input class="form-control" type="date" id="date_from2" >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="formgroup">
+                                                <label class="control-label">Date To:</label>
+                                                <input class="form-control" type="date" id="date_to2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <table  id="myTable2" class="table dt-responsive nowrap admin-table" style="width:100%">
                                     <thead>
                                         <tr>

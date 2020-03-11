@@ -36,7 +36,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label f-bold">Status</label>
-                                <div>{{frmdata.approved == 1 ? 'Approved' : 'Pending'}}</div>
+                                <div>{{get_status(frmdata.approved)}}</div>
                             </div>
                         </div>
                         <div class="col-md-6">

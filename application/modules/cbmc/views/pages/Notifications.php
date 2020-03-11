@@ -25,6 +25,22 @@
                     <div class="col-12">
                         <div class="card">
                         <div class="card-body">
+                            <div class="date_cont mt-4">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="formgroup">
+                                            <label class="control-label">Date From:</label>
+                                            <input class="form-control" type="date" id="date_from" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="formgroup">
+                                            <label class="control-label">Date To:</label>
+                                            <input class="form-control" type="date" id="date_to">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <table id="myTable" class="table dt-responsive nowrap admin-table" style="width:100%">
                                 <thead>
                                     <tr>

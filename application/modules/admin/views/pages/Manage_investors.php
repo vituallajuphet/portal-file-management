@@ -37,7 +37,6 @@
                                         <th>Investor ID</th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
-                                        <th>Active</th>
                                         <th>Status</th>
                                         <th>Email Address</th>
                                         <th>Action</th>
@@ -48,14 +47,11 @@
                                         <td>{{user.user_id}}</td>
                                         <td>{{user.firstname}}</td>
                                         <td>{{user.lastname}}</td>
-                                        <td>{{(user.user_status == 1 && user.approved == 1) ? "Active":"Inactive" }} <a @click="show_update_active(user.user_id, user.user_status)" href="javascript:;" style="color:#222"><i class="fa fa-edit"></i></a></td>
-                                        <td>{{(user.approved == 1) ? "Approved":"Pending" }}</td>
+                                        <td>{{get_status(user.approved)}} <a @click="show_update_active(user.user_id, user.approved)" href="javascript:;" class="show_update_active" :data="user.user_id+'|'+user.approved" style="color:#222"><i class="fa fa-edit"></i></a></td>
                                         <td>{{user.email_address}}</td>
                                         <td class="td-manage-user">
-                                            <a class="act_btn" href="javascript:;" style="color:black" @click="showInvestorDetails(user.user_id)" title="View Details"><i class="fas fa-eye"></i></a>
-                                            <a class="act_btn" href="javascript:;" style="color:black" @click="showInvestorCompany(user.user_id)" title="Assign company"><i class="fas fa-edit"></i></a>
-                                            <a v-if="user.approved != 1" href="javascript:;" class="show_approve_investor act_btn" :data="user.user_id" @click="showApproveInvestor(user.user_id)" style="color:green"> <i class="fa fa-check" title="approve"></i></a>
-                                            <a v-else href="javascript:;" style="cursor:not-allowed;color:green"> <i class="fa fa-check" title="approve"></i></a>
+                                            <a class="act_btn showInvestorDetails" :data="user.user_id" href="javascript:;" style="color:black" @click="showInvestorDetails(user.user_id)" title="View Details"><i class="fas fa-eye"></i></a>
+                                            <a class="act_btn showInvestorCompany" :data="user.user_id" href="javascript:;" style="color:black" @click="showInvestorCompany(user.user_id)" title="Assign company"><i class="fas fa-edit"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>

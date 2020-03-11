@@ -79,8 +79,11 @@ var myapp = new Vue({
     },
     mounted(){
         this.getRequestData().then((res)=>{
-            $('#myTable').DataTable();
-        }) 
+            let table = $('#myTable').DataTable();
+            table
+                .order( [ 0, 'desc' ] )
+                .draw();
+            }) 
 
         <?php
             if(!empty($has_notify_id)){

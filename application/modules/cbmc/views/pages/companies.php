@@ -8,11 +8,11 @@
                 <div class="container-fluid">
                     <div class="row page-titles">
                         <div class="col-md-5 align-self-center">
-                            <h3 class="text-themecolor">Companies
+                            <h3 class="text-themecolor">Subsidiary
                         </h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="<?=base_url()?>">Home</a></li>
-                                <li class="breadcrumb-item active">Companies</li>
+                                <li class="breadcrumb-item active">Subsidiary</li>
                             </ol>
                         </div>
                         <div class="col-md-7 align-self-center text-right d-none d-md-block">

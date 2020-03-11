@@ -98,12 +98,17 @@ var myapp = new Vue({
             $("#investor_details_modal").modal();
         },
         show_update_active(user_id, user_status){
-            let self = this;
-            let status = 0;
-            let msg  = "Are sure to update from active to inactive this investor?";
 
-            if(user_status  != 1){
-                msg    = "Are sure to update from inactive to active this investor?";
+            let self = this;
+            let status = 1;
+            let msg  = "Are you sure to update this investor from Pending to Active?";
+
+            if(user_status  == 1){
+                msg    = "Are you sure to update this investor from Active to Disable?";
+                status = 2;
+            }
+            else if(user_status  == 2){
+                msg    = "Are you sure to update this investor from Disable to Active?";
                 status = 1;
             }
             self.confirm_alert(msg).then(res =>{
@@ -116,7 +121,7 @@ var myapp = new Vue({
                     this.is_loading = false
                     if(result.data.code == 200){
                         self.s_alert("Updated Successfully", "success");
-						self.page_reload(1300);
+						self.page_reload(700);
                     }
                 })
 
@@ -218,10 +223,28 @@ var myapp = new Vue({
                 })
             }
         },
+
+        get_status(status_id){
+
+            let status_string = ""
+
+            if(status_id == 0){
+                status_string = "Pending"
+            }
+            else if(status_id == 1){
+                status_string = "Active"
+            }
+            else if(status_id == 2){
+                status_string = "Disabled"
+            }
+
+            return status_string;
+        },
+
         <?= $this->load->view("modules/swal_vue_function");?>
     },
     computed:{
-        
+
     },
     mounted(){
         
@@ -249,13 +272,30 @@ var myapp = new Vue({
 			}, 1200);
 			
 		}
-		$(document).on("click", ".show_approve_investor", function(){
+		$(document).on("click", ".showInvestorDetails", function(){
 			if(is_reposive){
 				let r_id = $(this).attr("data");
-				myapp.showApproveInvestor(r_id);
+				myapp.showInvestorDetails(r_id);
 			}
 		})
-	
+
+        $(document).on("click", ".showInvestorCompany", function(){
+			if(is_reposive){
+				let i_id = $(this).attr("data");
+				myapp.showInvestorCompany(i_id);
+			}
+		})
+        
+
+        $(document).on("click", ".show_update_active", function(){
+			if(is_reposive){
+				let dta = $(this).attr("data");
+                var newdata = dta.split("|") ;
+                
+				myapp.show_update_active(newdata[0], newdata[1]);
+			}
+		})
+
 
 	})
 

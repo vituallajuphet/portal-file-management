@@ -73,7 +73,9 @@ var myapp = new Vue({
         // this.getRequestData().then((res)=>{
         //     $('#myTable').DataTable();
         // }) 
-        $('#myTable').DataTable();
+            let table = $('#myTable').DataTable();
+            table.order( [ 0, 'desc' ] ) .draw();
+
         <?php
             if(!empty($has_notify_id)){
                 ?>  

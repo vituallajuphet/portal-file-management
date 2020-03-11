@@ -524,7 +524,7 @@ class Admin extends MY_Controller {
 	public function get_restricted_user($file_id){
 
 		$response = array("code"=>204, "data"=> []);
-		$par["select"] = "user.user_id, user.user_type, u_details.firstname, u_details.lastname, fk_requested_id, fk_file_id, req.							  request_status, req.department" ;
+		$par["select"] = "user.user_id, user.user_type, u_details.firstname, u_details.lastname, fk_requested_id, fk_file_id, req.request_status, req.department" ;
 		$par["where"]  = "user.user_status = 1 AND user.user_type != 'admin' AND req_file.fk_file_id = $file_id";
 		$par["join"]   = array( 
 						 'tbl_user_details u_details' => 'user.user_id = u_details.user_id',
@@ -961,6 +961,7 @@ class Admin extends MY_Controller {
 				);
 
 				$resp = getData("tbl_user_details u_detail", $par, "obj");
+				send_notification($resp[0]->user_id, "Your request file has been approved");
 				$messge = $this->html_email($resp);
 				$is_sent = sendemail("prospteam@gmail.com", $messge, "File Request", "CMBC Notification");
 			}
@@ -1099,7 +1100,7 @@ class Admin extends MY_Controller {
 		$user_status = $this->input->post("user_status");
 
 		if(!empty($user_id) && isset($user_status)){
-			$set   = array("user_status" => $user_status);
+			$set   = array("approved" => $user_status);
 			$where = "user_id  = {$user_id} AND user_type = 'investor'";
 
 			updateData("tbl_users", $set, $where);

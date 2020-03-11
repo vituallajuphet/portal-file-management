@@ -6,6 +6,7 @@
 
 <script>
     var BASE_URL = "<?= base_url();?>";
+	var dtable, dtable2 = "";
 </script>
 
 <script type="text/javascript" class="init">
@@ -95,11 +96,13 @@ var myapp = new Vue({
 			let self = this;
 
 			self.confirm_alert("Are you sure to delete this request?").then(result => {
+				$(".preloader").show();
 				let form_data = new FormData();
 				form_data.append("request_id", request_id);
 
 				axios.post(`${self.base_url}admin/api_delete_request`, form_data).then(response =>{
 					if(response.data.code == 200){
+						$(".preloader").hide();
 						self.s_alert("Deleted Successfully", "success");
 						self.page_reload(1500);
 					}
@@ -128,9 +131,11 @@ var myapp = new Vue({
 			self.confirm_alert("Are you sure to update the status?").then(res =>{
 				if(res == 200){
 					let formdata = new FormData();	
+					$(".preloader").show();
 					formdata.append("frmdata", JSON.stringify(self.frm_status))
 					axios.post(`${self.base_url}admin/api_update_request_status`, formdata).then(res =>{
 						let resp = res.data;
+						$(".preloader").hide();
 						if(resp.code == 200){
 							self.s_alert("Status Successfully Updated", "success");
 							self.page_reload(1500);
@@ -152,9 +157,11 @@ var myapp = new Vue({
 						"file_ids" :self.check_request_id,
 						"request_id" :self.selected_approved_req_id	
 					}
+					$(".preloader").show();
 					frmdata.append("frmdata", JSON.stringify(fdata))
 					axios.post(`${self.base_url}admin/api_approve_request_file`, frmdata).then(res =>{
 						let resp = res.data;
+						$(".preloader").hide();
 						if(resp.code == 200){
 							self.s_alert("Request Approved Successfully", "success");
 							self.page_reload(1300);
@@ -220,8 +227,8 @@ var myapp = new Vue({
 	},
 	mounted(){
         this.get_requests().then(res=>{
-            $("#myTable").DataTable();
-            $("#myTable2").DataTable();
+           dtable = $("#myTable").DataTable();
+           dtable2 =  $("#myTable2").DataTable();
 			
 		})
 		this.get_files().then(res=>{
@@ -243,6 +250,55 @@ var myapp = new Vue({
 })
 	// jquery in responsive events
 	$(document).ready(function(){
+
+		$.fn.dataTable.ext.search.push(
+			function( settings, data, dataIndex ) {
+
+				var dateFrom = $('#date_from').val()
+				var dateTo   = $('#date_to').val()
+
+				var dateFrom2 = $('#date_from2').val()
+				var dateTo2 = $('#date_to2').val()
+
+				let date_added = data[5];
+				let date_added2 = data[5];
+
+				if ( dateFrom != "" &&  dateTo != ""){
+					let dfrom = new Date(dateFrom);
+					let dto = new Date(dateTo);
+					let d_added = new Date(date_added);
+					
+					if((dfrom.getTime() <= d_added.getTime()) && (dto.getTime() >= d_added.getTime()) ){
+						return true;
+					}
+					return false;
+				}
+
+				if ( dateFrom2 != "" &&  dateTo2 != ""){
+					let dfrom2 = new Date(dateFrom2);
+					let dto2 = new Date(dateTo2);
+					let d_added2 = new Date(date_added);
+					
+					if((dfrom2.getTime() <= d_added2.getTime()) && (dto2.getTime() >= d_added2.getTime()) ){
+						return true;
+					}
+					return false;
+				}
+
+				return true;
+			}
+		);
+
+		$('#date_from, #date_to').change( function() {
+			$('#date_from2, #date_to2').val("")
+			dtable.draw();
+		} );
+
+		$('#date_from2, #date_to2').change( function() {
+			$('#date_from, #date_to').val("")
+			dtable2.draw();
+		} );
+
 		let is_reposive = false;
 		let is_reposive2 = false;
 		setResponsive();

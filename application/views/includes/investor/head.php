@@ -101,7 +101,7 @@
                         <!-- Comment -->
                         <!-- ============================================================== -->
                         <?php 
-                            $notifications = get_my_notifications();
+                            $notifications = get_my_notifications(true);
                             $noti_count = 0;
                             if(!empty($notifications)){
                                 
@@ -126,17 +126,17 @@
                             <div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown">
                                 <ul>
                                     <li>
-                                        <div class="drop-title">Notifications</div>
+                                        <div class="drop-title" style="font-weight:bold;">Notifications</div>
                                     </li>
                                     <li>
                                         <div class="message-center">
                                             <!-- Message -->
                                             <?php 
-                                                $notifications = get_my_notifications();
+                                                $notifications = get_my_notifications(true);
 
                                                 if(empty($notifications)){
                                                     ?>
-                                                     <span class="empty_notification">You have no notifications</span>
+                                                     <span class="empty_notification">You have no new notifications</span>
                                                     <?php
                                                 }
                                                 else{ 

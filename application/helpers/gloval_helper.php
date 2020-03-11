@@ -228,7 +228,7 @@
         $user_id = $ci->session->userdata("user_id");
         $par["select"] = "*";
         $par["where"] = "fk_user_id_to = $user_id AND notify_status != 'deleted'";
-        $par["order_by"] = "notify_id";
+        $par["order"] = "notify_id DESC";
         if($has_limit){
             $par["limit2"] = [3];
             $par["where"] = "fk_user_id_to = $user_id AND notify_status != 'deleted' AND is_read = 0";
@@ -240,6 +240,7 @@
 
         $res = $ci->MY_Model->getRows("tbl_notification noti", $par, "obj");
     
+        // echo $ci->db->last_query();
 
         return $res;
     }

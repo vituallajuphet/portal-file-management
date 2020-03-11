@@ -125,14 +125,17 @@
                             <div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown">
                                 <ul>
                                     <li>
+                                        <div class="drop-title" style="font-weight:bold;">Notifications</div>
+                                    </li>
+                                    <li>
                                         <div class="message-center">
                                             <!-- Message -->
                                             <?php 
-                                                $notifications = get_my_notifications();
+                                                $notifications = get_my_notifications(true);
 
                                                 if(empty($notifications)){
                                                     ?>
-                                                     <span class="empty_notification">You have no notifications</span>
+                                                     <span class="empty_notification">You have no new notifications</span>
                                                     <?php
                                                 }
                                                 else{ 
@@ -155,14 +158,12 @@
                                                             </a>
                                                         <?php
                                                     }
-
                                                  }
                                             ?>
-
                                         </div>
                                     </li>
                                     <li>
-                                       <a class="nav-link text-center" href="<?= base_url("investor/notifications");?>"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
+                                        <a class="nav-link text-center" href="<?= base_url("investor/notifications");?>"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
                                     </li>
                                 </ul>
                             </div>
@@ -199,7 +200,7 @@
                                             <div class="u-text">
                                                 <a href="<?=base_url("investor/profile")?>" class="nav-profile">
                                                     <h4>My Profile</h4>
-                                                    <p>Dummy text only</p>
+                                                    <p><?= $this->session->userdata("email_address")?></p>
                                                 </a>
                                            </div>
                                     </li>

@@ -6,6 +6,7 @@
 
 <script>
 var BASE_URL = "<?= base_url();?>";
+var dtable, dtable2 = "";
 var hasFile = false;
 </script>
 
@@ -313,10 +314,10 @@ var myapp = new Vue({
 		},
 		mounted(){
 			this.get_files().then((res)=>{
-				$('#myTable').DataTable();		
+				dtable = $('#myTable').DataTable();		
 			});
 			this.get_arc_files().then((res)=>{
-				$('#myTable2').DataTable();		
+				 dtable2 =	$('#myTable2').DataTable();		
 			}); 
 			// execute if add_file form request page is added
 			<?php if(!empty($_SESSION["add_file"])){
@@ -336,6 +337,55 @@ var myapp = new Vue({
 
 	// jquery in responsive events
 	$(document).ready(function(){
+
+		$.fn.dataTable.ext.search.push(
+			function( settings, data, dataIndex ) {
+
+				var dateFrom = $('#date_from').val()
+				var dateTo = $('#date_to').val()
+
+				var dateFrom2 = $('#date_from2').val()
+				var dateTo2 = $('#date_to2').val()
+
+				let date_added = data[4];
+				let date_added2 = data[3];
+
+				if ( dateFrom != "" &&  dateTo != ""){
+					let dfrom = new Date(dateFrom);
+					let dto = new Date(dateTo);
+					let d_added = new Date(date_added);
+					
+					if((dfrom.getTime() <= d_added.getTime()) && (dto.getTime() >= d_added.getTime()) ){
+						return true;
+					}
+					return false;
+				}
+
+				if ( dateFrom2 != "" &&  dateTo2 != ""){
+					let dfrom2 = new Date(dateFrom2);
+					let dto2 = new Date(dateTo2);
+					let d_added2 = new Date(date_added);
+					
+					if((dfrom2.getTime() <= d_added2.getTime()) && (dto2.getTime() >= d_added2.getTime()) ){
+						return true;
+					}
+					return false;
+				}
+
+				return true;
+			}
+		);
+
+		$('#date_from, #date_to').change( function() {
+			$('#date_from2, #date_to2').val("")
+			dtable.draw();
+		} );
+
+		$('#date_from2, #date_to2').change( function() {
+			$('#date_from, #date_to').val("")
+			dtable2.draw();
+		} );
+
 		let is_reposive = false;
 		let is_reposive2 = false;
 		setResponsive();

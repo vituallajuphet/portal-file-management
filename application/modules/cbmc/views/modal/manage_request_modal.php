@@ -192,45 +192,45 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label  class="control-label">Request File Title:</label>
-                                <div style="font-weight:bold;">{{selected_requested_file.file_title}}</div>
+                                <label  class="control-label f-bold">Request File Title:</label>
+                                <div style="">{{selected_requested_file.file_title}}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label  class="control-label">Status:</label>
-                                <div style="font-weight:bold;">{{selected_requested_file.request_status}}</div>
+                                <label  class="control-label f-bold">Status:</label>
+                                <div style="">{{selected_requested_file.request_status}}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label  class="control-label">Company:</label>
-                                <div style="font-weight:bold;">{{selected_requested_file.company_name}}</div>
+                                <label  class="control-label f-bold">Company:</label>
+                                <div style="">{{selected_requested_file.company_name}}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label  class="control-label">Investor Name:</label>
-                                <div style="font-weight:bold;">{{selected_requested_file.firstname + ' '+ selected_requested_file.lastname}}</div>
+                                <label  class="control-label f-bold">Investor Name:</label>
+                                <div style="">{{selected_requested_file.firstname + ' '+ selected_requested_file.lastname}}</div>
                             </div>
                         </div>    
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label  class="control-label">Department:</label>
-                                <div style="font-weight:bold;">{{selected_requested_file.department}}</div>
+                                <label  class="control-label f-bold">Department:</label>
+                                <div style="">{{selected_requested_file.department}}</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label  class="control-label">Requested Date:</label>
-                                <div style="font-weight:bold;">{{selected_requested_file.requested_date}}</div>
+                                <label  class="control-label f-bold">Requested Date:</label>
+                                <div style="">{{selected_requested_file.requested_date}}</div>
                             </div>
                         </div>
                         
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label  class="control-label">Comment / Additional Info:</label>
-                                <div style="font-weight:bold;">{{selected_requested_file.comment}}</div>
+                                <label  class="control-label f-bold">Comment / Additional Info:</label>
+                                <div style="">{{selected_requested_file.comment}}</div>
                             </div>
                         </div>
                     </div>

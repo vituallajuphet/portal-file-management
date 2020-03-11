@@ -53,8 +53,23 @@
          }
       },
       downloadFile(req_id){
-       alert(req_id)
+      
       },
+       submit_request(){
+          let self = this;
+          self.confirm_alert("Are you sure to send this request?").then(res =>{
+              $(".preloader").show();
+              $("#send_request_form").submit();
+          })
+        },
+        submit_contact_dept(){
+          let self = this;
+          self.confirm_alert("Are you sure to send this message?").then(res =>{
+              $(".preloader").show();
+              $("#myform").submit();
+          })
+        },
+     
       get_row_class(status){
         let ret = "";
         if(status == "Completed"){
@@ -64,7 +79,8 @@
           ret = "row-processed"
         }
         return ret;
-      }
+      },
+       <?= $this->load->view("modules/swal_vue_function");?>
     },
 
     computed:{

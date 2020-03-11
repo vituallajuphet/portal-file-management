@@ -84,3 +84,5 @@ and (max-width : 767px) {
 .nav-tabs .nav-item .nav-link.active{font-weight: bold;}
 
 .modal-header{ background: #c5a36f; color: #fff;}
+
+#view_details_request, #view_completed_files{padding-right: 0!important;}
