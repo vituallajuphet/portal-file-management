@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2020 at 01:49 PM
+-- Generation Time: Mar 12, 2020 at 12:15 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
@@ -193,14 +193,14 @@ INSERT INTO `tbl_notification` (`notify_id`, `message`, `fk_user_id_from`, `fk_u
 (41, 'Your request file has been approved', 1, 11, 1, '1', '2020-03-11'),
 (42, 'Your request has been processed', 1, 11, 0, '1', '2020-03-11'),
 (43, 'Your request file has been approved', 1, 11, 0, '1', '2020-03-11'),
-(44, 'Investor requested a file', 11, 33, 0, '1', '2020-03-11'),
+(44, 'Investor requested a file', 11, 33, 1, '1', '2020-03-11'),
 (45, 'Investor requested a file', 11, 1, 0, '1', '2020-03-11'),
-(46, 'Investor requested a file', 11, 33, 0, '1', '2020-03-11'),
+(46, 'Investor requested a file', 11, 33, 1, '1', '2020-03-11'),
 (47, 'Investor requested a file', 11, 1, 0, '1', '2020-03-11'),
-(48, 'Investor requested a file', 11, 33, 0, '1', '2020-03-11'),
+(48, 'Investor requested a file', 11, 33, 1, '1', '2020-03-11'),
 (49, 'Investor requested a file', 11, 1, 0, '1', '2020-03-11'),
 (50, 'Investor send you an email.', 11, 1, 0, '1', '2020-03-11'),
-(51, 'Investor requested a file', 11, 33, 0, '1', '2020-03-11'),
+(51, 'Investor requested a file', 11, 33, 1, '1', '2020-03-11'),
 (52, 'Investor requested a file', 11, 1, 0, '1', '2020-03-11'),
 (53, 'Investor send you an email.', 11, 1, 0, '1', '2020-03-11'),
 (54, 'Your request has been processed', 1, 11, 0, '1', '2020-03-11'),
