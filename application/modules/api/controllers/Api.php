@@ -42,8 +42,18 @@ class Api extends MY_Controller {
 				updateData("tbl_notification", $set, $where);
 				$response = array("code"=>200, "data"=> []);
 		}
+
+		$get_type = $this->session->userdata("user_type");
+
+		if($get_type == "cbmc"){
+			redirect(base_url("cbmc/notifications"));
+		}
+		else if($get_type == "investor"){
+			redirect(base_url("investor/notifications"));
+		}
 		
-		redirect(base_url("investor/notifications"));
+		
+		
 	}
 
 
@@ -487,6 +497,7 @@ class Api extends MY_Controller {
 
 		echo json_encode($response);
 	}
+
 
 	// hmtl format
 	private function html_email($arr, $msg ="Your requested file has been approved."){
