@@ -59,7 +59,8 @@
                                         <td>{{(noti.is_read) == 0 ? 'unread' : 'read'}}</td>
                                         <td>{{noti.date_created}}</td>
                                         <td class="td-manage-user">
-                                           <a style="color:black;" class="show_notify_details act_btn" :data="noti.notify_id" href="javascript:;" @click="show_notify_details(noti.notify_id)" title="Show"><i class="fas fa-eye"></i></a>
+                                           <!-- <a style="color:black;" class="show_notify_details act_btn" :data="noti.notify_id" href="javascript:;" @click="show_notify_details(noti.notify_id)" title="Show"><i class="fas fa-eye"></i></a> -->
+                                           <a style="color:black;" class="show_notify_details act_btn" :data="noti.notify_id" :href="base_url+'cbmc/notifications/view'+noti.notify_id" title="Show"><i class="fas fa-eye"></i></a>
                                            <a v-if="(noti.is_read) == 0" style="color:green; act_btn" :href="base_url+'api/update_notification/'+noti.notify_id" title="Mark as read"><i class="fas fa-check"></i></a>
                                            <a v-else style="cursor:not-allowed;color:green;" class="act_btn" href="javascript:;" title="Mark as read"><i class="fas fa-check"></i></a>
                                             <a class="text-danger act_btn show_delele_noti" :data="noti.notify_id" href="javascript:;" @click="show_delele_noti(noti.notify_id)" title="Delete"><i class="fas fa-trash"></i></a>

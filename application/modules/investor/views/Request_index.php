@@ -44,7 +44,7 @@
                                     <tr v-for="(req) in file_requests" :key="req.request_id" :class="get_row_class(req.request_status)">
                                         <td>{{req.request_id}}</td>
                                         <td>{{req.file_title }}</td>
-                                        <td>{{req.request_status}}</td>
+                                        <td>{{is_files_restricted(req.attachments,req.restricted) ? "Restricted" : req.request_status }}</td>  
                                         <td>{{req.company_name}}</td>
                                         <td>{{req.department}}</td>
                                         <td>{{req.requested_date}}</td>

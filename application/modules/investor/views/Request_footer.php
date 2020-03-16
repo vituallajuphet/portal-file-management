@@ -55,6 +55,12 @@
       downloadFile(req_id){
       
       },
+      is_files_restricted(files, res_files){
+        if(files.length == 0 && res_files.length > 0){
+          return true;
+        }
+        return false;
+      },
        submit_request(){
           let self = this;
           self.confirm_alert("Are you sure to send this request?").then(res =>{

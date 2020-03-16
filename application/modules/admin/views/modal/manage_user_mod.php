@@ -59,7 +59,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-theme" ><i class="fa fa-check"></i> Submit</button>
-                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                 </div>
             </form>
         </div>
@@ -130,7 +130,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-theme" ><i class="fa fa-edit"></i> Update</button>
-                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"><i class="fa fa times"></i> Close</button>
                 </div>
             </form>
         </div>

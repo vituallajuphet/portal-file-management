@@ -2,20 +2,26 @@
 <!-- Page wrapper  -->
 <!-- ============================================================== -->
 <div id="myApp">
+    <div class="my_loader" v-show="is_loading">
+        <div class="loader_con">
+                <img src="<?=base_url("assets/images/preloader.gif")?>" alt="preloader">
+        </div>
+    </div>
+    
     <div class="page-wrapper">
         <div class="main_con">
                 <div class="container-fluid">
                     <div class="row page-titles">
                         <div class="col-md-5 align-self-center">
-                            <h3 class="text-themecolor">Notifications
+                            <h3 class="text-themecolor">Investors
                         </h3>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="<?=base_url()?>">Home</a></li>
-                                <li class="breadcrumb-item active">Notifications</li>
+                                <li class="breadcrumb-item active">Investors</li>
                             </ol>
                         </div>
                         <div class="col-md-7 align-self-center text-right d-none d-md-block">
-                            
+                            <!-- <button type="button" @click="show_add_modal()" class="btn btn-theme" data-toggle="modal" data-target="#responsive-modal" ><i class='fas fa-plus' ></i> Add User</button> -->
                         </div>
                     </div>
                     <!-- ============================================================== -->
@@ -25,34 +31,32 @@
                     <div class="col-12">
                         <div class="card">
                         <div class="card-body">
+
+
                             <table id="myTable" class="table dt-responsive nowrap admin-table" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Notification ID</th>
-                                        <th>From</th>
+                                         <th>Investor ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
                                         <th>Status</th>
-                                        <th>Date</th>
+                                        <th>Email Address</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="noti in notifications">
-                                        <td>{{noti.notify_id}}</td>
-                                        <td>{{noti.firstname + ' ' +noti.lastname}}</td>
-
-                                        <td>{{(noti.is_read) == 0 ? 'unread' : 'read'}}</td>
-                                        <td>{{noti.date_created}}</td>
+                                    <tr v-for="user in users"> 
+                                        <td>{{user.user_id}}</td>
+                                        <td>{{user.firstname}}</td>
+                                        <td>{{user.lastname}}</td>
+                                        <td>{{get_status(user.approved)}}</td>
+                                        <td>{{user.email_address}}</td>
                                         <td class="td-manage-user">
-                                        <a style="color:black;" class="show_notify_details act_btn" :data="noti.notify_id" :href="base_url+'admin/notifications/view/'+noti.notify_id" title="Show"><i class="fas fa-eye"></i></a>
-                                           <a v-if="(noti.is_read) == 0" style="color:green;" :href="base_url+'admin/api_update_notification/'+noti.notify_id" title="Mark as read"><i class="fas fa-check"></i></a>
-                                           <a v-else style="cursor:not-allowed;color:green;" href="javascript:;" title="Mark as read"><i class="fas fa-check"></i></a>
-                                            <a class="text-danger" href="javascript:;" @click="show_delele_noti(noti.notify_id)" title="Delete"><i class="fas fa-trash"></i></a>
+                                            <a class="act_btn showInvestorDetails" :data="user.user_id" href="javascript:;" style="color:black" @click="showInvestorDetails(user.user_id)" title="View Details"><i class="fas fa-eye"></i></a>
                                         </td>
-
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
                         </div>
                     </div>
                     </div>
@@ -62,8 +66,8 @@
                 </div>
                 <!-- modal -->
                 <?php 
-                    if(!empty($has_mod)){
-                        $this->load->view($has_mod);
+                    if(!empty($has_modal)){
+                        $this->load->view($has_modal);
                     }
                 ?>
             <!-- end modal -->

@@ -5,6 +5,7 @@ class Home extends MY_Controller {
 
 		public function index(){
 			$user_type = $this->session->userdata("user_type");
+			
 			if($user_type == "investor"){
 				redirect(base_url("investor"));
 			}
@@ -12,7 +13,10 @@ class Home extends MY_Controller {
 				redirect(base_url("admin"));
 			}
 			else if($user_type == "cbmc"){
-				redirect(base_url("cbmc"));
+				redirect(base_url("cbmc/investors"));
+			}
+			else if($user_type == "subsidiary"){
+				redirect(base_url("subsidiary/"));
 			}
 			else{
 				redirect(base_url("login"));

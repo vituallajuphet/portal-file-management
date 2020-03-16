@@ -52,10 +52,85 @@ class Api extends MY_Controller {
 			redirect(base_url("investor/notifications"));
 		}
 		
-		
-		
 	}
 
+	public function my_comp(){
+		echo  '<pre>';
+		print_r($this->get_my_company());
+		echo '</pre>';
+		exit;
+	}
+
+	private function get_my_company(){
+		
+		$response 	= array("code"=>204, "data"=> []);
+		$my_id  	= get_user_id();
+
+		$par["select"] 	= "*";
+		$par["where"] 	= "comp.user_id = {$my_id}  AND status = 'joined'";
+
+		$res = getData("tbl_user_company comp", $par, "obj");
+
+		$comp_arr = [];
+
+		if(!empty($res)){
+			
+			foreach ($res as $key) {
+				array_push($comp_arr, $key->company_id);
+			}
+
+		}
+
+		return $comp_arr;
+
+	}
+
+	public function get_sub_investors(){
+
+		$response = array("code"=>204, "data"=> []);
+
+		$par["where"] 		= "user.user_type = 'investor'";
+		$par["where_in"] 	= array(
+			"col" 	=> "u_comp.company_id",
+			"value" => $this->get_my_company()
+		);
+		$par["group"] 		= "user.user_id";
+		$par["join"]		= array( 
+			'tbl_user_details user_detail'	=> 'user.user_id = user_detail.user_id',
+			'tbl_user_company u_comp' => "u_comp.user_id = user.user_id "
+		);
+
+		$result_users = getData('tbl_users user', $par, "obj");
+
+		if(!empty($result_users)){
+			
+			$c = 0;
+
+			foreach ($result_users as $user) {
+				$par2["select"] 	= "company_name, comp.company_id";
+				$par2["where"] 		= "user_id = {$user->user_id} ";
+				$par2["join"]		= array(
+					"tbl_companies comp" => "comp.company_id = user_comp.company_id"
+				);
+				$companies = getData("tbl_user_company user_comp", $par2, "obj");
+
+				$par3["select"] 	= "file_name";
+				$par3["where"] 		= "user_id = $user->user_id";
+				$reg_files = getData("tbl_registration_files reg_files", $par3, "obj");
+
+				$result_users[$c]->companies = $companies;
+				$result_users[$c]->reg_file = $reg_files;
+				unset($result_users[$c]->password);
+
+				$c++;
+			}
+
+			$response = array("code"=>200, "data"=> $result_users);
+		}
+
+		echo json_encode($response);
+
+	}
 
 	public function get_investors(){
 
@@ -104,11 +179,22 @@ class Api extends MY_Controller {
 		$this->get_files_request("");
 	}
 
+	public function get_sub_request_file(){
+		$param  = array(
+			"company_ids" => $this->get_my_company()
+		);
+
+		$this->get_files_request("", "json", $param);
+	}
+
+
+
+
 	public function get_files($result = "json"){
 
 		$response = array("code"=> 204, "data" => []);
 
-		$par["select"] = "files_id, file_name, file_department, file_company_id, file_title, date_added, file_status, user.user_id, 						  firstname, lastname, remarks";	
+		$par["select"] = "files_id, file_name, file_department, file_company_id, file_title, date_added, file_status, user.user_id,   firstname, lastname, remarks";	
 		$par["where"]  = "file.file_status = 'published'";
 		$par["join"]   = array(
 			"tbl_users user"		  => "user.user_id = file.added_by",
@@ -128,10 +214,17 @@ class Api extends MY_Controller {
 		}
 	}
 
-	private function get_files_request($status="", $result= "json"){
+	private function get_files_request($status="", $result= "json", $params = array()){
 		$response = array("code"=> 204, "data" => []);
-		$par["select"] ="request_id, req.user_id, comment, req.company_id, req.department, 	file_title, requested_date, request_status, 					firstname, lastname, requested_date, comp.company_name, req.date_approved";	
-		$par["where"] ="req.request_status != 'Deleted'";
+		$par["select"] = "request_id, req.user_id, comment, req.company_id, req.department, file_title, requested_date, request_status, firstname, lastname, requested_date, comp.company_name, req.date_approved";	
+		$par["where"]  = "req.request_status != 'Deleted'";
+
+		if(!empty($params)){
+			if(!empty($params["company_ids"])){
+				$par["where_in"]["col"] = "comp.company_id";
+				$par["where_in"]["value"] = $params["company_ids"];
+			}
+		}
 
 		if(!empty($status)){
 			$par["where"] ="req.request_status = '$status' AND req.request_status != 'Deleted'";
@@ -144,6 +237,7 @@ class Api extends MY_Controller {
 		);
 		
 		$res = getData("tbl_requests req", $par);
+
 
 		if(!empty($res)){
 			$response = array("code"=> 200, "data" => $res);

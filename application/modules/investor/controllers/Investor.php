@@ -48,11 +48,16 @@ class Investor extends MY_Controller {
 			$par["join"] =array(
 				"tbl_companies comp" => "comp.company_id = req.company_id"
 			);
+
 			$response = getData("tbl_requests req", $par, "obj");
+
 			$par["where_in"] = null;
+
 			$arr=[];
+
 			if(!empty($response)){
 				$c = 0;
+
 				foreach ($response as $key => $value) {
 					$par["select"] = "*";
 					$par["where"] = "req_file.fk_requested_id = $value->request_id AND file.file_status != 'deleted'";
@@ -60,13 +65,39 @@ class Investor extends MY_Controller {
 					$par["join"] = array(
 						"tbl_files file" => "file.files_id = req_file.fk_file_id"
 					);
+
 					$requested_file = getData("tbl_requested_files req_file", $par, "obj");
-					$response[$c]->file_data = $requested_file;
+
+					$get_restricted = [];
+					$get_files = [];
+					if(!empty($requested_file)){
+						$cc=0;
+
+						foreach ($requested_file as $key) {
+							$par2["select"] ="*";
+							$par2["where"]  ="file_id =  ".$key->files_id." AND request_id = ".$key->fk_requested_id;
+							$resp = getData("tbl_restricted_user", $par2, "obj");
+
+							if(!empty($resp)){
+								array_push($get_restricted, $requested_file[$cc] );
+							}
+							else{
+								array_push($get_files, $requested_file[$cc] );
+							}
+							
+							$cc++;
+						}
+					}
+
+					$response[$c]->restricted = $get_restricted;
+					$response[$c]->file_data = $get_files;
 					
 					$c++;
 				}
 			}
 		}
+
+
 		$data["files_rows"] = $response;
 		$data['company_email']= get_my_company();		
 		// get companies
@@ -223,10 +254,13 @@ class Investor extends MY_Controller {
 		$param["select"] = "company_id";
 		$getCom = getData("tbl_user_company", $param, "obj");
 		$my_comp = [];
+
 		if(!empty($getCom)){
+
 			foreach ($getCom as $comp) {
 				array_push($my_comp, $comp->company_id);
 			}
+
 			$request_data = $this->db->
 			select("*")->
 			from('tbl_requests r')->
@@ -234,11 +268,15 @@ class Investor extends MY_Controller {
 			where_in("r.company_id", $my_comp)->
 			where("r.user_id", $my_id)->
 			get()->result();
+
 			if(!empty($request_data)){
 				$results = $request_data;
+
 				foreach ($results as $result) {
+
 					if($result->request_status == "Completed"){
 						$r_id = $result->request_id;
+
 						$approvedData = $this->db->
 						select("*")->
 						from('tbl_files f')->
@@ -247,7 +285,9 @@ class Investor extends MY_Controller {
 						join('tbl_companies c', "r.company_id = c.company_id")->
 						where("r.request_id", $r_id)->
 						get()->result();
+
 						if(!empty($approvedData)){
+
 							$get_attached = $this->db->
 							select("file_name, file_title, f.files_id, rf.fk_requested_id")->
 							from('tbl_files f')->
@@ -255,8 +295,10 @@ class Investor extends MY_Controller {
 							where('rf.fk_requested_id', $r_id)->
 							get()->result_array();
 							$get_restricted = [];
+
 							if(!empty($get_attached)){
 								$c=0;
+
 								foreach ($get_attached as $key) {
 									$par2["select"] ="*";
 									$par2["where"] ="file_id =  ".$key["files_id"]." AND request_id = ".$key["fk_requested_id"]."";
@@ -269,11 +311,14 @@ class Investor extends MY_Controller {
 									$c++;
 								}
 							}
+
 							$approvedData[0]->{"restricted"} = $get_restricted;
 							$approvedData[0]->{"attachments"} = $get_attached;
 						}
 						array_push($res, $approvedData[0]);
-					}else{
+
+					}
+					else{
 						array_push($res, $result);
 					}
 				}

@@ -30,6 +30,7 @@
       showFile(req_id){
         let self = this;
         let get_file = self.files.find(file => file.request_id == req_id );
+        console.log(get_file)
         this.selected_file = get_file;
         $("#view-file-modal").modal();
       },

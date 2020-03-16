@@ -4,10 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class MY_Controller extends MX_Controller {
 
 	public function __construct(){
+
+
 		$route = $this->router->fetch_class();
 		if(check_module() == 2){
-			echo "<p style='text-align: center;  font-size: 20px;  margin: 30px 0 0;  color: red;'>You are not authorize to access this page.</p> ";
-			
+			echo "not allowed to access!";
 			exit;
 		}
 		else if(check_module() == 3){
@@ -53,6 +54,12 @@ class MY_Controller extends MX_Controller {
 		$this->load->view('includes/cbmc/header',$data);
 		$this->load->view($page,$data);
 		$this->load->view('includes/admin/footer',$data);
+	}
+
+	public function load_subsidiary_page($page,$data = array(), $component =""){
+		$this->load->view('includes/subsidiary/header',$data);
+		$this->load->view($page,$data);
+		$this->load->view('includes/subsidiary/footer',$data);
 	}
 
 	

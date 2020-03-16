@@ -28,7 +28,6 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-body">
-
                     <table id="myTable" class="table   dt-responsive nowrap " style="width:100%">
                     <!-- <table id="example" class="table " style="width:100%"> -->
                         <thead>
@@ -46,7 +45,7 @@
                               <td>{{file.file_title}}</td>
                               <td>{{file.department}}</td>
                               <td>{{file.company_name}}</td>
-                              <td>{{file.file_data.length != 0 ? file.file_data.length + ' File(s)' : 'Deleted'}} </td>
+                              <td>{{file.file_data.length != 0 ? file.file_data.length + ' File(s)' : 'Deleted/Restricted'}} </td>
                               <td>
                                   {{file.file_data.length == 0 ? 'N/A' : file.file_data[0].date_added}}
                              </td>
