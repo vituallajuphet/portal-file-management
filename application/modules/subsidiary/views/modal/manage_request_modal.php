@@ -5,6 +5,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title" id="vcenter"><i class="icon-Edit"></i> Update Request Status </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -52,14 +53,38 @@
                 <div class="modal-header">
                     <h4 class="modal-title" id="vcenter"><i class="icon-File"></i> Please select a file</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                   
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                       
                         <div class="col-md-12 text-right">
-                            <a :href="base_url+'cbmc/add_new_file/'+selected_approved_req_id" class="btn btn-theme"><i class="fa fa-plus"></i> Add File</a>
+                             <a href="javascript:;" class="btn btn-theme" @click="show_upload_modal()"><i class="fa fa-upload"></i> Upload File</a>
+                        </div>
+                         <div class="col-md-12">
+                          <hr>
+                          <h4 class="c-heading">Your Uploaded Files</h4>
+                            <table class="table table-bordered up-files">
+                                <thead>
+                                    <tr>
+                                        <td>File Title</td>
+                                        <td>Date Added</td>
+                                        <td>Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="file in uploaded_files">
+                                        <td>{{file.process_file_title}}</td>
+                                        <td>{{file.date_created}}</td>
+                                        <td> <a href="javascript:;" @click="remove_uploaded_file(file)" class="text-danger" href="#"  ><i class="fa fa-trash"></i></a> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                           <hr>
                         </div>
                         <div class="col-md-12">
                             <input type="hidden" name="request_id" v-model="selected_approved_req_id" required>
+                            <h4 class="c-heading">Your Files</h4>
                             <table id="myTable3" class="table   dt-responsive nowrap admin-table" style="width:100%">
                                 <!-- <table id="example" class="table " style="width:100%"> -->
                                     <thead>
@@ -238,6 +263,46 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-theme waves-effect" data-dismiss="modal"><i class="fa fa-times"></i>  Close</button>
                 </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- end modal -->
+
+
+<!-- start -->
+<div id="file_upload_modal" class="modal show dept_modal file-modal" tabindex="-1" role="dialog" aria-labelledby="vcenter"  aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:500px;">
+        <div class="modal-content modal-form ">
+                <form method="POST" class="sub_file_upload" :action="base_url+'subsidiary/sub_upload_file'" @submit.prevent="submit_form_upload()" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="vcenter">Upload File</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                    <div class="form-group">
+                                        
+                                        <label for="file_title"  class="control-label f-bold">File Title</label>
+                                       <input class="form-control" type="text" name="file_title" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="request_id" :value="selected_approved_req_id">
+                                        <label for="files"  class="control-label f-bold">Select a file</label>
+                                        <input type="file" name="file" required class="form-control" id="files">
+                                    </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-theme2 waves-effect" data-dismiss="modal"><i class="fa fa-times"></i>  Close</button>
+                        <button type="submit" class="btn btn-theme waves-effect"><i class="fa fa-check"></i>  Upload</button>
+                    </div>
+                </form>
         </div>
         <!-- /.modal-content -->
     </div>

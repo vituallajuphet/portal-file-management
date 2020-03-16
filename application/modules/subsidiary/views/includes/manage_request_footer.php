@@ -40,6 +40,7 @@ var myapp = new Vue({
 				requested_date:"",
 				comment:""
 			},
+			uploaded_files:[]
 		}
 	},
 	methods:{
@@ -59,7 +60,7 @@ var myapp = new Vue({
 		get_files(){
 			let self = this;
 			return new Promise((resolve, reject)=>{
-				axios.get(`${self.base_url}api/get_files`).then(res =>{
+				axios.get(`${self.base_url}api/get_sub_files`).then(res =>{
 					let resp = res.data;
 					if(resp.code == 200){
 						self.files = resp.data;
@@ -78,7 +79,17 @@ var myapp = new Vue({
             $("#update_status_modal").modal();
 		},
 		show_approve_request_frm(req_id){
+			
+			let self = this;
+
+			axios.get(`${self.base_url}api/get_sub_uploaded_files/${req_id}`).then(res =>{
+				if(res.data.code == 200){
+					self.uploaded_files = res.data.data;
+				}
+			})
+			
 			this.selected_approved_req_id  = req_id;
+
 			$("#approve_request_form").modal();
 		},
 		show_completed_details(req_id){
@@ -89,9 +100,41 @@ var myapp = new Vue({
 				if(resp.code == 200){
 					req_file.file_data = resp.data
 					self.selected_completed_file = req_file;
-					$("#view_completed_files").modal();
 				}
 			})	
+			$("#view_completed_files").modal();
+		},
+		remove_uploaded_file(pro_file){
+			let self = this;
+			let frmdata = new FormData();
+			frmdata.append("pro_id", pro_file.process_id)
+			frmdata.append("req_id", pro_file.fk_request_id)
+
+			axios.post(`${self.base_url}api/delete_sub_uploaded_file/`, frmdata).then(res =>{
+				let resp = res.data;
+				if(resp.code == 200){
+					self.uploaded_files = res.data.data;
+				}
+			})
+		},
+		
+		show_upload_modal(){
+			
+			let self = this;
+			self.selected_approved_req_id
+			$("#approve_request_form").modal("hide");
+			$("#file_upload_modal").modal();
+
+		},
+
+		submit_form_upload(){
+			let self = this;
+
+			self.confirm_alert("Are you sure to upload this file?").then(res =>{
+				$(".sub_file_upload").submit();
+			})
+			
+
 		},
 		show_delete_request(request_id){ //show delete alert 
 			let self = this;
@@ -160,7 +203,7 @@ var myapp = new Vue({
 					$("#approve_request_form").modal("hide");
 					self.is_loading = true;
 					frmdata.append("frmdata", JSON.stringify(fdata))
-					axios.post(`${self.base_url}api/approve_request_file`, frmdata).then(res =>{
+					axios.post(`${self.base_url}api/sub_process_request`, frmdata).then(res =>{
 						let resp = res.data;
 						if(resp.code == 200){
 							self.is_loading = false;
@@ -229,19 +272,22 @@ var myapp = new Vue({
 	mounted(){
         this.get_requests().then(res=>{
         	dtable =  $("#myTable").DataTable();
-         dtable2 =  $("#myTable2").DataTable();
+       		dtable2 =  $("#myTable2").DataTable();
 			
 		})
 		this.get_files().then(res=>{
             $("#myTable3").DataTable();
         })
 		<?php 
-			if(!empty($_SESSION["add_file_req_id"])) { ?>
-				let req_id = <?=$_SESSION["add_file_req_id"];?>;
+			if(!empty($_SESSION["upload_requested"])) { ?>
+				let req_id = <?=$_SESSION["upload_requested"]["req_id"];?>;
+				
+				this.uploaded_files = <?= json_encode($_SESSION["upload_requested"]["data"]);?>
+
 				this.show_approve_request_frm(req_id)
 				
 			<?php 
-				unset($_SESSION["add_file_req_id"]);
+				 unset($_SESSION["upload_requested"]);
 			}
 		?>
 	},

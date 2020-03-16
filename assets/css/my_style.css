@@ -248,5 +248,14 @@ table.dataTable thead>tr>th {
     margin: 0 12px;
 }
 
+.sub_file_upload input[type="file"]{font-size: 19px; font-family: inherit; height: auto!important;width: 100%!important; height: unset!important; opacity: 1!important; position: static!important;z-index: 1;}
+
 .modal-header{ background: #c5a36f; color: #fff;}
 .f-bold{font-weight: bold;}
+
+.up-files {}
+.up-files  thead{}
+.up-files  thead tr{}
+.up-files  thead tr td{color: #fff;}
+
+.c-heading{font-size: 19px;}

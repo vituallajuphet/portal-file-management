@@ -55,10 +55,15 @@
       downloadFile(req_id){
       
       },
-      is_files_restricted(files, res_files){
-        if(files.length == 0 && res_files.length > 0){
-          return true;
+      is_files_restricted(req){
+        if(req.request_status == "Completed"){
+
+			if(req.attachments.length == 0 && req.restricted.length > 0){
+				return true;
+			}    
+
         }
+        
         return false;
       },
        submit_request(){

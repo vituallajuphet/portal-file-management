@@ -39,4 +39,56 @@ class Subsidiary extends MY_Controller {
 			echo "This page is under development";
 		}
 
+
+		// Manage Request...
+		public function sub_upload_file(){
+
+			$post = $this->input->post();
+		
+
+			if(!empty($post)){
+
+				$request_id = $post["request_id"];
+
+				$settings['upload_path'] = "./assets/process_files/";
+				$file_name				 = "process-file-".time();
+				$settings['file_name'] 	 = $file_name;
+
+				if(upload_file($_FILES, $settings)){
+
+					$set = array(
+						"fk_request_id" => $request_id,
+						"fk_file_id" => 0,
+						"fk_process_user_id" => get_user_id(),
+						"date_created" =>  date("Y-m-d"),
+						"process_file_name" =>  $file_name.$this->upload->data('file_ext'),
+						"process_status" => "processed",
+						"process_file_title" => $post["file_title"]
+					);
+
+					insertData("tbl_processed_request", $set);
+					
+					swal_data("File uploaded successfully");
+
+					$pars["where"] = "fk_request_id = {$request_id} AND fk_file_id = 0";
+					$file_data	   = getData("tbl_processed_request", $pars, "obj");
+
+					$_SESSION["upload_requested"] = array(
+						"req_id" => $request_id,
+						"data" 	 => $file_data
+					);
+				}
+				else{
+					$err = $this->upload->display_errors();
+					swal_data(strip_tags($err), "error");
+				}
+			
+			}else{
+				swal_data("Please add a file first!", "error");
+			}
+
+			redirect(base_url("subsidiary/manage_request"));
+
+		}
+
 }
