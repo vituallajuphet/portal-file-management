@@ -887,7 +887,13 @@ class Admin extends MY_Controller {
 				if(!empty($res2)){
 					$response = array("code"=> 200);
 				}
-			}	
+			}
+			
+			$par3["where"] = "fk_request_id = {$post->request_id} AND fk_file_id = {$post->files_id}";
+			$has_process = getData("tbl_processed_request", $par3);
+			if(!empty($has_process)){
+				$response = array("code"=> 201);
+			}
 
 		}
 		echo json_encode($response);
@@ -936,6 +942,38 @@ class Admin extends MY_Controller {
 			$file_ids = $post->file_ids;
 			$request_id = $post->request_id;
 
+			if(!empty($post->is_checked)){
+				$par2["where"] = "fk_request_id = {$request_id} AND  process_status = 'processing'";
+				$process_files = getData("tbl_processed_request", $par2 ,"obj" );
+
+				if(!empty($process_files)){
+					$c = 0;
+
+					foreach ($process_files as $key) {
+						if($key->fk_file_id == 0){
+							$set = array(
+								"file_title" 		 => $key->process_file_title,
+								"file_name" 		 => $key->process_file_name,
+								"fk_process_user_id" => $key->fk_process_user_id,
+								"fk_request_id" 	 => $key->fk_request_id,
+								"date_created" 		 => date("Y-m-d"), 
+							);
+
+							insertData("tbl_subsidiary_files", $set);
+						}
+						else{
+							$set = array(
+								"fk_requested_id" => $fk_request_id,
+								"fk_file_id" => $fk_file_id,
+								"fk_approved_user_id" => get_user_id()
+							);
+							insertData("tbl_requested_files", $set);
+						}
+					}
+				}
+
+			}
+
 			foreach ($file_ids as $file_id) {
 				$set = array(
 					"fk_requested_id" => $request_id,
@@ -949,8 +987,12 @@ class Admin extends MY_Controller {
 				"request_status" => "Completed",
 				"date_approved" => date("Y-m-d"),
 			);
+
 			$where = array("request_id" => $request_id);
 			updateData('tbl_requests', $set, $where);
+
+			deleteData("tbl_processed_request", array("fk_request_id" => $request_id));
+
 			$response = array("code"=> 200, "data" => []);
 
 			if($this->will_send_email){
@@ -1004,8 +1046,23 @@ class Admin extends MY_Controller {
 		);
 		
 		$res = getData("tbl_requests req", $par);
-
 		if(!empty($res)){
+			$c = 0;
+			foreach ($res as $key) {
+
+				$par2["select"] = "pro.process_id, pro.date_created as p_date, fk_process_user_id, process_file_name, process_file_title, comp.company_id, fk_process_user_id, user_d.firstname, user_d.lastname, company_name, company_email, user_d.email_address";
+				$par2["where"]  = "pro.fk_request_id = {$key['request_id']} AND process_status = 'processing'";
+				$par2["join"]   = array(
+					"tbl_requests req" => "req.request_id = pro.fk_request_id",
+					"tbl_user_details user_d" => "user_d.user_id = pro.fk_process_user_id",
+					"tbl_companies comp" => "comp.company_id = req.company_id"
+				);
+
+				$get_users =  getData("tbl_processed_request pro", $par2);
+				$res[$c]["process_details"] = $get_users;
+				$c++;
+			}
+
 			$response = array("code"=> 200, "data" => $res);
 		}
 

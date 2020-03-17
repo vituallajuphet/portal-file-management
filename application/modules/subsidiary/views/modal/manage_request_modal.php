@@ -68,6 +68,7 @@
                                 <thead>
                                     <tr>
                                         <td>File Title</td>
+                                        <td>Status</td>
                                         <td>Date Added</td>
                                         <td>Action</td>
                                     </tr>
@@ -75,6 +76,7 @@
                                 <tbody>
                                     <tr class="file-upload-tr" v-for="file in uploaded_files">
                                         <td>{{file.process_file_title}}</td>
+                                        <td>{{file.process_status}}</td>
                                         <td>{{file.date_created}}</td>
                                         <td>
                                           <a target="blank" :href="base_url+'assets/process_files/'+file.process_file_name"> <i class="fa fa-eye"></i></a>
@@ -83,7 +85,7 @@
                                         </td>
                                     </tr>
                                     <tr v-if="uploaded_files.length == 0">
-                                        <td colspan="3" class="text-center">
+                                        <td colspan="4" class="text-center">
                                             <span class="text-danger ">No uploaded file</span>
                                         </td>
                                     </tr>

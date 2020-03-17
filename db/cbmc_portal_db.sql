@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2020 at 07:13 PM
--- Server version: 10.1.34-MariaDB
--- PHP Version: 7.2.7
+-- Generation Time: Mar 17, 2020 at 11:01 AM
+-- Server version: 10.1.25-MariaDB
+-- PHP Version: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -223,7 +223,40 @@ INSERT INTO `tbl_notification` (`notify_id`, `message`, `fk_user_id_from`, `fk_u
 (71, 'Your request has been processed', 35, 34, 1, '1', '2020-03-17'),
 (72, 'Your request has been processed', 35, 34, 0, '1', '2020-03-17'),
 (73, 'Your request has been processed', 1, 34, 0, '1', '2020-03-17'),
-(74, 'Your request has been processed', 1, 34, 0, '1', '2020-03-17');
+(74, 'Your request has been processed', 1, 34, 0, '1', '2020-03-17'),
+(75, 'Your request has been processed', 35, 34, 0, '1', '2020-03-17'),
+(76, 'Investor requested a file', 11, 33, 0, '1', '2020-03-17'),
+(77, 'Investor requested a file', 11, 1, 0, '1', '2020-03-17'),
+(78, 'Investor requested a file', 11, 33, 0, '1', '2020-03-17'),
+(79, 'Investor requested a file', 11, 1, 0, '1', '2020-03-17'),
+(80, 'Your request has been processed', 35, 11, 0, '1', '2020-03-17'),
+(81, 'Your request has been processed', 35, 11, 0, '1', '2020-03-17'),
+(82, 'Your request has been processed', 35, 11, 0, '1', '2020-03-17'),
+(83, 'Your request has been processed', 35, 11, 0, '1', '2020-03-17'),
+(84, 'Your request has been processed', 35, 11, 0, '1', '2020-03-17'),
+(85, 'Your request has been processed', 35, 11, 0, '1', '2020-03-17'),
+(86, 'Your request has been processed', 1, 11, 0, '1', '2020-03-17'),
+(87, 'Investor requested a file', 11, 33, 0, '1', '2020-03-17'),
+(88, 'Investor requested a file', 11, 1, 0, '1', '2020-03-17'),
+(89, 'Your request has been processed', 1, 11, 0, '1', '2020-03-17'),
+(90, 'Your request file has been approved', 1, 11, 0, '1', '2020-03-17'),
+(91, 'Investor requested a file', 11, 33, 0, '1', '2020-03-17'),
+(92, 'Investor requested a file', 11, 1, 0, '1', '2020-03-17'),
+(93, 'Your request has been processed', 1, 11, 0, '1', '2020-03-17'),
+(94, 'Your request file has been approved', 1, 11, 0, '1', '2020-03-17'),
+(95, 'Your request has been processed', 35, 11, 0, '1', '2020-03-17'),
+(96, 'Investor requested a file', 34, 33, 0, '1', '2020-03-17'),
+(97, 'Investor requested a file', 34, 1, 0, '1', '2020-03-17'),
+(98, 'Your request has been processed', 35, 34, 0, '1', '2020-03-17'),
+(99, 'Your request file has been approved', 1, 34, 0, '1', '2020-03-17'),
+(100, 'Investor requested a file', 34, 33, 0, '1', '2020-03-17'),
+(101, 'Investor requested a file', 34, 1, 0, '1', '2020-03-17'),
+(102, 'Investor requested a file', 11, 33, 0, '1', '2020-03-17'),
+(103, 'Investor requested a file', 11, 1, 0, '1', '2020-03-17'),
+(104, 'Your request has been processed', 1, 11, 0, '1', '2020-03-17'),
+(105, 'Your request file has been approved', 1, 11, 0, '1', '2020-03-17'),
+(106, 'Your request has been processed', 35, 34, 0, '1', '2020-03-17'),
+(107, 'Your request file has been approved', 1, 34, 0, '1', '2020-03-17');
 
 -- --------------------------------------------------------
 
@@ -260,14 +293,6 @@ CREATE TABLE `tbl_processed_request` (
   `date_created` date NOT NULL,
   `process_status` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tbl_processed_request`
---
-
-INSERT INTO `tbl_processed_request` (`process_id`, `fk_file_id`, `fk_request_id`, `fk_process_user_id`, `process_file_name`, `process_file_title`, `date_created`, `process_status`) VALUES
-(34, 8, 46, 35, '', '', '2020-03-16', 'Pending'),
-(35, 0, 46, 35, 'process-file-1584377426.jpg', 'asdasd', '2020-03-16', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -313,7 +338,8 @@ CREATE TABLE `tbl_requested_files` (
 --
 
 INSERT INTO `tbl_requested_files` (`requested_file_id`, `fk_requested_id`, `fk_file_id`, `fk_approved_user_id`) VALUES
-(81, 45, 8, 1);
+(85, 54, 7, 1),
+(86, 53, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -338,9 +364,8 @@ CREATE TABLE `tbl_requests` (
 --
 
 INSERT INTO `tbl_requests` (`request_id`, `user_id`, `comment`, `company_id`, `department`, `file_title`, `requested_date`, `date_approved`, `request_status`) VALUES
-(45, 11, 'I need a file ', 1, 'Human Resources', 'test file1', '2020-03-15', '2020-03-16', 'Completed'),
-(46, 34, 'test1', 1, 'Finance', 'test file', '2020-03-16', '2020-03-16', 'Processing'),
-(47, 34, 'testasd', 1, 'Human Resources', 'test11', '2020-03-16', '2020-03-16', 'Processing');
+(54, 11, 'test', 1, 'Finance', 'test', '2020-03-17', '2020-03-17', 'Completed'),
+(53, 34, 'test 1', 1, 'Finance', 'test 1', '2020-03-17', '2020-03-17', 'Completed');
 
 -- --------------------------------------------------------
 
@@ -363,6 +388,21 @@ CREATE TABLE `tbl_restricted_user` (
 INSERT INTO `tbl_restricted_user` (`restricted_id`, `file_id`, `request_id`, `user_id`, `status`) VALUES
 (4, 8, 45, 11, 'Restricted'),
 (5, 7, 45, 11, 'Restricted');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_subsidiary_files`
+--
+
+CREATE TABLE `tbl_subsidiary_files` (
+  `sub_file_id` int(11) NOT NULL,
+  `file_title` varchar(100) NOT NULL,
+  `file_name` varchar(100) NOT NULL,
+  `fk_process_user_id` int(11) NOT NULL,
+  `fk_request_id` int(11) NOT NULL,
+  `date_created` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -551,6 +591,12 @@ ALTER TABLE `tbl_restricted_user`
   ADD PRIMARY KEY (`restricted_id`);
 
 --
+-- Indexes for table `tbl_subsidiary_files`
+--
+ALTER TABLE `tbl_subsidiary_files`
+  ADD PRIMARY KEY (`sub_file_id`);
+
+--
 -- Indexes for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
@@ -583,103 +629,91 @@ ALTER TABLE `tbl_user_details`
 --
 ALTER TABLE `permited_users`
   MODIFY `permited_users_id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `tbl_cmbc_dept`
 --
 ALTER TABLE `tbl_cmbc_dept`
   MODIFY `dept_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `tbl_companies`
 --
 ALTER TABLE `tbl_companies`
   MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
 --
 -- AUTO_INCREMENT for table `tbl_departments`
 --
 ALTER TABLE `tbl_departments`
   MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `tbl_files`
 --
 ALTER TABLE `tbl_files`
   MODIFY `files_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
-
 --
 -- AUTO_INCREMENT for table `tbl_forgotpassword_keys`
 --
 ALTER TABLE `tbl_forgotpassword_keys`
   MODIFY `forgotpass_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
 --
 -- AUTO_INCREMENT for table `tbl_notification`
 --
 ALTER TABLE `tbl_notification`
-  MODIFY `notify_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
-
+  MODIFY `notify_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 --
 -- AUTO_INCREMENT for table `tbl_notifications`
 --
 ALTER TABLE `tbl_notifications`
   MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `tbl_processed_request`
 --
 ALTER TABLE `tbl_processed_request`
-  MODIFY `process_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
-
+  MODIFY `process_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 --
 -- AUTO_INCREMENT for table `tbl_registration_files`
 --
 ALTER TABLE `tbl_registration_files`
   MODIFY `registration_files_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
 --
 -- AUTO_INCREMENT for table `tbl_requested_files`
 --
 ALTER TABLE `tbl_requested_files`
-  MODIFY `requested_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
-
+  MODIFY `requested_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 --
 -- AUTO_INCREMENT for table `tbl_requests`
 --
 ALTER TABLE `tbl_requests`
-  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
-
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 --
 -- AUTO_INCREMENT for table `tbl_restricted_user`
 --
 ALTER TABLE `tbl_restricted_user`
   MODIFY `restricted_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
+--
+-- AUTO_INCREMENT for table `tbl_subsidiary_files`
+--
+ALTER TABLE `tbl_subsidiary_files`
+  MODIFY `sub_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
-
 --
 -- AUTO_INCREMENT for table `tbl_user_company`
 --
 ALTER TABLE `tbl_user_company`
   MODIFY `user_company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
 --
 -- AUTO_INCREMENT for table `tbl_user_dept_details`
 --
 ALTER TABLE `tbl_user_dept_details`
   MODIFY `user_dept_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
 --
 -- AUTO_INCREMENT for table `tbl_user_details`
 --
 ALTER TABLE `tbl_user_details`
-  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-COMMIT;
+  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

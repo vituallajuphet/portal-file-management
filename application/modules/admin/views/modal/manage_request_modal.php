@@ -76,8 +76,8 @@
                                         <td>
                                           <a v-if="file.is_uploaded == 0" target="blank" :href="base_url+'uploaded_files/'+file.process_file_name"> <i class="fa fa-eye"></i></a>
                                           <a v-if="file.is_uploaded != 0" target="blank" :href="base_url+'assets/process_files/'+file.process_file_name"> <i class="fa fa-eye"></i></a>
-                                         <a href="javascript:;" @click="remove_uploaded_file(file)" class="text-danger" href="#"  ><i class="fa fa-trash"></i></a> 
-                                        
+                                           
+                                         
                                         </td>
                                     </tr>
                                     <tr v-if="uploaded_files.length == 0">
@@ -87,8 +87,8 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input">
+                            <div class="form-check pl-0">
+                                <input type="checkbox" class="check_mark_proccess" class="form-check-input">
                                 <label class="form-check-label" for="exampleCheck1">Mark as check to include this file(s)</label>
                             </div>
                             <hr>
@@ -268,6 +268,33 @@
                                 <div style="">{{selected_requested_file.comment}}</div>
                             </div>
                         </div>
+                    </div>
+                    <div class="row"  v-if="selected_requested_file.process_details.length > 0">
+                            <div class="col-md-12" > <hr> </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label  class="control-label f-bold">Prepared By:</label>
+                                    <div style="">{{selected_requested_file.process_details[0].firstname +' '+ selected_requested_file.process_details[0].lastname}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label  class="control-label f-bold">No. of prepared files:</label>
+                                    <div style="">{{selected_requested_file.process_details.length}} File(s)</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label  class="control-label f-bold">Email Address</label>
+                                    <div style="">{{selected_requested_file.process_details[0].email_address}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label  class="control-label f-bold">Date Prepared:</label>
+                                    <div style="">{{selected_requested_file.process_details[0].p_date}}</div>
+                                </div>
+                            </div>
                     </div>
                 </div>
                 <div class="modal-footer">

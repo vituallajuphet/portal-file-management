@@ -657,7 +657,7 @@ class Api extends MY_Controller {
 		$file_data = [];
 		if(!empty($req_id)){
 
-			$pars["where"] = "fk_request_id = {$req_id}";
+			$pars["where"] = "fk_request_id = {$req_id} AND process_status = 'processing'";
 			$results = getData("tbl_processed_request", $pars, "obj");
 			
 			if(!empty($results)){
@@ -696,20 +696,37 @@ class Api extends MY_Controller {
 		if(!empty($post)){
 			$file_ids = $post->file_ids;
 			$request_id = $post->request_id;
+			$uploaded_files = $post->uploaded_files;
 
-			foreach ($file_ids as $file_id) {
-				$set = array(
-					"fk_request_id" => $request_id,
-					"fk_file_id" => $file_id,
-					"fk_process_user_id" => get_user_id(),
-					"date_created" =>  date("Y-m-d"),
-					"process_file_name" =>  "",
-					"process_status" => "processed",
-				);
-
-				insertData("tbl_processed_request", $set);
+			if(!empty($file_ids)){
+				foreach ($file_ids as $file_id) {
+					$set = array(
+						"fk_request_id" => $request_id,
+						"fk_file_id" => $file_id,
+						"fk_process_user_id" => get_user_id(),
+						"date_created" =>  date("Y-m-d"),
+						"process_file_name" =>  "",
+						"process_status" => "processing",
+					);
+					
+					insertData("tbl_processed_request", $set);
+				}
 			}
+			
+			if(!empty($uploaded_files)){
+				foreach ($uploaded_files as $file) {
+					$set = array(
+						"process_status" => "processing",
+					);
+					$where = array(
+						"process_id" => $file->process_id,
+						"process_status" => "pending",
+					);
 
+					updateData("tbl_processed_request", $set, $where);
+				}
+			}
+			
 			$set = array(
 				"request_status" => "Processing",
 			);
@@ -725,7 +742,7 @@ class Api extends MY_Controller {
 				);
 				$resp = getData("tbl_user_details u_detail", $par, "obj");
 				$messge = $this->html_email($resp);
-				$is_sent = sendemail("prospteam@gmail.com", $messge, "File Request", "CMBC Notification");
+				$is_sent = sendemail('web2.juphetvitualla@gmail.com', $messge, "File Request", "CMBC Notification");
 			}
 		}
 		

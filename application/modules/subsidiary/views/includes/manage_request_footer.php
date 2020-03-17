@@ -158,7 +158,6 @@ var myapp = new Vue({
 		view_request_details(req_id){
 			let self = this;
 			let req_file = self.request_files.find(file => file.request_id == req_id);
-			console.log(req_file)
 			self.selected_requested_file.file_title = req_file.file_title;
 			self.selected_requested_file.request_status=req_file.request_status
 			self.selected_requested_file.company_name=req_file.company_name
@@ -167,7 +166,7 @@ var myapp = new Vue({
 			self.selected_requested_file.department=req_file.department
 			self.selected_requested_file.requested_date=req_file.requested_date
 			self.selected_requested_file.comment=req_file.comment
-
+			
 			$("#view_details_request").modal();
 
 		},
@@ -192,16 +191,17 @@ var myapp = new Vue({
 		},
 		submit_approve_form(){
 			let self = this;
-			if(self.check_request_id.length == 0){
-				self.s_alert("Please select at least one file", "error")
+			if(self.check_request_id.length == 0 && self.uploaded_files.length == 0){
+				self.s_alert("Please select or upload at least one file", "error")
 				return;
 			}
-			self.confirm_alert("Are you sure to approve this request?").then(res =>{
+			self.confirm_alert("Are you sure to process this request?").then(res =>{
 				if(res == 200){
 					let frmdata = new FormData();
 					let fdata = {
 						"file_ids" :self.check_request_id,
-						"request_id" :self.selected_approved_req_id	
+						"request_id" :self.selected_approved_req_id,
+						"uploaded_files": self.uploaded_files
 					}
 					$("#approve_request_form").modal("hide");
 					self.is_loading = true;

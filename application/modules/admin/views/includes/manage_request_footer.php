@@ -37,7 +37,8 @@ var myapp = new Vue({
 				lastname:"",
 				department:"",
 				requested_date:"",
-				comment:""
+				comment:"",
+				process_details:[]
 			},
 			uploaded_files:[]
 		}
@@ -130,7 +131,7 @@ var myapp = new Vue({
 			self.selected_requested_file.department=req_file.department
 			self.selected_requested_file.requested_date=req_file.requested_date
 			self.selected_requested_file.comment=req_file.comment
-
+			self.selected_requested_file.process_details=req_file.process_details
 			$("#view_details_request").modal();
 
 		},
@@ -154,16 +155,36 @@ var myapp = new Vue({
 		},
 		submit_approve_form(){
 			let self = this;
-			if(self.check_request_id.length == 0){
+
+			let checkbox = $(".check_mark_proccess");
+			let is_checked = true;
+			let message = "Are you sure to approve this request?";
+
+			if(self.check_request_id.length == 0 && checkbox[0] == undefined){
 				self.s_alert("Please select at least one file", "error")
+				is_checked = false;
 				return;
 			}
-			self.confirm_alert("Are you sure to approve this request?").then(res =>{
+			
+			if(checkbox[0] != undefined){
+				if(self.check_request_id.length == 0 && !checkbox[0].checked){
+					self.s_alert("Please select at least one file", "error")
+					is_checked = false;
+					return;
+				}
+				if(checkbox != undefined && !checkbox[0].checked){
+					message 	= "Are you sure not to include to prepared files?";
+					is_checked  = false;
+				}
+			}
+			
+			self.confirm_alert(message).then(res =>{
 				if(res == 200){
 					let frmdata = new FormData();
 					let fdata = {
-						"file_ids" :self.check_request_id,
-						"request_id" :self.selected_approved_req_id	
+						"file_ids" 	 :self.check_request_id,
+						"request_id" :self.selected_approved_req_id,
+						"is_checked" :is_checked
 					}
 					$(".preloader").show();
 					frmdata.append("frmdata", JSON.stringify(fdata))
@@ -218,6 +239,10 @@ var myapp = new Vue({
 				if(res.data.code == 200){
 					get_node.checked = false;
 					self.s_alert("This investor already has this file", "error");
+				}
+				else if(res.data.code == 201){
+					get_node.checked = false;
+					self.s_alert("This file is already prepared", "error");
 				}
 				else{
 					self.check_request_id.push(file_id)
