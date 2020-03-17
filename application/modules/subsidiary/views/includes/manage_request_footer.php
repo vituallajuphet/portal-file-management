@@ -109,12 +109,15 @@ var myapp = new Vue({
 			let frmdata = new FormData();
 			frmdata.append("pro_id", pro_file.process_id)
 			frmdata.append("req_id", pro_file.fk_request_id)
+			frmdata.append("filename", pro_file.process_file_name)
 
-			axios.post(`${self.base_url}api/delete_sub_uploaded_file/`, frmdata).then(res =>{
-				let resp = res.data;
-				if(resp.code == 200){
-					self.uploaded_files = res.data.data;
-				}
+			self.confirm_alert("Are you sure to remove this file?").then(res =>{
+				axios.post(`${self.base_url}api/delete_sub_uploaded_file/`, frmdata).then(res =>{
+					let resp = res.data;
+					if(resp.code == 200){
+						self.uploaded_files = res.data.data;
+					}
+				})
 			})
 		},
 		
@@ -245,15 +248,14 @@ var myapp = new Vue({
 			let get_node = this.$refs.check_hand.find(ref => ref.value == file_id);
 			if(get_node.checked == false){
 				self.check_request_id = self.check_request_id.filter(check => check != file_id)
-				console.log(self.check_request_id)
 				return;
 				
 			}
 			frmdata.append("frmdata", JSON.stringify(fdata))
-			axios.post(`${self.base_url}api/check_has_file`, frmdata).then(res =>{
+			axios.post(`${self.base_url}api/check_process_file`, frmdata).then(res =>{
 				if(res.data.code == 200){
 					get_node.checked = false;
-					self.s_alert("This investor already has this file", "error");
+					self.s_alert("You have already attached this file", "error");
 				}
 				else{
 					self.check_request_id.push(file_id)

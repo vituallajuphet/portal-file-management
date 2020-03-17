@@ -39,6 +39,7 @@ var myapp = new Vue({
 				requested_date:"",
 				comment:""
 			},
+			uploaded_files:[]
 		}
 	},
 	methods:{
@@ -75,10 +76,17 @@ var myapp = new Vue({
 			self.frm_status.status =req_file.request_status
 			self.frm_status.file_title =req_file.file_title
             $("#update_status_modal").modal();
+			
 		},
 		show_approve_request_frm(req_id){
+			let self = this;
 			this.selected_approved_req_id  = req_id;
 			$("#approve_request_form").modal();
+			axios.get(`${self.base_url}api/get_sub_process_file/${req_id}`).then(res =>{
+				if(res.data.code == 200){
+					self.uploaded_files = res.data.data;
+				}
+			})
 		},
 		show_completed_details(req_id){
 			let self = this;

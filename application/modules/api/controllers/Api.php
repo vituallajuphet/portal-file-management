@@ -327,6 +327,8 @@ class Api extends MY_Controller {
 		echo json_encode($this->http_response);
 	}
 
+
+
 	public function check_has_file(){
 
 		$response = array("code"=> 204);
@@ -355,51 +357,6 @@ class Api extends MY_Controller {
 			}	
 
 		}
-		echo json_encode($response);
-	}
-
-
-	public function sub_process_request(){ //process request from subsidiary account
-
-		$response = array("code"=> 204, "data" => []);
-		$post = json_decode($this->input->post("frmdata"));
-
-		if(!empty($post)){
-			$file_ids = $post->file_ids;
-			$request_id = $post->request_id;
-
-			foreach ($file_ids as $file_id) {
-				$set = array(
-					"fk_request_id" => $request_id,
-					"fk_file_id" => $file_id,
-					"fk_process_user_id" => get_user_id(),
-					"date_created" =>  date("Y-m-d"),
-					"process_file_name" =>  "",
-					"process_status" => "processed",
-				);
-
-				insertData("tbl_processed_request", $set);
-			}
-
-			$set = array(
-				"request_status" => "Processing",
-			);
-			$where = array("request_id" => $request_id);
-			updateData('tbl_requests', $set, $where);
-			$response = array("code"=> 200, "data" => []);
-
-			if($this->will_send_email){
-				$par["select"] = "*";
-				$par["where"]  = "req.request_id = $request_id";
-				$par["join"]   = array(
-					"tbl_requests req" => "req.user_id = u_detail.user_id",
-				);
-				$resp = getData("tbl_user_details u_detail", $par, "obj");
-				$messge = $this->html_email($resp);
-				$is_sent = sendemail("prospteam@gmail.com", $messge, "File Request", "CMBC Notification");
-			}
-		}
-		
 		echo json_encode($response);
 	}
 
@@ -694,21 +651,141 @@ class Api extends MY_Controller {
 		
 	}
 
+	public function get_sub_process_file($req_id){
+
+		$response = array("code"=>204, "data"=> []);
+		$file_data = [];
+		if(!empty($req_id)){
+
+			$pars["where"] = "fk_request_id = {$req_id}";
+			$results = getData("tbl_processed_request", $pars, "obj");
+			
+			if(!empty($results)){
+				$c = 0;
+				foreach ($results as $key ) {
+					$file_data[$c] = $key;
+					$file_data[$c]->is_uploaded = 1;
+					if($key->fk_file_id != 0){
+
+						$par["where"] = "file.files_id = $key->fk_file_id";
+						
+						$files = getData("tbl_files file", $par, "obj");
+						if(!empty($files)){
+							$file_data[$c]->process_file_title = $files[0]->file_title;
+							$file_data[$c]->process_file_name = $files[0]->file_name;
+							$file_data[$c]->is_uploaded = 0;
+						}
+					}
+					
+					$c++;
+				}
+			}
+			$response = array("code"=>200, "data"=> $file_data);
+		}
+
+	
+		  echo json_encode($response);
+
+	}
+
+	public function sub_process_request(){ //process request from subsidiary account
+
+		$response = array("code"=> 204, "data" => []);
+		$post = json_decode($this->input->post("frmdata"));
+
+		if(!empty($post)){
+			$file_ids = $post->file_ids;
+			$request_id = $post->request_id;
+
+			foreach ($file_ids as $file_id) {
+				$set = array(
+					"fk_request_id" => $request_id,
+					"fk_file_id" => $file_id,
+					"fk_process_user_id" => get_user_id(),
+					"date_created" =>  date("Y-m-d"),
+					"process_file_name" =>  "",
+					"process_status" => "processed",
+				);
+
+				insertData("tbl_processed_request", $set);
+			}
+
+			$set = array(
+				"request_status" => "Processing",
+			);
+			$where = array("request_id" => $request_id);
+			updateData('tbl_requests', $set, $where);
+			$response = array("code"=> 200, "data" => []);
+
+			if($this->will_send_email){
+				$par["select"] = "*";
+				$par["where"]  = "req.request_id = $request_id";
+				$par["join"]   = array(
+					"tbl_requests req" => "req.user_id = u_detail.user_id",
+				);
+				$resp = getData("tbl_user_details u_detail", $par, "obj");
+				$messge = $this->html_email($resp);
+				$is_sent = sendemail("prospteam@gmail.com", $messge, "File Request", "CMBC Notification");
+			}
+		}
+		
+		echo json_encode($response);
+	}
+
 	public function delete_sub_uploaded_file(){
 		$response = array("code"=>204, "data"=> []);
 		
 		$pro_id = $this->input->post("pro_id");
 		$req_id = $this->input->post("req_id");
+		$file_name = $this->input->post("filename");
 
-		if(!empty($pro_id)){
+		if(!empty($pro_id) && !empty($req_id) && !empty($file_name)){
 			$where= "process_id = {$pro_id}";
 			deleteData("tbl_processed_request", $where);
 			
+			$this->delete_process_file($file_name);
 			$resp = $this->get_sub_uploaded_files($req_id, true);
 			$response = array("code"=>200, "data"=> $resp);
 		}
 		echo json_encode($response);
 
+	}
+
+	public function check_process_file(){
+
+		$response = array("code"=> 204);
+		$post 	  = json_decode($this->input->post("frmdata"));
+
+		if(!empty($post)){
+			$par["select"]  = "user.user_id";
+			$par["where"]   = "req.request_id = $post->request_id";
+			$par["join"] 	= array(
+				"tbl_requests req" => "req.user_id = user.user_id",
+			);
+			$res = getData("tbl_users user", $par, "obj");
+
+			if(!empty($res)){
+				$user_id = $res[0]->user_id;
+				
+				$par["select"] ="req.user_id";
+				$par["where"] ="req.user_id = $user_id AND pro_file.fk_file_id = $post->files_id";
+				$par["join"] =array(
+					"tbl_processed_request pro_file" => "pro_file.fk_request_id = req.request_id"
+				);
+				$res2 = getData("tbl_requests req", $par, "obj");
+				if(!empty($res2)){
+					$response = array("code"=> 200);
+				}
+			}	
+
+		}
+		echo json_encode($response);
+	}
+
+	private function delete_process_file($filename){
+		$file = "./assets/process_files/".$filename;
+		unlink($file);
+		return true;
 	}
 
 

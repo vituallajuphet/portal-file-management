@@ -45,7 +45,6 @@ class Subsidiary extends MY_Controller {
 
 			$post = $this->input->post();
 		
-
 			if(!empty($post)){
 
 				$request_id = $post["request_id"];
@@ -57,18 +56,27 @@ class Subsidiary extends MY_Controller {
 				if(upload_file($_FILES, $settings)){
 
 					$set = array(
-						"fk_request_id" => $request_id,
-						"fk_file_id" => 0,
+						"fk_request_id" 	 => $request_id,
+						"fk_file_id" 		 => 0,
 						"fk_process_user_id" => get_user_id(),
-						"date_created" =>  date("Y-m-d"),
-						"process_file_name" =>  $file_name.$this->upload->data('file_ext'),
-						"process_status" => "processed",
+						"date_created" 		 =>  date("Y-m-d"),
+						"process_file_name"  =>  $file_name.$this->upload->data('file_ext'),
+						"process_status" 	 => "pending",
 						"process_file_title" => $post["file_title"]
 					);
 
 					insertData("tbl_processed_request", $set);
-					
-					swal_data("File uploaded successfully");
+					swal_data("File Uploaded successfully");
+
+					$par["where"]  = "req.request_id = $request_id";
+					$par["join"]   = array( 
+						"tbl_requests req" => "req.user_id = u_detail.user_id",
+						"tbl_companies comp" => "comp.company_id = req.company_id"
+					);
+					$userdata = getData("tbl_user_details u_detail", $par, "obj");
+					$messge = $this->html_email($userdata);
+					send_notification($userdata[0]->user_id, "Your request has been processed");
+					$is_sent = sendemail("web2.juphetvitualla@gmail.com", $messge, "File Request", "CMBC Notification");
 
 					$pars["where"] = "fk_request_id = {$request_id} AND fk_file_id = 0";
 					$file_data	   = getData("tbl_processed_request", $pars, "obj");
@@ -91,4 +99,24 @@ class Subsidiary extends MY_Controller {
 
 		}
 
+		// hmtl format
+	private function html_email($arr, $msg ="Your requested file has been approved."){
+		
+		$html ="
+			<div>
+				Hi {$arr[0]->firstname},
+				<br><br>
+				We would like to inform you that your requested file has been processed by <strong>{$arr[0]->company_name}</strong>. Once your request has been approved, you will recieve a notification via email. Thank you.
+				<br><br>
+				Requested File: {$arr[0]->file_title}
+				<br><br>
+				Sincerely,<br>
+				CBMC
+				
+				</div>
+		";
+
+		return $html;
+
+	}
 }

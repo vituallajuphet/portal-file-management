@@ -50,13 +50,48 @@
         <div class="modal-content modal-form ">
             <form action="#"  @submit.prevent="submit_approve_form()" method="POST" >
                 <div class="modal-header">
-                    <h4 class="modal-title" id="vcenter"><i class="icon-File"></i> Please select a file</h4>
+                    <h4 class="modal-title" id="vcenter"> Approve Request</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12 text-right">
                             <a :href="base_url+'admin/add_new_file/'+selected_approved_req_id" class="btn btn-theme"><i class="fa fa-plus"></i> Add File</a>
+                        </div>
+                        <div class="col-md-12" v-if="uploaded_files.length != 0">
+                            <hr>
+                            <h4 class="c-heading">Prepared Files</h4>
+                            <table class="table table-bordered up-files">
+                                <thead>
+                                    <tr>
+                                        <td>File Title</td>
+                                        <td>Date Added</td>
+                                        <td>Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="file-upload-tr" v-for="file in uploaded_files">
+                                        <td>{{file.process_file_title}}</td>
+                                        <td>{{file.date_created}}</td>
+                                        <td>
+                                          <a v-if="file.is_uploaded == 0" target="blank" :href="base_url+'uploaded_files/'+file.process_file_name"> <i class="fa fa-eye"></i></a>
+                                          <a v-if="file.is_uploaded != 0" target="blank" :href="base_url+'assets/process_files/'+file.process_file_name"> <i class="fa fa-eye"></i></a>
+                                         <a href="javascript:;" @click="remove_uploaded_file(file)" class="text-danger" href="#"  ><i class="fa fa-trash"></i></a> 
+                                        
+                                        </td>
+                                    </tr>
+                                    <tr v-if="uploaded_files.length == 0">
+                                        <td colspan="3" class="text-center">
+                                            <span class="text-danger ">No uploaded file</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input">
+                                <label class="form-check-label" for="exampleCheck1">Mark as check to include this file(s)</label>
+                            </div>
+                            <hr>
                         </div>
                         <div class="col-md-12">
                             <input type="hidden" name="request_id" v-model="selected_approved_req_id" required>

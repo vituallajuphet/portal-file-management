@@ -73,10 +73,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="file in uploaded_files">
+                                    <tr class="file-upload-tr" v-for="file in uploaded_files">
                                         <td>{{file.process_file_title}}</td>
                                         <td>{{file.date_created}}</td>
-                                        <td> <a href="javascript:;" @click="remove_uploaded_file(file)" class="text-danger" href="#"  ><i class="fa fa-trash"></i></a> </td>
+                                        <td>
+                                          <a target="blank" :href="base_url+'assets/process_files/'+file.process_file_name"> <i class="fa fa-eye"></i></a>
+                                         <a href="javascript:;" @click="remove_uploaded_file(file)" class="text-danger" href="#"  ><i class="fa fa-trash"></i></a> 
+                                        
+                                        </td>
+                                    </tr>
+                                    <tr v-if="uploaded_files.length == 0">
+                                        <td colspan="3" class="text-center">
+                                            <span class="text-danger ">No uploaded file</span>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -115,7 +124,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-themes btn-theme" ><i class="fa fa-check"></i> Approve</button>
+                    <button type="submit" class="btn btn-themes btn-theme" ><i class="fa fa-check"></i> Submit</button>
                     <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
                 </div>
             </form>

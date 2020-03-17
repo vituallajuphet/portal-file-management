@@ -259,3 +259,7 @@ table.dataTable thead>tr>th {
 .up-files  thead tr td{color: #fff;}
 
 .c-heading{font-size: 19px;}
+
+.file-upload-tr td {}
+.file-upload-tr td a{display: inline-block;margin:0 5px;}
+.file-upload-tr td a:first-child{color:#222}
