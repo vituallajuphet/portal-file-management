@@ -67,7 +67,7 @@ var myapp = new Vue({
 
                 axios.post(`${self.base_url}api/delete_event`, frmdata).then(res =>{
                     if(res.data.code == 200){
-                        self.s_alert("Deleted Successfully!");
+                        self.s_alert("Deleted Successfully!", "success");
                         self.page_reload(500);
                     }
                 })

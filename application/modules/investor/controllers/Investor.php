@@ -137,6 +137,16 @@ class Investor extends MY_Controller {
 
 	}	
 
+	public function dashboard(){
+
+		$data["title"] 		= "Investor - Dashboard";
+		$data["page_name"]  = "Dashboard";
+		$data['has_header']	= "Request_header";
+		$data['has_footer'] = "includes/dashboard_footer";
+		$this->load_investor_page('pages/dashboard',$data);
+
+	}	
+
 	public function contact_department(){
 		// $this->emaillibrary->sendmail($_POST['message-text']);
 		$department = explode("|",$_POST['department']);
@@ -153,6 +163,34 @@ class Investor extends MY_Controller {
 
 		$this->session->set_flashdata('results', $res );
 		redirect(base_url("investor/files"));
+	}
+	
+	public function view_event($event_id = 0){
+
+		if($event_id == 0){
+			redirect(base_url("investor/dashboard"));
+		}
+
+		$data["title"] 		= "Investor - Dashboard";
+		$data["page_name"]  = "Dashboard";
+		$data['has_header']	= "Request_header";
+		
+
+		$par["select"] = "*";
+		$par["where"] = "event_id = {$event_id} AND event_status = 1";
+		$par["join"]  = array("tbl_user_details user_d" => "user_d.user_id = event.fk_user_id");
+
+		$res = getData("tbl_events event", $par, "obj");
+
+		if(!empty($res)){
+			$data["post_data"] = $res[0];
+		}
+		else{
+			redirect(base_url("investor/dashboard"));
+		}
+
+		$this->load_investor_page('pages/view_event',$data);
+
 	}
 	
 	private function get_cbmc_dept_email($dept = ""){
@@ -247,7 +285,7 @@ class Investor extends MY_Controller {
 	// private function 
 	
 	// api request functions
-	public function get_file_requests(){
+	public function get_file_requests($pars = 0){
 		$res = [];
 		$my_id = $this->session->userdata("user_id");
 		$param["where"] = array("user_id"=> $my_id, "status "=> "joined");
@@ -303,6 +341,7 @@ class Investor extends MY_Controller {
 									$par2["select"] ="*";
 									$par2["where"] ="file_id =  ".$key["files_id"]." AND request_id = ".$key["fk_requested_id"]."";
 									$resp = getData("tbl_restricted_user", $par2, "obj");
+									
 									if(!empty($resp)){
 										array_push($get_restricted, $get_attached[$c] );
 										unset($get_attached[$c]);	
@@ -325,8 +364,13 @@ class Investor extends MY_Controller {
 			}
 		}
 
-
-		echo json_encode($res);
+		if($pars == 1){
+			$resp  = array("code" => 200, "data" => $res);
+		}else{
+			$resp = $res;
+		}
+		echo json_encode($resp);
+		
 	}
 	
 	public function api_update_profile(){
@@ -427,6 +471,13 @@ class Investor extends MY_Controller {
 	
 	public function request_a_file(){
 		
+	}
+
+
+	public function get_dashboard_data(){
+		
+
+
 	}
 	
 }

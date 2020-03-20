@@ -58,9 +58,9 @@
       is_files_restricted(req){
         if(req.request_status == "Completed"){
 
-			if(req.attachments.length == 0 && req.restricted.length > 0){
-				return true;
-			}    
+          if(req.attachments.length == 0 && req.restricted.length > 0){
+            return true;
+          }    
 
         }
         
