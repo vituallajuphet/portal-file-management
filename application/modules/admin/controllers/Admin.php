@@ -84,6 +84,43 @@ class Admin extends MY_Controller {
 		$this->load_admin_page('pages/Manage_files',$data);
 
 	}
+
+	public function manage_events(){
+
+		$data["title"] ="Admin - Manage Events";
+		$data["page_name"] = "manage_files";
+		$data['has_header']= "header_index.php";
+		$data['has_footer']= "includes/manage_events_footer";
+		$data["has_mod"] = "modal/manage_event_modal";
+		$this->load_admin_page('pages/Manage_events',$data);
+
+	}
+
+	public function view_event($event_id = 0){
+
+		if($event_id == 0){
+			redirect(base_url("admin/manage_events"));
+		}
+
+		$data["title"] 		="Admin - View Events";
+		$data["page_name"]  = "view_events";
+		$data['has_header'] = "header_index.php";
+
+		$par["select"] = "*";
+		$par["where"] = "event_id = {$event_id} AND event_status = 1";
+		$par["join"]  = array("tbl_user_details user_d" => "user_d.user_id = event.fk_user_id");
+
+		$res = getData("tbl_events event", $par, "obj");
+
+		if(!empty($res)){
+			$data["post_data"] = $res[0];
+		}else{
+			redirect(base_url("admin/manage_events"));
+		}
+
+		$this->load_admin_page('pages/View_event', $data);
+
+	}
 	
 	public function investors(){
 
@@ -1329,6 +1366,94 @@ class Admin extends MY_Controller {
 		
 		redirect(base_url("admin/notifications"));
 	}
+
+	// manage event
+
+	public function save_event(){
+
+		$post = $this->input->post();
+		$post_file = "dummy.jpg";
+
+		if(!empty($_FILES)){
+			$settings['upload_path'] = "./assets/uploads/";
+			$file_name				 = "post_image-".time();
+			$settings['file_name'] 	 = $file_name;
+
+			if(upload_file($_FILES, $settings)){
+				$post_file = $file_name.$this->upload->data('file_ext');
+			}
+		}
+
+		if(!empty($post)){
+
+			$set = array(
+				"fk_user_id" 	=> get_user_id(),
+				"event_title" 	=> $post["event_title"],
+				"event_content" => $post["event_desc"],
+				"date_created" 	=> date("Y-m-d"),
+				"event_status" 	=> 1,
+				"event_image" 	=> $post_file
+			);
+
+			insertData("tbl_events", $set);
+			swal_data("Successfully Added");
+		}
+		else{
+			swal_data("Saving Failed!", "error");
+		}
+
+		redirect(base_url("admin/manage_events"));
+
+	}
+
+
+	public function update_event(){
+
+		$post = $this->input->post();
+		$post_file = "dummy.jpg";
+		
+		if(!empty($post["image_name"])){
+			$post_file = $post["image_name"];
+		}
+
+		if(!empty($_FILES)){
+			$settings['upload_path'] = "./assets/uploads/";
+
+			if($post_file != "dummy.jpg"){
+				unlink($settings['upload_path'].$post_file);
+			}
+			
+			$file_name				 = "post_image-".time();
+			$settings['file_name'] 	 = $file_name;
+
+			if(upload_file($_FILES, $settings)){
+				$post_file = $file_name.$this->upload->data('file_ext');
+			}
+		}
+
+		if(!empty($post)){
+
+			$event_id = $post["event_id"];
+
+			$set = array(
+				"fk_user_id" 	=> get_user_id(),
+				"event_title" 	=> $post["event_title"],
+				"event_content" => $post["event_desc"],
+				"event_status" 	=> 1,
+				"event_image" 	=> $post_file
+			);
+
+			updateData("tbl_events", $set, array("event_id" => $event_id));
+			swal_data("Updated Successfully");
+		}
+		else{
+			swal_data("Update Failed!", "error");
+		}
+
+		redirect(base_url("admin/manage_events"));
+
+	}
+
 
 	// hmtl format
 	private function html_email($arr, $msg ="Your requested file has been approved."){

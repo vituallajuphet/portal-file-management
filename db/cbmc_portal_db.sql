@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.8.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2020 at 11:01 AM
--- Server version: 10.1.25-MariaDB
--- PHP Version: 5.6.31
+-- Generation Time: Mar 20, 2020 at 12:41 AM
+-- Server version: 10.1.34-MariaDB
+-- PHP Version: 7.2.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -111,6 +111,34 @@ CREATE TABLE `tbl_departments` (
 INSERT INTO `tbl_departments` (`department_id`, `company_id`, `department_name`, `department_status`) VALUES
 (1, 2, 'Finance', 1),
 (2, 3, 'Human Resources', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_events`
+--
+
+CREATE TABLE `tbl_events` (
+  `event_id` int(11) NOT NULL,
+  `fk_user_id` int(11) NOT NULL,
+  `event_title` varchar(100) NOT NULL,
+  `event_content` longtext NOT NULL,
+  `date_created` date NOT NULL,
+  `event_status` int(11) NOT NULL,
+  `event_image` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_events`
+--
+
+INSERT INTO `tbl_events` (`event_id`, `fk_user_id`, `event_title`, `event_content`, `date_created`, `event_status`, `event_image`) VALUES
+(1, 1, 'test222', '<p><s><strong>this is a smple post asd asd asd asd</strong></s></p>\r\n', '2020-03-18', 1, 'post_image-1584599447.jpg'),
+(2, 1, 'test 1', 'asdasd asd asd', '2020-03-18', 1, 'post_image-1584545728.png'),
+(3, 1, 'test 2', 'asd asd asd asd', '2020-03-18', 1, 'post_image-1584547415.png'),
+(4, 1, 'sample post ss', '<p>asda sdas asd asd asd asda sdasd asda sdasd</p>\r\n', '2020-03-18', 1, 'post_image-1584599267.jpg'),
+(5, 1, 'COVID -19', '<p>The World Health Organization recommended Tuesday that people suffering COVID-19 symptoms avoid taking ibuprofen, after French officials warned that anti-inflammatory drugs could worsen effects of the virus.</p>\r\n\r\n<p>The warning by French Health Minister Veran followed a recent study in <a href=\"https://www.thelancet.com/journals/lanres/article/PIIS2213-2600(20)30116-8/fulltext\"><em>The Lancet</em></a> medical journal that hypothesised that an enzyme boosted by anti-inflammatory drugs such as ibuprofen could facilitate and worsen COVID-19 infections.</p>\r\n\r\n<p>Asked about the study, WHO spokesman Christian Lindmeier told reporters in Geneva the UN health agency&#39;s experts were &quot;looking into this to give further guidance.&quot;</p>\r\n\r\n<p>&quot;In the meantime, we recommend using rather paracetamol, and do not use ibuprofen as a self-medication. That&#39;s important,&quot; he said.</p>\r\n\r\n<p>He added that if ibuprofen had been &quot;prescribed by the healthcare professionals, then, of course, that&#39;s up to them.&quot;</p>\r\n\r\n<p>His comments came after <a href=\"https://twitter.com/olivierveran/status/1239931737549033472\">Veran sent a tweet</a> cautioning that the use of ibuprofen and similar anti-inflammatory drugs could be &quot;an aggravating factor&quot; in COVID-19 infections.</p>\r\n', '2020-03-18', 1, 'post_image-1584559180.jpg'),
+(6, 1, 'test new2', '<p>This is ssample post ony</p>\r\n', '2020-03-19', 3, 'post_image-1584599612.jpg');
 
 -- --------------------------------------------------------
 
@@ -537,6 +565,12 @@ ALTER TABLE `tbl_departments`
   ADD PRIMARY KEY (`department_id`);
 
 --
+-- Indexes for table `tbl_events`
+--
+ALTER TABLE `tbl_events`
+  ADD PRIMARY KEY (`event_id`);
+
+--
 -- Indexes for table `tbl_files`
 --
 ALTER TABLE `tbl_files`
@@ -629,91 +663,115 @@ ALTER TABLE `tbl_user_details`
 --
 ALTER TABLE `permited_users`
   MODIFY `permited_users_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `tbl_cmbc_dept`
 --
 ALTER TABLE `tbl_cmbc_dept`
   MODIFY `dept_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `tbl_companies`
 --
 ALTER TABLE `tbl_companies`
   MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
 --
 -- AUTO_INCREMENT for table `tbl_departments`
 --
 ALTER TABLE `tbl_departments`
   MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tbl_events`
+--
+ALTER TABLE `tbl_events`
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
 -- AUTO_INCREMENT for table `tbl_files`
 --
 ALTER TABLE `tbl_files`
   MODIFY `files_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
 --
 -- AUTO_INCREMENT for table `tbl_forgotpassword_keys`
 --
 ALTER TABLE `tbl_forgotpassword_keys`
   MODIFY `forgotpass_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
 --
 -- AUTO_INCREMENT for table `tbl_notification`
 --
 ALTER TABLE `tbl_notification`
   MODIFY `notify_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+
 --
 -- AUTO_INCREMENT for table `tbl_notifications`
 --
 ALTER TABLE `tbl_notifications`
   MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `tbl_processed_request`
 --
 ALTER TABLE `tbl_processed_request`
-  MODIFY `process_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `process_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `tbl_registration_files`
 --
 ALTER TABLE `tbl_registration_files`
   MODIFY `registration_files_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
 -- AUTO_INCREMENT for table `tbl_requested_files`
 --
 ALTER TABLE `tbl_requested_files`
   MODIFY `requested_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+
 --
 -- AUTO_INCREMENT for table `tbl_requests`
 --
 ALTER TABLE `tbl_requests`
   MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+
 --
 -- AUTO_INCREMENT for table `tbl_restricted_user`
 --
 ALTER TABLE `tbl_restricted_user`
   MODIFY `restricted_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 -- AUTO_INCREMENT for table `tbl_subsidiary_files`
 --
 ALTER TABLE `tbl_subsidiary_files`
-  MODIFY `sub_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `sub_file_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
 --
 -- AUTO_INCREMENT for table `tbl_user_company`
 --
 ALTER TABLE `tbl_user_company`
   MODIFY `user_company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
 --
 -- AUTO_INCREMENT for table `tbl_user_dept_details`
 --
 ALTER TABLE `tbl_user_dept_details`
   MODIFY `user_dept_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
 --
 -- AUTO_INCREMENT for table `tbl_user_details`
 --
 ALTER TABLE `tbl_user_details`
-  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;COMMIT;
+  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

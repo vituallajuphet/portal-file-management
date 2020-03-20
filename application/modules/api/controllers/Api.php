@@ -805,6 +805,47 @@ class Api extends MY_Controller {
 		return true;
 	}
 
+	// manage events
+
+	public function get_events($params = array()){
+
+		$response = array("code"=> 204, "data" => []);
+
+		$par["where"] = "event_status = 1 ";
+		$par["join"] = array(
+			"tbl_user_details user_d" => "user_d.user_id = event.fk_user_id"
+		);
+		
+		$res = getData("tbl_events event", $par, "obj");
+
+		if(!empty($res)){
+			$response = array("code"=> 200, "data" => $res);
+		}
+
+		echo json_encode($response);
+
+	}
+
+	public function delete_event(){
+
+		$response = array("code"=> 204, "data" => []);
+
+		$post = $this->input->post();
+
+		if(!empty($post)){
+			
+			$set 	= array("event_status" => 3);
+			$where  = array("event_id" => $post["event_id"]);
+
+			updateData("tbl_events", $set, $where);
+
+			$response = array("code"=> 200, "data" => []);
+
+		}
+
+		echo json_encode($response);
+
+	}
 
 	// hmtl format
 	private function html_email($arr, $msg ="Your requested file has been approved."){

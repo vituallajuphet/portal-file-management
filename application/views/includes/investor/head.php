@@ -226,9 +226,11 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li> <a class="has-arrow waves-effect waves-dark" href="<?= base_url("investor/files")?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Files </span></a>
+                          <li> <a class="waves-effect waves-dark" href="<?= base_url("investor/dashboard")?>" aria-expanded="false"><i class="icon-Dashboard"></i><span class="hide-menu">Dashboard </span></a>
                         </li>
-                         <li class="<?=($page_name == "InvestorRequest") ? "active" : "" ?>"> <a class="has-arrow waves-effect waves-dark <?=($page_name == "InvestorRequest") ? "active" : "" ?>" href="<?= base_url("investor/manage_request")?>" aria-expanded="false"><i class="icon-File-HorizontalText"></i><span class="hide-menu">Manage Request</span></a>
+                        <li> <a class="waves-effect waves-dark" href="<?= base_url("investor/files")?>" aria-expanded="false"><i class="icon-Files"></i><span class="hide-menu">Files </span></a>
+                        </li>
+                         <li class="<?=($page_name == "InvestorRequest") ? "active" : "" ?>"> <a class="waves-effect waves-dark <?=($page_name == "InvestorRequest") ? "active" : "" ?>" href="<?= base_url("investor/manage_request")?>" aria-expanded="false"><i class="icon-File-HorizontalText"></i><span class="hide-menu">Manage Request</span></a>
                         </li>
 
                     </ul>
