@@ -1411,12 +1411,12 @@ class Admin extends MY_Controller {
 
 		$post = $this->input->post();
 		$post_file = "dummy.jpg";
-		
+	
 		if(!empty($post["image_name"])){
-			$post_file = $post["image_name"];
+				$post_file = $post["image_name"];
 		}
 
-		if(!empty($_FILES)){
+		if(!empty($_FILES["file"]["name"])){
 			$settings['upload_path'] = "./assets/uploads/";
 
 			if($post_file != "dummy.jpg"){
