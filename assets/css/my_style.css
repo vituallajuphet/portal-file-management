@@ -297,3 +297,22 @@ table.dataTable thead>tr>th {
 .text-theme{color: #c5a36f !important;}
 .text-theme2{color: #000a24 !important;}
 .text-theme3{color: #c5a36f !important;}
+
+.txt-h{font-size: 18px;}
+
+/* .chart-containers {
+  position: relative;
+  margin: auto;
+  height: 80vh;
+  width: 80vw;
+} */
+
+
+
+@media only screen
+and (max-width : 600px) {   
+    .chart-containers #canvas{width: 100% !important;height: 265px!important;}
+    .chart-containers{}
+    .chart-containers{width: 600px!important;}
+    .chart_main{overflow-x: scroll;}
+}

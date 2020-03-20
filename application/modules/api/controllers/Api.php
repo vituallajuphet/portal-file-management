@@ -847,6 +847,45 @@ class Api extends MY_Controller {
 
 	}
 
+	public function get_dashboard_data (){
+		
+		$response = array("code"=> 204, "data" => []);
+		
+		// files 
+		$par["where"] = "file_status = 'published'";
+		$par["select"] = "files_id";
+		$dash_data["files"] = count(getData("tbl_files", $par));
+
+		// reqquest
+		$par["where"] = "request_status = 'Pending'";
+		$par["select"] = "request_id";
+		$dash_data["request"] = count(getData("tbl_requests", $par));
+
+		// investors
+		$par["where"] = "user_type = 'investor' AND user_status = 1 AND approved = 1";
+		$par["select"] = "user_id";
+		$dash_data["investor"] = count(getData("tbl_users", $par));
+
+		// investors
+		$par["where"] = "user_type = 'cbmc' AND user_status = 1 AND approved = 1";
+		$par["select"] = "user_id";
+		$dash_data["dept_user"] = count(getData("tbl_users", $par));
+
+		// investors
+		$par["where"] = "user_type = 'subsidiary' AND user_status = 1 AND approved = 1";
+		$par["select"] = "user_id";
+		$dash_data["sub_user"] = count(getData("tbl_users", $par));
+
+		$par["where"] 		  = "company_status = 'active' AND company_type = 'subsidiary'";
+		$par["select"]        = "company_id";
+		$dash_data["company"] = count(getData("tbl_companies", $par));
+
+		$response = array("code"=> 200, "data" => $dash_data);
+
+		echo json_encode($response);
+
+	}
+
 	// hmtl format
 	private function html_email($arr, $msg ="Your requested file has been approved."){
 

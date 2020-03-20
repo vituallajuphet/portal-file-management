@@ -5,6 +5,9 @@
             <!-- Sidebar navigation-->
             <nav class="sidebar-nav">
                 <ul id="sidebarnav">
+                    
+                    <li> <a class="waves-effect waves-dark" href="<?= base_url("admin/dashboard")?>" aria-expanded="false"><i class="icon-Dashboard"></i><span class="hide-menu">Dashboard </span></a>
+                    </li>
                     <li> <a class="waves-effect waves-dark" href="<?= base_url("admin/manage_users")?>" aria-expanded="false"><i class="icon-Administrator "></i><span class="hide-menu">Manage Subsidiary Users </span></a>
                     </li>
                     <li> <a class="waves-effect waves-dark" href="<?= base_url("admin/department_user")?>" aria-expanded="false"><i class="icon-User"></i><span class="hide-menu">Manage Department Users </span></a>

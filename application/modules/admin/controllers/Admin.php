@@ -12,7 +12,7 @@ class Admin extends MY_Controller {
 	
 	public function index(){
 
-		redirect(base_url("admin/manage_users"));
+		redirect(base_url("admin/dashboard"));
 
 	}
 
@@ -93,6 +93,17 @@ class Admin extends MY_Controller {
 		$data['has_footer']= "includes/manage_events_footer";
 		$data["has_mod"] = "modal/manage_event_modal";
 		$this->load_admin_page('pages/Manage_events',$data);
+
+	}
+
+	public function dashboard(){
+
+		$data["title"] ="Admin - Dashboard";
+		$data["page_name"] = "dashboard";
+		$data['has_header']= "includes/dashboard_header";
+		$data['has_footer']= "includes/dashboard_footer";
+		// $data["has_mod"] = "modal/manage_event_modal";
+		$this->load_admin_page('pages/Dashboard', $data);
 
 	}
 
