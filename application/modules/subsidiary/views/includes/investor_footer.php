@@ -9,8 +9,6 @@
     
 </script>
 
-
-
 <script type="text/javascript" class="init">
 
 var myapp = new Vue({

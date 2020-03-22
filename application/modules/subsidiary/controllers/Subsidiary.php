@@ -25,6 +25,18 @@ class Subsidiary extends MY_Controller {
 
 		}
 
+		public function dashboard(){
+
+			$data["title"] ="Subsidiary - Dashboard";
+			$data["page_name"]  = "dashboard";
+			$data['has_header'] = "includes/subsidiary/header";
+			$data['has_footer'] = "includes/dashboard_footer";
+			// $data["has_mod"]    = "modal/investor_modal";
+			$this->load_subsidiary_page('pages/dashboard', $data);
+
+		}
+
+	
 		public function manage_request(){
 
 			$data["title"] ="Subsidiary - Requests";
@@ -45,10 +57,33 @@ class Subsidiary extends MY_Controller {
 			$this->load_subsidiary_page('pages/profile',$data);
 		}
 
-		public function dashboard(){
-			echo "This page is under development";
-		}
+		public function view_event($event_id = 0){
 
+			if($event_id == 0){
+				redirect(base_url("subsidiary/dashboard"));
+			}
+
+			$data["title"] 		= "Subsidiary - Dashboard";
+			$data["page_name"]  = "Dashboard";
+			$data['has_header']	= "Request_header";
+			
+
+			$par["select"] = "*";
+			$par["where"] = "event_id = {$event_id} AND event_status = 1";
+			$par["join"]  = array("tbl_user_details user_d" => "user_d.user_id = event.fk_user_id");
+
+			$res = getData("tbl_events event", $par, "obj");
+
+			if(!empty($res)){
+				$data["post_data"] = $res[0];
+			}
+			else{
+				redirect(base_url("subsidiary/dashboard"));
+			}
+
+			$this->load_subsidiary_page('pages/view_event',$data);
+
+		}
 
 		// Manage Request...
 		public function sub_upload_file(){

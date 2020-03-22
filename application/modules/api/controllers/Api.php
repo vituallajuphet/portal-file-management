@@ -251,6 +251,7 @@ class Api extends MY_Controller {
 	}
 
 	private function get_files_request($status="", $result= "json", $params = array()){
+		
 		$response = array("code"=> 204, "data" => []);
 		$par["select"] = "request_id, req.user_id, comment, req.company_id, req.department, file_title, requested_date, request_status, firstname, lastname, requested_date, comp.company_name, req.date_approved";	
 		$par["where"]  = "req.request_status != 'Deleted'";

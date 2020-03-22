@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 20, 2020 at 12:41 AM
--- Server version: 10.1.34-MariaDB
--- PHP Version: 7.2.7
+-- Generation Time: Mar 22, 2020 at 05:19 PM
+-- Server version: 10.1.25-MariaDB
+-- PHP Version: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -133,12 +133,15 @@ CREATE TABLE `tbl_events` (
 --
 
 INSERT INTO `tbl_events` (`event_id`, `fk_user_id`, `event_title`, `event_content`, `date_created`, `event_status`, `event_image`) VALUES
-(1, 1, 'test222', '<p><s><strong>this is a smple post asd asd asd asd</strong></s></p>\r\n', '2020-03-18', 1, 'post_image-1584599447.jpg'),
-(2, 1, 'test 1', 'asdasd asd asd', '2020-03-18', 1, 'post_image-1584545728.png'),
-(3, 1, 'test 2', 'asd asd asd asd', '2020-03-18', 1, 'post_image-1584547415.png'),
-(4, 1, 'sample post ss', '<p>asda sdas asd asd asd asda sdasd asda sdasd</p>\r\n', '2020-03-18', 1, 'post_image-1584599267.jpg'),
+(1, 1, 'Event 1', '<p>For a marketer, there&rsquo;s nothing worse than struggling with a creative block. When you&rsquo;re pressed to create on a deadline, but you just can&rsquo;t think of something original to post, or an original concept for your next campaign, it&rsquo;s easy to fall into despair.</p>\r\n\r\n<p>In fact, that&rsquo;s probably why you&rsquo;re here. It&rsquo;s okay though. We all need some inspiration now and then to help us shake off the rust and get back to creating awesome stuff.</p>\r\n', '2020-03-18', 1, 'post_image-1584709861.png'),
+(2, 1, 'event 2', '<p>The best way to drive a message home is to build a complete campaign.</p>\r\n\r\n<p>Oftentimes, brands struggle to keep up with their social posting schedule because they&rsquo;re too reliant on one-off posts. This makes staying organized difficult. Plus, it&rsquo;s tough to always be writing posts on the fly without much thought ahead of time.</p>\r\n', '2020-03-18', 1, 'post_image-1584709958.jpg'),
+(3, 1, 'test 2', 'asd asd asd asd', '2020-03-18', 3, 'post_image-1584547415.png'),
+(4, 1, 'sample post ss', '<p>asda sdas asd asd asd asda sdasd asda sdasd</p>\r\n', '2020-03-18', 3, 'post_image-1584599267.jpg'),
 (5, 1, 'COVID -19', '<p>The World Health Organization recommended Tuesday that people suffering COVID-19 symptoms avoid taking ibuprofen, after French officials warned that anti-inflammatory drugs could worsen effects of the virus.</p>\r\n\r\n<p>The warning by French Health Minister Veran followed a recent study in <a href=\"https://www.thelancet.com/journals/lanres/article/PIIS2213-2600(20)30116-8/fulltext\"><em>The Lancet</em></a> medical journal that hypothesised that an enzyme boosted by anti-inflammatory drugs such as ibuprofen could facilitate and worsen COVID-19 infections.</p>\r\n\r\n<p>Asked about the study, WHO spokesman Christian Lindmeier told reporters in Geneva the UN health agency&#39;s experts were &quot;looking into this to give further guidance.&quot;</p>\r\n\r\n<p>&quot;In the meantime, we recommend using rather paracetamol, and do not use ibuprofen as a self-medication. That&#39;s important,&quot; he said.</p>\r\n\r\n<p>He added that if ibuprofen had been &quot;prescribed by the healthcare professionals, then, of course, that&#39;s up to them.&quot;</p>\r\n\r\n<p>His comments came after <a href=\"https://twitter.com/olivierveran/status/1239931737549033472\">Veran sent a tweet</a> cautioning that the use of ibuprofen and similar anti-inflammatory drugs could be &quot;an aggravating factor&quot; in COVID-19 infections.</p>\r\n', '2020-03-18', 1, 'post_image-1584559180.jpg'),
-(6, 1, 'test new2', '<p>This is ssample post ony</p>\r\n', '2020-03-19', 3, 'post_image-1584599612.jpg');
+(6, 1, 'test new2', '<p>This is ssample post ony</p>\r\n', '2020-03-19', 3, 'post_image-1584599612.jpg'),
+(7, 1, 'Event 4', '<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#39;Content here, content here&#39;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#39;lorem ipsum&#39; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>\r\n', '2020-03-20', 1, 'post_image-1584710119.jpg'),
+(8, 1, 'test 222', '<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &quot;de Finibus Bonorum et Malorum&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &quot;Lorem ipsum dolor sit amet..&quot;, comes from a line in section 1.10.32.</p>\r\n', '2020-03-20', 1, 'post_image-1584709882.png'),
+(9, 1, 'test', '<p>asdasd</p>\r\n', '2020-03-21', 3, 'post_image-1584790364.jpg');
 
 -- --------------------------------------------------------
 
@@ -284,7 +287,24 @@ INSERT INTO `tbl_notification` (`notify_id`, `message`, `fk_user_id_from`, `fk_u
 (104, 'Your request has been processed', 1, 11, 0, '1', '2020-03-17'),
 (105, 'Your request file has been approved', 1, 11, 0, '1', '2020-03-17'),
 (106, 'Your request has been processed', 35, 34, 0, '1', '2020-03-17'),
-(107, 'Your request file has been approved', 1, 34, 0, '1', '2020-03-17');
+(107, 'Your request file has been approved', 1, 34, 0, '1', '2020-03-17'),
+(108, 'Investor requested a file', 11, 33, 0, '1', '2020-03-20'),
+(109, 'Investor requested a file', 11, 1, 1, '1', '2020-03-20'),
+(110, 'Investor requested a file', 11, 33, 0, '1', '2020-03-20'),
+(111, 'Investor requested a file', 11, 1, 0, '1', '2020-03-20'),
+(112, 'Your request has been processed', 1, 11, 0, '1', '2020-03-20'),
+(113, 'Investor requested a file', 11, 33, 0, '1', '2020-03-22'),
+(114, 'Investor requested a file', 11, 1, 0, '1', '2020-03-22'),
+(115, 'Investor requested a file', 11, 33, 0, '1', '2020-03-22'),
+(116, 'Investor requested a file', 11, 1, 0, '1', '2020-03-22'),
+(117, 'Investor requested a file', 11, 33, 0, '1', '2020-03-22'),
+(118, 'Investor requested a file', 11, 1, 0, '1', '2020-03-22'),
+(119, 'Your request has been processed', 1, 11, 0, '1', '2020-03-22'),
+(120, 'Your request file has been approved', 1, 11, 0, '1', '2020-03-22'),
+(121, 'Investor requested a file', 11, 33, 0, '1', '2020-03-23'),
+(122, 'Investor requested a file', 11, 1, 0, '1', '2020-03-23'),
+(123, 'Your request has been processed', 35, 11, 1, '1', '2020-03-23'),
+(124, 'Your request file has been approved', 1, 11, 0, '1', '2020-03-23');
 
 -- --------------------------------------------------------
 
@@ -361,14 +381,6 @@ CREATE TABLE `tbl_requested_files` (
   `fk_approved_user_id` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `tbl_requested_files`
---
-
-INSERT INTO `tbl_requested_files` (`requested_file_id`, `fk_requested_id`, `fk_file_id`, `fk_approved_user_id`) VALUES
-(85, 54, 7, 1),
-(86, 53, 8, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -392,8 +404,7 @@ CREATE TABLE `tbl_requests` (
 --
 
 INSERT INTO `tbl_requests` (`request_id`, `user_id`, `comment`, `company_id`, `department`, `file_title`, `requested_date`, `date_approved`, `request_status`) VALUES
-(54, 11, 'test', 1, 'Finance', 'test', '2020-03-17', '2020-03-17', 'Completed'),
-(53, 34, 'test 1', 1, 'Finance', 'test 1', '2020-03-17', '2020-03-17', 'Completed');
+(60, 11, 'test file', 1, 'Finance', 'sample 1', '2020-03-23', '2020-03-22', 'Completed');
 
 -- --------------------------------------------------------
 
@@ -432,6 +443,13 @@ CREATE TABLE `tbl_subsidiary_files` (
   `date_created` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `tbl_subsidiary_files`
+--
+
+INSERT INTO `tbl_subsidiary_files` (`sub_file_id`, `file_title`, `file_name`, `fk_process_user_id`, `fk_request_id`, `date_created`) VALUES
+(1, 'sample file 1', 'process-file-1584893500.jpg', 35, 60, '2020-03-22');
+
 -- --------------------------------------------------------
 
 --
@@ -455,7 +473,7 @@ INSERT INTO `tbl_users` (`user_id`, `username`, `password`, `user_status`, `user
 (1, 'admin', '$2y$10$.Nice1AanGpYvxxrX40kmeDtwoaeQDp5RhYzO3b5bZ57Msp5JxiIm', 1, 'admin', 1),
 (11, 'test', '$2y$10$LF5oGws0GiyjKROjna/Ote0Z4OxCVQUYMX4rnCnmjdWVFiEjiQqWi', 1, 'investor', 1),
 (36, 'alex', '$2y$10$QEXoSTylG8K6.fDiDboPY.iqLxrP/ZTRPJLP7YyPPbKbNYc.G84v6', 1, 'investor', 2),
-(35, 'test2', '$2y$10$.Nice1AanGpYvxxrX40kmeDtwoaeQDp5RhYzO3b5bZ57Msp5JxiIm', 1, 'subsidiary', 1),
+(35, 'test2', '$2y$10$GWOHNb0GiJVfJ8GZ93CNYuFa8GOFhOvpjGUHmJ50RqXeWZBKCG/DW', 1, 'subsidiary', 1),
 (34, 'test3', '$2y$10$LF5oGws0GiyjKROjna/Ote0Z4OxCVQUYMX4rnCnmjdWVFiEjiQqWi', 1, 'investor', 1),
 (33, 'cbmc', '$2y$10$cZRjHKeuRbdL5YoczHXRB.TcdFUGSTklPRRQOw8cwsTi6uJyTkdAi', 1, 'cbmc', 1);
 
@@ -530,10 +548,10 @@ CREATE TABLE `tbl_user_details` (
 
 INSERT INTO `tbl_user_details` (`user_detail_id`, `user_id`, `firstname`, `lastname`, `email_address`, `contact_number`, `profile_picture`, `created_date`, `updated_date`, `company_id`) VALUES
 (1, 1, 'Richard', 'Cruz', 'admin@admin.com', '09123456789', 'profile-1581329524.png', '2020-01-15 00:00:00', '2020-02-10 11:12:24', 0),
-(8, 11, 'John', 'Doe', 'prospteam@gmail.com', 'Uy', 'profile-1582875083.png', '2020-01-17 06:23:52', '0000-00-00 00:00:00', 1),
+(8, 11, 'John', 'Doe', 'prospteam@gmail.com', 'Uy', 'profile-1584687010.png', '2020-01-17 06:23:52', '0000-00-00 00:00:00', 1),
 (21, 33, 'James', 'Rizal', 'prospteam@gmail.com', '123456', '', '2020-02-28 08:34:57', '2020-03-05 03:47:29', 0),
 (22, 34, 'Maine', 'Mendoza', 'prospteam@gmail.com', '123456', '', '2020-02-28 08:35:42', '0000-00-00 00:00:00', 0),
-(23, 35, 'Gerald', 'Ad', 'asd@asd.com', '1234', '', '2020-03-10 12:39:29', '0000-00-00 00:00:00', 0),
+(23, 35, 'Gerald', 'Ad2', 'asd@asd.com', '1234', '', '2020-03-10 12:39:29', '2020-03-22 10:33:13', 0),
 (24, 36, 'Alex', 'Tides', 'sample@sample.com', '123456', '', '2020-03-11 02:07:16', '0000-00-00 00:00:00', 0);
 
 --
@@ -663,115 +681,96 @@ ALTER TABLE `tbl_user_details`
 --
 ALTER TABLE `permited_users`
   MODIFY `permited_users_id` int(11) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `tbl_cmbc_dept`
 --
 ALTER TABLE `tbl_cmbc_dept`
   MODIFY `dept_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `tbl_companies`
 --
 ALTER TABLE `tbl_companies`
   MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
 --
 -- AUTO_INCREMENT for table `tbl_departments`
 --
 ALTER TABLE `tbl_departments`
   MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `tbl_events`
 --
 ALTER TABLE `tbl_events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `tbl_files`
 --
 ALTER TABLE `tbl_files`
   MODIFY `files_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
-
 --
 -- AUTO_INCREMENT for table `tbl_forgotpassword_keys`
 --
 ALTER TABLE `tbl_forgotpassword_keys`
   MODIFY `forgotpass_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
-
 --
 -- AUTO_INCREMENT for table `tbl_notification`
 --
 ALTER TABLE `tbl_notification`
-  MODIFY `notify_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
-
+  MODIFY `notify_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 --
 -- AUTO_INCREMENT for table `tbl_notifications`
 --
 ALTER TABLE `tbl_notifications`
   MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `tbl_processed_request`
 --
 ALTER TABLE `tbl_processed_request`
-  MODIFY `process_id` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `process_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `tbl_registration_files`
 --
 ALTER TABLE `tbl_registration_files`
   MODIFY `registration_files_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
 --
 -- AUTO_INCREMENT for table `tbl_requested_files`
 --
 ALTER TABLE `tbl_requested_files`
-  MODIFY `requested_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
-
+  MODIFY `requested_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 --
 -- AUTO_INCREMENT for table `tbl_requests`
 --
 ALTER TABLE `tbl_requests`
-  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
-
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 --
 -- AUTO_INCREMENT for table `tbl_restricted_user`
 --
 ALTER TABLE `tbl_restricted_user`
   MODIFY `restricted_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
 -- AUTO_INCREMENT for table `tbl_subsidiary_files`
 --
 ALTER TABLE `tbl_subsidiary_files`
-  MODIFY `sub_file_id` int(11) NOT NULL AUTO_INCREMENT;
-
+  MODIFY `sub_file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
-
 --
 -- AUTO_INCREMENT for table `tbl_user_company`
 --
 ALTER TABLE `tbl_user_company`
   MODIFY `user_company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
 --
 -- AUTO_INCREMENT for table `tbl_user_dept_details`
 --
 ALTER TABLE `tbl_user_dept_details`
   MODIFY `user_dept_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
 --
 -- AUTO_INCREMENT for table `tbl_user_details`
 --
 ALTER TABLE `tbl_user_details`
-  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-COMMIT;
+  MODIFY `user_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
