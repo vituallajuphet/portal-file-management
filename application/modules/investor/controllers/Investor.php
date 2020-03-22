@@ -68,8 +68,14 @@ class Investor extends MY_Controller {
 
 					$requested_file = getData("tbl_requested_files req_file", $par, "obj");
 
+
+					$par3["select"] = "*";
+					$par3["where"]  = "sub_file.fk_request_id = $value->request_id";
+					$sub_files 		= getData("tbl_subsidiary_files sub_file", $par3, "obj");
+
 					$get_restricted = [];
 					$get_files = [];
+
 					if(!empty($requested_file)){
 						$cc=0;
 
@@ -89,6 +95,15 @@ class Investor extends MY_Controller {
 						}
 					}
 
+					if(!empty($sub_files)){
+						$cc = 0;
+						foreach ($sub_files as $key) {
+							
+							array_push($get_files, $sub_files[$cc] );
+							$cc++;
+						}
+					}
+
 					$response[$c]->restricted = $get_restricted;
 					$response[$c]->file_data = $get_files;
 					
@@ -96,7 +111,6 @@ class Investor extends MY_Controller {
 				}
 			}
 		}
-
 
 		$data["files_rows"] = $response;
 		$data['company_email']= get_my_company();		
@@ -288,6 +302,7 @@ class Investor extends MY_Controller {
 	public function get_file_requests($pars = 0){
 		$res = [];
 		$my_id = $this->session->userdata("user_id");
+
 		$param["where"] = array("user_id"=> $my_id, "status "=> "joined");
 		$param["select"] = "company_id";
 		$getCom = getData("tbl_user_company", $param, "obj");
@@ -315,6 +330,11 @@ class Investor extends MY_Controller {
 					if($result->request_status == "Completed"){
 						$r_id = $result->request_id;
 
+						$is_sub_prepared = false;
+						$has_file = false;
+
+						$ret_data = [];
+
 						$approvedData = $this->db->
 						select("*")->
 						from('tbl_files f')->
@@ -324,22 +344,32 @@ class Investor extends MY_Controller {
 						where("r.request_id", $r_id)->
 						get()->result();
 
-						if(!empty($approvedData)){
+						$par3["select"] = "*";
+						$par3["where"]  = "fk_request_id = $r_id";
+						$par3["join"]	= array(
+							"tbl_requests req" => "req.request_id = sub_file.fk_request_id",
+							"tbl_companies comp" => "comp.company_id = req.company_id",
+						);
+						$sub_data = getData("tbl_subsidiary_files sub_file", $par3, "obj");
 
+				
+						if(!empty($approvedData)){
 							$get_attached = $this->db->
 							select("file_name, file_title, f.files_id, rf.fk_requested_id")->
 							from('tbl_files f')->
 							join('tbl_requested_files rf', "f.files_id = rf.fk_file_id")->
 							where('rf.fk_requested_id', $r_id)->
 							get()->result_array();
+
 							$get_restricted = [];
 
 							if(!empty($get_attached)){
+								$has_file = true;
 								$c=0;
 
 								foreach ($get_attached as $key) {
-									$par2["select"] ="*";
-									$par2["where"] ="file_id =  ".$key["files_id"]." AND request_id = ".$key["fk_requested_id"]."";
+									$par2["select"] = "*";
+									$par2["where"] = "file_id =  ".$key["files_id"]." AND request_id = ".$key["fk_requested_id"]."";
 									$resp = getData("tbl_restricted_user", $par2, "obj");
 									
 									if(!empty($resp)){
@@ -349,13 +379,40 @@ class Investor extends MY_Controller {
 									
 									$c++;
 								}
+								
 							}
 
 							$approvedData[0]->{"restricted"} = $get_restricted;
 							$approvedData[0]->{"attachments"} = $get_attached;
+				
 						}
-						array_push($res, $approvedData[0]);
+						
+						// sub data here
+						
+						if(!empty($sub_data)){
+							
+							$attachments = [];
+							$c = 0;
+							foreach ($sub_data as $key) {
+								
+								$file_meta = array(
+									"file_name" => $key->file_name,
+									"file_title" => $key->file_title,
+									"fk_request_id" => $key->fk_request_id,
+									"sub_file_id" => $key->sub_file_id,
+								);
 
+								
+								if($has_file){
+									array_push($approvedData[0]->attachments, $file_meta );
+								}
+
+								$c++;
+							}
+						}
+
+						array_push($res, $approvedData[0]);
+						
 					}
 					else{
 						array_push($res, $result);

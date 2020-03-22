@@ -115,7 +115,7 @@
                                     <div class="form-group">
                                         <label for="company">Attached File(s):</label>
                                         <div class="attached-file mb-3">
-                                          <a v-for="files in modaldata.attachment_files" title="Download File" :href="base_url+'uploaded_files/'+files.file_name" download>{{files.file_title}} <i class="fa fa-download"></i></a>
+                                          <a v-for="files in modaldata.attachment_files" title="Download File" :href="base_url+(files.files_id != undefined ? 'uploaded_files/' : 'assets/process_files/')+files.file_name" download>{{files.file_title}} <i class="fa fa-download"></i></a>
                                         </div>
                                         
                                         <label v-show="modaldata.restricted.length != 0" for="company">Restricted File(s):</label>

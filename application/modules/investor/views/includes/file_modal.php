@@ -116,11 +116,10 @@
                 </div>
                 <div class="modal-body">
                     <div class="file-content-link">
-                            <a v-for="file in selected_file.file_data" :href="base_url+'uploaded_files/'+file.file_name" download><i class="fa fa-download"></i> {{file.file_title}}</a>
-                    </div>
+                            <a v-for="file in selected_file.file_data" :href="base_url + (file.sub_file_id  == undefined ? 'uploaded_files/' : 'assets/process_files/') + file.file_name" download><i class="fa fa-download"></i> {{file.file_title}}</a> </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-theme waves-effect" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                <div class="modal-footer">i
+                    <button type="button" class="btn btn-theme waves-effect" data-dismss="modal"><i class="fa fa-times"></i> Close</button>
                 </div>
             </div>
         </div>
