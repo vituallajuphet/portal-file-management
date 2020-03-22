@@ -55,10 +55,9 @@ var myapp = new Vue({
     
         showInvestorDetails(user_id){
             let self = this;
-
             let user_data = this.users.find(user => user.user_id == user_id)
             this.frmdata  = user_data;
-
+            
             $("#investor_details_modal").modal();
         },
         <?= $this->load->view("modules/swal_vue_function");?>

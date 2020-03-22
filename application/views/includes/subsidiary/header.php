@@ -173,7 +173,7 @@
                                                         $date = strtotime($notify->date_created);
 
                                                         ?>
-                                                            <a href="<?= base_url("cbmc/notifications/view/".$notify->notify_id)?>" class="noti-cont <?=$readClass?>">
+                                                            <a href="<?= base_url("subsidiary/notifications/view/".$notify->notify_id)?>" class="noti-cont <?=$readClass?>">
                                                                 <div class="mail-contnet">
                                                                     <h5><?= $user_heading;?></h5> 
                                                                     <small style="color:#222"><?= $notify->firstname. " ". $notify->lastname ;?></small>
@@ -190,7 +190,7 @@
                                         </div>
                                     </li>
                                     <li>
-                                        <a class="nav-link text-center" href="<?= base_url("cbmc/notifications");?>"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
+                                        <a class="nav-link text-center" href="<?= base_url("subsidiary/notifications");?>"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
                                     </li>
                                 </ul>
                             </div>
@@ -226,7 +226,7 @@
                                     <li>
                                         <div class="dw-user-box">
                                             <div class="u-text">
-                                                <a href="<?=base_url("cbmc/profile")?>" class="nav-profile">
+                                                <a href="<?=base_url("subsidiary/profile")?>" class="nav-profile">
                                                     <h4>My Profile</h4>
                                                     <p><?= my_profile("email_address")?></p>
                                                 </a>

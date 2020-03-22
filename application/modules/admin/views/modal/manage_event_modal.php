@@ -23,7 +23,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label f-bold">Upload Image</label>
-                                    <input ref="file_post" accept="image/*" @change="file_handler()" type="file" class="form-control upload-file" name="file">
+                                    <input ref="file_post" style="height:auto;" accept="image/*" @change="file_handler()" type="file" class="form-control upload-file" name="file">
                                 </div>
                             </div>
                             <input type="hidden" id="event_desc" name="event_desc" >
@@ -35,6 +35,9 @@
                         <button type="submit" class="btn btn-theme waves-effect"><i class="fa fa-check"></i> Submit</button>
                     </div>
                 </form>
+                <div id="editor">
+
+                </div>
         </div>
         <!-- /.modal-content -->
     </div>
@@ -69,7 +72,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label f-bold">Upload Image</label>
-                                    <input ref="file_post" accept="image/*" @change="file_handler()" type="file" class="form-control upload-file" name="file">
+                                    <input ref="file_post" style="height:auto;" accept="image/*" @change="file_handler()" type="file" class="form-control upload-file" name="file">
                                 </div>
                             </div>
                             <input type="hidden" id="event_desc2" name="event_desc" >

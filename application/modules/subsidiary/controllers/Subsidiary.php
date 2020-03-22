@@ -10,16 +10,17 @@ class Subsidiary extends MY_Controller {
 
 		public function index(){
 
-			redirect(base_url("subsidiary/investors"));
+			redirect(base_url("subsidiary/dashboard"));
 
 		}
 
 		public function investors(){
 
 			$data["title"] ="Subsidiary - Investors";
-			$data["page_name"] ="investors";
-			$data['has_header']="includes/subsidiary/header";
-			$data['has_footer']="includes/investor_footer";
+			$data["page_name"]  = "investors";
+			$data['has_header'] = "includes/subsidiary/header";
+			$data['has_footer'] = "includes/investor_footer";
+			$data["has_mod"]    = "modal/investor_modal";
 			$this->load_subsidiary_page('pages/investors', $data);
 
 		}
@@ -28,11 +29,20 @@ class Subsidiary extends MY_Controller {
 
 			$data["title"] ="Subsidiary - Requests";
 			$data["page_name"] ="file_request";
-			$data['has_header']="includes/i/header";
+			$data['has_header']="includes/subsidiary/header";
 			$data["has_mod"] ="modal/manage_request_modal";
 			$data['has_footer']="includes/manage_request_footer";
 			$this->load_subsidiary_page('pages/Manage_request',$data);
 	
+		}
+
+		public function profile(){
+			$data["title"] ="Subsidiary - Profile";
+			$data["page_name"] ="profile";
+			$data['has_header']="includes/subsidiary/header";
+			$data['has_footer']="includes/profile_footer";
+			$data['has_mod']="modal/profile_modal";
+			$this->load_subsidiary_page('pages/profile',$data);
 		}
 
 		public function dashboard(){
@@ -97,8 +107,63 @@ class Subsidiary extends MY_Controller {
 
 			redirect(base_url("subsidiary/manage_request"));
 
-		}
-
+	}
+	
+	public function update_user_profile(){
+            $post = json_decode($this->input->post("fdata"));
+            $response = array("code"=>200, "data"=> []);
+            if(!empty($post)){
+                  $checkUser = array( "email_address"=>$post->email_address, "username"=>$post->username, "user_id" => get_user_id());
+                  if($this->user_exists($checkUser)){
+                        $response = array("code"=>205, "data"=> []);
+                  }
+                  else{
+                        $set = array(
+                              "username" => $post->username,
+                              "password" => password_hash($post->password, PASSWORD_DEFAULT),
+                        );
+                        $where= array( "user_id" => $post->user_id );
+                        $this->MY_Model->update('tbl_users', $set, $where);
+                        $set = array(
+                              "firstname" => $post->firstname,
+                              "lastname" =>  $post->lastname,
+                              "email_address" =>  $post->email_address,
+                              "contact_number" =>  $post->contact_number,
+                              "updated_date" =>  date("Y-m-d H:i:s")
+                        );
+                        $this->MY_Model->update('tbl_user_details', $set, $where);
+                        $userdata = array(
+                              "user_id"=> $post->user_id,
+                              "firstname"=>  $post->firstname,
+                              "lastname"=> $post->lastname,
+                              "user_type"=> $post->user_type,
+                              "username"=>  $post->username,
+                              "password"=> $post->password,
+                              "email_address"=> $post->email_address,
+                              "contact_number"=> $post->contact_number,
+                        );
+                        $this->session->set_userdata($userdata);
+                        $response = array("code"=>200, "data"=> get_logged_user("json"));
+                  }
+            }
+            echo json_encode($response);
+	  }
+	
+	  // private functions here
+      private function user_exists ($user){
+            $par["select"] = "*";
+            $user_id = $user['user_id'];
+            $email = $user['email_address'];
+            $username = $user['username'];
+            $par["join"] = array("tbl_user_details" => "tbl_user_details.user_id = tbl_users.user_id" );
+            $par["where"] = "tbl_users.user_id != '$user_id' AND (tbl_users.username = '$username' OR tbl_user_details.email_address = '$email')";
+            $res=$this->MY_Model->getRows('tbl_users', $par);
+            if(!empty($res)){
+                  return true;
+            }
+            return false;
+      }
+	  
 		// hmtl format
 	private function html_email($arr, $msg ="Your requested file has been approved."){
 		

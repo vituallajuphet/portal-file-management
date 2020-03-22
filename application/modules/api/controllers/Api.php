@@ -886,6 +886,145 @@ class Api extends MY_Controller {
 
 	}
 
+	public function get_graph_data($resp = "data"){
+
+
+		$response = array("code" => 204, "data" => []);
+	// loop each month   
+		$cur_year	   = date("Y");
+		
+		$req_arr = [];
+		for ($i=1; $i <= 12 ; $i++) { 
+			$par["select"] = "request_id, requested_date";
+			$par["where"]  = "YEAR(requested_date) = {$cur_year} AND MONTH(requested_date) = {$i}";
+			$res = getData("tbl_requests", $par);
+			$total = 0;
+			if(!empty($res)){
+				$total = count($res);
+			}
+			array_push($req_arr, $total);
+		}
+
+		$app_arr = [];
+		for ($i=1; $i <= 12 ; $i++) { 
+			$par["select"] = "request_id, requested_date";
+			$par["where"]  = "YEAR(requested_date) = {$cur_year} AND MONTH(requested_date) = {$i} AND request_status = 'Completed'";
+			$res = getData("tbl_requests", $par);
+			$total = 0;
+			if(!empty($res)){
+				$total = count($res);
+			}
+
+			array_push($app_arr, $total);
+		}
+		
+		$proc_arr = [];
+		for ($i=1; $i <= 12 ; $i++) { 
+			$par["select"] = "request_id, requested_date";
+			$par["where"]  = "YEAR(requested_date) = {$cur_year} AND MONTH(requested_date) = {$i} AND request_status = 'Processing'";
+			$res = getData("tbl_requests", $par);
+			$total = 0;
+			if(!empty($res)){
+				$total = count($res);
+			}
+
+			array_push($proc_arr, $total);
+		}
+
+		$graph_data = array(
+			"requests" => $req_arr,
+			"approved" => $app_arr,
+			"processed" => $proc_arr,
+		);
+		
+		$response = array("code" => 200, "data" => $graph_data);
+
+		echo json_encode($response);
+		
+	}
+
+	public function get_pie_graph_data(){
+
+			$cur_date = date("Y-m-d");
+
+			$req_count = 0;
+			$par["select"] = "request_id, requested_date";
+			$par["where"]  = "requested_date = '{$cur_date}'";
+			$res = getData("tbl_requests", $par);
+			if(!empty($res)){
+				$req_count = count($res);
+			}
+
+			$app_count = 0;
+			$par["select"] = "request_id, requested_date";
+			$par["where"]  = "requested_date = '{$cur_date}' AND request_status = 'Completed'";
+			$res = getData("tbl_requests", $par);
+			if(!empty($res)){
+				$app_count = count($res);
+			}
+
+			$pro_count = 0;
+			$par["select"] = "request_id, requested_date";
+			$par["where"]  = "requested_date = '{$cur_date}' AND request_status = 'Processing'";
+			$res = getData("tbl_requests", $par);
+			if(!empty($res)){
+				$pro_count = count($res);
+			}
+
+			$pie_data = array(
+				"req_count" => $req_count,
+				"app_count" => $app_count,
+				"pro_count" => $pro_count,
+			);
+
+			$response = array( "code" => 200, "data" => $pie_data );
+
+			echo json_encode($response);
+
+	}
+
+	public function get_my_companies(){
+		$response = array("code"=>204, "data"=> []);
+
+		$par["select"] = "*";
+		$par["where"] = array("tbl_user_company.user_id" => get_user_id(), "tbl_user_company.status" => "joined");
+		$par["join"] = array("tbl_companies" => "tbl_companies.company_id = tbl_user_company.company_id");
+		$companies = $this->MY_Model->getRows('tbl_user_company',$par, "obj");
+
+		if (!empty($companies)){
+			$response = array("code" =>200, "data" => $companies);
+		}
+
+		echo json_encode($response);
+	}
+
+	public function update_profilepic(){
+            $post = $this->input->post();
+			$resp = array("code"=>204, "data" => []);
+			
+            if(!empty($post)){
+                  $orig = $this->session->userdata("profile_picture");
+                  $path = "./assets/images/profiles/";
+                  $image_parts = explode(";base64,", $post['profile_img']);
+                  $image_type_aux = explode("image/", $image_parts[0]);
+                  $image_type = $image_type_aux[1];
+                  $image_base64 = base64_decode($image_parts[1]);
+                  $file_name = "profile-".time(). '.png';
+                  $file = $path . $file_name;
+                  file_put_contents($file, $image_base64);
+                  $set = array( "profile_picture" => $file_name );
+                  $where = array("user_id" => get_user_id());
+                  $this->MY_Model->update('tbl_user_details', $set, $where);
+                  $this->session->set_userdata("profile_picture", $file_name);
+                  unlink($path.$orig);
+                  $resp = array("code"=>200, "data" => $file_name);
+			}
+			
+            echo json_encode($resp);
+	  }
+	  
+	  
+
 	// hmtl format
 	private function html_email($arr, $msg ="Your requested file has been approved."){
 
@@ -903,6 +1042,12 @@ class Api extends MY_Controller {
 
 		return $html;
 
+	}
+
+	public function test_email(){
+			sendemail("web2.juphetvitualla@gmail.com", "test email", "File Request", "CMBC Notification");
+
+			redirect(base_url());
 	}
 
 

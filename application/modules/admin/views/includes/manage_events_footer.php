@@ -7,7 +7,14 @@
 
 <script>
     var BASE_URL = "<?= base_url();?>";
+
+    $(document).ready(function(){
+        CKEDITOR.replace( 'event_content' );
+        CKEDITOR.replace( 'event_content2' );
+    })
 </script>
+
+
 
 <script type="text/javascript" class="init">
 
@@ -138,9 +145,6 @@ var myapp = new Vue({
 })
 
 
-$(document).ready(function(){
-    CKEDITOR.replace( 'event_content' );
-    CKEDITOR.replace( 'event_content2' );
-})
+
 
 </script>

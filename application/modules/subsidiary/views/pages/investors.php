@@ -66,8 +66,11 @@
                 </div>
                 <!-- modal -->
                 <?php 
-                    if(!empty($has_modal)){
-                        $this->load->view($has_modal);
+
+                    
+             
+                    if(!empty($has_mod)){
+                        $this->load->view($has_mod);
                     }
                 ?>
             <!-- end modal -->

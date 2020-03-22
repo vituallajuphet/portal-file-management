@@ -55,8 +55,19 @@ class Cbmc extends MY_Controller {
 		$data['has_footer']="includes/manage_file_footer";
 		$this->load_cbmc_page('pages/Manage_files',$data);
 
-		
 	  }
+
+	public function dashboard(){
+		
+		$data["title"] ="CBMC - Dashboard";
+		$data["page_name"] = "dashboard";
+		$data['has_header']= "includes/dashboard_header";
+		$data['has_footer']= "includes/dashboard_footer";
+		// $data["has_mod"] = "modal/manage_event_modal";
+		$this->load_cbmc_page('pages/Dashboard', $data);
+		
+	}
+
 
 	  public function notifications($nofi_id =""){
 
@@ -79,7 +90,8 @@ class Cbmc extends MY_Controller {
 // api here
 	public function api_update_profilepic(){
             $post = $this->input->post();
-            $resp = array("code"=>204, "data" => []);
+			$resp = array("code"=>204, "data" => []);
+			
             if(!empty($post)){
                   $orig = $this->session->userdata("profile_picture");
                   $path = "./assets/images/profiles/";
@@ -96,7 +108,8 @@ class Cbmc extends MY_Controller {
                   $this->session->set_userdata("profile_picture", $file_name);
                   unlink($path.$orig);
                   $resp = array("code"=>200, "data" => $file_name);
-            }
+			}
+			
             echo json_encode($resp);
       }
 

@@ -11,119 +11,92 @@
 <script  src="<?php echo base_url(); ?>assets/js/module/dashutils.js"></script>
 <script  src="<?php echo base_url(); ?>assets/js/module/chart_dash.js"></script>
 
-<script src="https://cdnjs.com/libraries/Chart.js"></script>
-<!-- <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script> -->
-
 <script>
     var BASE_URL = "<?= base_url();?>";
 </script>
 
 <script>
-    var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-		var config = {
-			type: 'line',
-			data: {
-				labels: MONTHS,
-				datasets: [{
-					label: 'Request',
-					backgroundColor: "#c5a36f",
-					borderColor: "#c5a36f",
-					data: [
-						 112,
-						 12,
-						 12,
-						 155,
-						 15,
-						 122,
-						 10,
-						 10,
-						 13,
-						 16,
-						 19,
-						 101,
-					],
-					fill: false,
-				}, {
-					label: 'Process',
-					fill: false,
-					backgroundColor: "#28a745",
-					borderColor: "#28a745",
-					data: [
-						 6,
-						 12,
-						 182,
-						 195,
-						 15,
-						 122,
-						 10,
-						 34,
-						 166,
-						 22,
-						 44,
-						 11,
-					],
-                },
-                {
-					label: 'Approved',
-					fill: false,
-					backgroundColor: "#000a24",
-					borderColor: "#000a24",
-					data: [
-						 62,
-						 55,
-						 23,
-						 167,
-						 81,
-						 31,
-						 26,
-						 84,
-						 12,
-						 75,
-						 11,
-						 33,
-					],
-				}
-            ]
-			},
-			options: {
-				responsive: true,
-				title: {
-					display: false,
-					text: 'Chart.js Line Chart'
-				},
-				tooltips: {
-					mode: 'index',
-					intersect: false,
-				},
-				hover: {
-					mode: 'nearest',
-					intersect: true
-				},
-				scales: {
-					xAxes: [{
-						display: true,
-						scaleLabel: {
-							display: false,
-							labelString: 'Month'
-						}
-					}],
-					yAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Value'
-						}
-					}]
-				}
-			}
-		};
-
-		window.onload = function() {
-			var ctx = document.getElementById('canvas').getContext('2d');
-			window.myLine = new Chart(ctx, config);
-		};
-
 	
+	var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	
+	axios.get(`${BASE_URL}api/get_graph_data`).then(res =>{
+
+		let request_data, approved_data, processed_data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+		if(res.data.code == 200){
+			let res_data	 = res.data.data
+			request_data	 = res_data.requests;
+			approved_data 	 = res_data.approved;
+			processed_data 	 = res_data.processed;
+		
+		}
+
+		var config = {
+				type: 'line',
+				data: {
+					labels: MONTHS,
+					datasets: [{
+						label: 'Requests',
+						backgroundColor: "#c5a36f",
+						borderColor: "#c5a36f",
+						data: request_data,
+						fill: false,
+					}, {
+						label: 'Processed',
+						fill: false,
+						backgroundColor: "#28a745",
+						borderColor: "#28a745",
+						data: processed_data,
+					},
+					{
+						label: 'Approved',
+						fill: false,
+						backgroundColor: "#000a24",
+						borderColor: "#000a24",
+						data: approved_data,
+					}
+				]
+				},
+				options: {
+					responsive: true,
+					title: {
+						display: false,
+						text: 'Chart.js Line Chart'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false,
+					},
+					hover: {
+						mode: 'nearest',
+						intersect: true
+					},
+					scales: {
+						xAxes: [{
+							display: true,
+							scaleLabel: {
+								display: false,
+								labelString: 'Month'
+							}
+						}],
+						yAxes: [{
+							display: true,
+							scaleLabel: {
+								display: true,
+								labelString: 'Value'
+							}
+						}]
+					}
+				}
+			};
+
+			$(document).ready(function(){
+				var ctx = document.getElementById('canvas').getContext('2d');
+				window.myLine = new Chart(ctx, config);
+			})
+		
+	})
+
 </script>
 
 <script type="text/javascript" class="init">
@@ -170,7 +143,5 @@ var myapp = new Vue({
         }) 
     }
 })
-
-
 
 </script>
